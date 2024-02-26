@@ -80,8 +80,15 @@ namespace DC_SRV_VM_LINK.Bot
             }
             catch
             {
-                FormattedMessageAsync(command, "Error, unable to convert response to message", Color.Red).Wait();
-                FastLog("Discord-CMD", $"Unable to parse response from endpoint for user '{command.User.Username}' in #{command.Channel.Name} (Byte[] => String)", LogSeverity.Error).Wait();
+                try
+                {
+                    FormattedMessageAsync(command, "Error, unable to convert response to message", Color.Red).Wait();
+                    FastLog("Discord-CMD", $"Unable to parse response from endpoint for user '{command.User.Username}' in #{command.Channel.Name} (Byte[] => String)", LogSeverity.Error).Wait();
+                }
+                catch
+                {
+                    FastLog("Discord-CMD", $"Unable to push response from endpoint for user '{command.User.Username}' to Discord channel #{command.Channel.Name} (no message perms?)", LogSeverity.Error).Wait();
+                }
             }
         }
 

@@ -13,7 +13,7 @@ namespace DC_SRV_VM_LINK.Bot
         {
             await FastLog("Initiator", "Initializing", LogSeverity.Info);
 
-            SocketGuild guild = dc_client.GetGuild(1199393402148630673);
+            SocketGuild guild = dc_client.GetGuild((UInt64)CurrentConfig.guildID);
 
             await FastLog("Initiator", "Deregistering commands", LogSeverity.Info);
             await guild.DeleteApplicationCommandsAsync();

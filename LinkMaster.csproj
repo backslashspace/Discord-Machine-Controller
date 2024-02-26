@@ -134,7 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="notes.txt" />
-    <Content Include="notes_temp.txt" />
     <Content Include="shell32_16782.ico" />
   </ItemGroup>
   <ItemGroup>

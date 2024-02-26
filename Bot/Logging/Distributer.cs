@@ -18,7 +18,19 @@ namespace DC_SRV_VM_LINK.Bot
 
             if (CurrentConfig.logChannel != null && IsConnected)
             {
-                await PushDiscord(formattedLogMessage, timeStamp);
+                try
+                {
+                    await PushDiscord(formattedLogMessage, timeStamp);
+                }
+                catch
+                {
+                    LogMessage logMessage = new(LogSeverity.Critical, "Logging", "Unable to push log to discord, terminating in 5120ms");
+
+                    PushIPC(ref logMessage, ref timeStamp, ref bypassClientQueue);
+                    PushFile(ref logMessage, ref timeStamp);
+
+                    Exit.Service();
+                }
             }
         }
 

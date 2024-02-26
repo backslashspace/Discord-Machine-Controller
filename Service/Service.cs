@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 
 namespace DC_SRV_VM_LINK.Service
 {
