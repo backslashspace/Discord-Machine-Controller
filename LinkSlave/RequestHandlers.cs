@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using VMLink_Slave;
 
 namespace LinkSlave
@@ -11,6 +12,8 @@ namespace LinkSlave
     internal static partial class Client
     {
         static readonly HttpClient http_client = new();
+
+        const String DiscordFirstLineWorkaround = "^\\S+\\r*$";
 
         //
 
@@ -147,21 +150,50 @@ namespace LinkSlave
 
                 if (externalOutput.errOut == null || externalOutput.errOut == "")
                 {
-                    externalOutput.errOut = "no errors encountered";
+                    externalOutput.errOut = "\n-";
 
                     Log.Print($"Executed '{fileName}'", LogSeverity.Info);
                 }
                 else
                 {
+                    try
+                    {
+                        //workaround for discord
+                        //discord hides the first line if it has the following pattern in a multiline code block (for example ```test\nText```) -> 'test' will be hidden
+                        Match match = Regex.Match(externalOutput.errOut.Split('\n')[0], DiscordFirstLineWorkaround, RegexOptions.IgnoreCase);
+
+                        if (match.Success)
+                        {
+                            externalOutput.errOut = "\n" + externalOutput.errOut;
+                        }
+                    }
+                    catch { }
+
                     Log.Print($"Executed '{fileName}', error-out was not empty", LogSeverity.Info);
                 }
 
+
                 if (externalOutput.stdOut == null || externalOutput.stdOut == "")
                 {
-                    externalOutput.stdOut = "no output";
+                    externalOutput.stdOut = "\n-";
+                }
+                else
+                {
+                    try
+                    {
+                        //workaround for discord
+                        //discord hides the first line if it has the following pattern in a multiline code block (for example ```test\nText```) -> 'test' will be hidden
+                        Match match = Regex.Match(externalOutput.stdOut.Split('\n')[0], DiscordFirstLineWorkaround, RegexOptions.IgnoreCase);
+
+                        if (match.Success)
+                        {
+                            externalOutput.stdOut = "\n" + externalOutput.stdOut;
+                        }
+                    }
+                    catch{ }
                 }
 
-                responseMessage = $"**Executed {fileName}**\nStandard-Out: \n```{externalOutput.stdOut}```\nError-Out: \n```{externalOutput.errOut}```\nExit-Code: `{externalOutput.ExitCode}`";
+                responseMessage = $"**Executed {fileName}**\nStandard-Out:\n```{externalOutput.stdOut}```\nError-Out:\n```{externalOutput.errOut}```\nExit-Code: `{externalOutput.ExitCode}`";
             }
             catch (Exception e)
             {
