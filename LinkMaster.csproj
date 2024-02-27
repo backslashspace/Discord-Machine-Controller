@@ -106,7 +106,6 @@
     <Compile Include="Bot\Logging\IPCAdapter.cs" />
     <Compile Include="Bot\Logging\LogWrapper.cs" />
     <Compile Include="Bot\Logging\IPC_Serializer.cs" />
-    <Compile Include="Bot\temp.cs" />
     <Compile Include="Service\StartStop.cs" />
     <Compile Include="Service\Service.cs">
       <SubType>Component</SubType>

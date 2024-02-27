@@ -48,13 +48,6 @@ namespace DC_SRV_VM_LINK.Bot
 
         private static async Task ExecuteScript(ChannelLink channelLink, SocketSlashCommand command)
         {
-            if (command.User.Id != CurrentConfig.discordAdminID)
-            {
-                await FormattedResponseAsync(command, Lang.no_perm);
-
-                return;
-            }
-
             Byte[] rawScriptName;
 
             try

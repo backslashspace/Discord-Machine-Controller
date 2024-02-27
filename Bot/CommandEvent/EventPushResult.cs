@@ -69,7 +69,7 @@ namespace DC_SRV_VM_LINK.Bot
                 {
                     FormattedMessageAsync(command, "Response string to long, cutting output..", Color.DarkOrange).Wait();
 
-                    FastLog("Discord-CMD", $"Endpoint '{channelLink.Name}' for User '{command.User.Username}' send to long response, cutting output..", LogSeverity.Warning).Wait();
+                    FastLog("Discord-CMD", $"Endpoint '{channelLink.Name}' for User '{command.User.Username}' send too long response, cutting output..", LogSeverity.Warning).Wait();
 
                     response = response.Substring(0, 4069);
                 }

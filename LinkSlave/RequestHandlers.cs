@@ -73,7 +73,7 @@ namespace LinkSlave
                 {
                     String[] pathParts = directories[i].Split('\\');
 
-                    if (pathParts[pathParts.Length - 1] == fileName)
+                    if (pathParts[pathParts.Length - 1].ToLower() == fileName.ToLower())
                     {
                         repoContainsFile = true;
                         fullPathParts = directories[i].Split('.');
@@ -118,6 +118,13 @@ namespace LinkSlave
                     _ => throw new InvalidDataException($"unsupported file extension: '{fullPathParts[fullPathParts.Length - 1].ToLower()}'"),
                 };
 
+                try
+                {
+                    externalOutput.errOut = externalOutput.errOut.Trim();
+                    externalOutput.stdOut = externalOutput.stdOut.Trim();
+                }
+                catch { }
+
                 //
 
                 if (externalOutput.errOut.Length > 3900)
@@ -140,40 +147,45 @@ namespace LinkSlave
 
                 if (externalOutput.errOut == null || externalOutput.errOut == "")
                 {
-                    responseColor = Color.Blue;
-
-                    responseMessage = $"**Successfully executed {fileName}**\n\nStandard-Out: \n```{externalOutput.stdOut}```\n\nError-Out: \n```no errors encountered```\n\nExit-Code: `{externalOutput.ExitCode}`";
+                    externalOutput.errOut = "no errors encountered";
 
                     Log.Print($"Executed '{fileName}'", LogSeverity.Info);
                 }
                 else
                 {
-                    responseColor = Color.Orange;
-
-                    if (externalOutput.stdOut == null || externalOutput.stdOut == "")
-                    {
-                        responseMessage = $"**Executed {fileName}**\n\nStandard-Out: \n```no output```\n\nError-Out: \n```{externalOutput.errOut}```\n\nExit-Code: `{externalOutput.ExitCode}`";
-                    }
-                    else
-                    {
-                        responseMessage = $"**Executed {fileName}**\n\nStandard-Out: \n```{externalOutput.stdOut}```\n\nError-Out: \n```{externalOutput.errOut}```\n\nExit-Code: `{externalOutput.ExitCode}`";
-                    }
-
                     Log.Print($"Executed '{fileName}', error-out was not empty", LogSeverity.Info);
                 }
+
+                if (externalOutput.stdOut == null || externalOutput.stdOut == "")
+                {
+                    externalOutput.stdOut = "no output";
+                }
+
+                responseMessage = $"**Executed {fileName}**\nStandard-Out: \n```{externalOutput.stdOut}```\nError-Out: \n```{externalOutput.errOut}```\nExit-Code: `{externalOutput.ExitCode}`";
             }
             catch (Exception e)
             {
                 Log.Print($"An error occurred while executing a script or executable file with name '{fileName}'\nError: {e.Message}", LogSeverity.Error);
                 responseMessage = $"*An error occurred while executing a script or executable file with name '{fileName}'\nError: {e.Message}*";
                 responseColor = Color.Red;
+
+                goto End;
             }
-        End:
+       
+            //
 
             if (wasCut)
             {
-                responseMessage += "\n\n*message was cut, to long*";
+                responseColor = Color.Orange;
+
+                responseMessage += "\n*message was cut, too long*";
             }
+            else
+            {
+                responseColor = Color.Blue;
+            }
+
+        End:
 
             AES_FastSocket.SendTCP(ref socket, ServerResponseBuilder(ref responseMessage, ref responseColor), CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
         }

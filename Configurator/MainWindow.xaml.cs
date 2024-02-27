@@ -15,8 +15,6 @@ namespace Configurator
     {
         internal static Dispatcher UIDispatcher;
 
-        internal static String serverString;
-
         internal static UserControl _NotInstalled;
         internal static UserControl _ConfirmEnslavement;
         internal static UserControl _AlreadyInstalled;
@@ -40,6 +38,8 @@ namespace Configurator
 
         private void LoadData(object sender, EventArgs e)
         {
+            Window_Title.Text = $"VM Link Generator v{Assembly.GetExecutingAssembly().GetName().Version}";
+
             Byte state = 0;
 
             try

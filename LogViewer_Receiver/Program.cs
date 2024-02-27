@@ -10,7 +10,7 @@ namespace LogViewer
     {
         static void Main()
         {
-            Console.Title = $"Pipe Log Viewer v{Assembly.GetEntryAssembly().GetName().Version}";
+            Console.Title = $"Pipe Log Viewer v{Assembly.GetExecutingAssembly().GetName().Version}";
 
             Logo.Print();
 

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 
 namespace LinkSlave.Win
 {
@@ -11,7 +10,7 @@ namespace LinkSlave.Win
 
         static void Main()
         {
-            Version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]

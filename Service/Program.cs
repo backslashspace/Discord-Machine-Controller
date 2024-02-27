@@ -17,7 +17,7 @@ namespace DC_SRV_VM_LINK.Service
         {
             assemblyPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            Version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             ServiceBase[] service;
 
