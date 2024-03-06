@@ -14,7 +14,7 @@ namespace VMLink_Slave
     {
         internal static void Load()
         {
-            Client.assemblyPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            Client.assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             Log.Print($"Starting version v{Program.Version}", LogSeverity.Info);
             Log.Print("Loading config", LogSeverity.Info);

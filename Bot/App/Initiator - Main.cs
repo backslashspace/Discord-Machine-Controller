@@ -66,16 +66,15 @@ namespace DC_SRV_VM_LINK.Bot
         {
             try
             {
-                FileStream fileStream = new(CurrentConfig.tokenPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                using FileStream fileStream = new(CurrentConfig.tokenPath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
                 Byte[] rawToken = new Byte[96];
 
                 fileStream.Read(rawToken, 0, rawToken.Length);
 
                 fileStream.Close();
-                fileStream.Dispose();
 
-                return Encoding.ASCII.GetString(Convert.FromBase64String(Encoding.ASCII.GetString(rawToken)));
+                return Encoding.UTF8.GetString(Convert.FromBase64String(Encoding.UTF8.GetString(rawToken)));
             }
             catch (Exception ex)
             {

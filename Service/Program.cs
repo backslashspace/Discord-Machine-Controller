@@ -15,7 +15,7 @@ namespace DC_SRV_VM_LINK.Service
 
         internal static void Main()
         {
-            assemblyPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
