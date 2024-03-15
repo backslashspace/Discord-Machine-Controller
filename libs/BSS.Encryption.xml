@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BSS.Encryption</name>
+    </assembly>
+    <members>
+        <member name="M:BSS.Encryption.Fips.xAES_Fips.CTR.Encrypt(System.Byte[],System.Byte[]@)">
+            <returns>Byte[] (cipher text + iv)</returns>
+        </member>
+    </members>
+</doc>

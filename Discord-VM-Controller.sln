@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34607.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Master", "Link-Master\Link-Master.csproj", "{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Slave", "Link-Slave\Link-Slave.csproj", "{C73668D0-8557-4208-A96C-91F53C8063B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Master_TokenGen", "Link-Master_TokenGen\Link-Master_TokenGen.csproj", "{8D5DABA5-5785-407F-A96D-DF518E0F5A15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Master_LiveLogViewer", "Link-Master_LiveLogViewer\Link-Master_LiveLogViewer.csproj", "{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Slave_Configurator", "Link-Slave_Configurator\Link-Slave_Configurator.csproj", "{095620EC-C150-49F8-ADB9-398F4C9C2363}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notes", "notes", "{6389228E-4451-44D7-86B2-B802E9F820DD}"
+	ProjectSection(SolutionItems) = preProject
+		notes.txt = notes.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C73668D0-8557-4208-A96C-91F53C8063B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C73668D0-8557-4208-A96C-91F53C8063B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C73668D0-8557-4208-A96C-91F53C8063B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C73668D0-8557-4208-A96C-91F53C8063B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D5DABA5-5785-407F-A96D-DF518E0F5A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D5DABA5-5785-407F-A96D-DF518E0F5A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D5DABA5-5785-407F-A96D-DF518E0F5A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D5DABA5-5785-407F-A96D-DF518E0F5A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21635498-FAB0-44F6-B78D-1A3A84E9DC37}
+	EndGlobalSection
+EndGlobal
