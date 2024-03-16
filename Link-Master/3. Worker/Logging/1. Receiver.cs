@@ -5,6 +5,8 @@ namespace Link_Master.Worker
 {
     internal static partial class Log
     {
+        internal static Boolean IgnoreNew = false;
+
         internal struct InternalLogMessage
         {
             internal InternalLogMessage(ref LogMessage logMessage, ref DateTime timeStamp, ref Boolean bypassIPC, ref Boolean bypassDiscord, ref Boolean bypassFile)
@@ -32,11 +34,26 @@ namespace Link_Master.Worker
 
         internal static void Enqueue(LogMessage message, Boolean bypassIPC = false, Boolean bypassDiscord = false, Boolean bypassFile = false)
         {
-            DateTime now = DateTime.Now;
+            if (!IgnoreNew)
+            {
+                if (message.Exception == null || message.Source == null || message.Message == null)
+                {
+                    if (message.Source == null)
+                    {
+                        message = new(LogSeverity.Error, "Internal", "It appears that something created a log message that contained 'null' (probably the discord library?)");
+                    }
+                    else
+                    {
+                        message = new(LogSeverity.Error, "Internal", $"It appears that '{message.Source}' created a log message that contained 'null', this should not happen");
+                    }
+                }
 
-            InternalLogMessage logData = new(ref message, ref now, ref bypassIPC, ref bypassDiscord, ref bypassFile);
+                DateTime now = DateTime.Now;
 
-            logQueue.Enqueue(logData);
+                InternalLogMessage logData = new(ref message, ref now, ref bypassIPC, ref bypassDiscord, ref bypassFile);
+
+                logQueue.Enqueue(logData);
+            }
         }
     }
 }

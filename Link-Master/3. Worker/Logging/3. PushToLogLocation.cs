@@ -7,7 +7,7 @@ namespace Link_Master.Worker
 {
     internal static partial class Log
     {
-        private static void EnqueueIPC(ref LogMessage formattedLogMessage, ref DateTime timeStamp, ref Boolean bypassIPCLog)
+        private static void EnqueueConsole(ref LogMessage formattedLogMessage, ref DateTime timeStamp, ref Boolean bypassIPCLog)
         {
             if (LogConsole.logHistory.Count < 4096)
             {

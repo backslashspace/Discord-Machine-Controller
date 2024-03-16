@@ -16,6 +16,7 @@ namespace Link_Master.Worker
         internal static ConcurrentQueue<ConsoleMessage> liveQueue = new();
 
         internal static Socket socket;
+        internal static Socket listener;
 
         internal static CancellationTokenSource tokenSource = new();
 
@@ -25,14 +26,12 @@ namespace Link_Master.Worker
         {
             Byte issues = 0;
 
-            Log.FastLog("Initiator", $"Started local console log server", LogSeverity.Info);
-
             while (true)
             {
                 try
                 {
                     IPEndPoint localEndPoint = new(IPAddress.Loopback, 3001);
-                    Socket listener = new(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                    listener = new(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                     listener.Bind(localEndPoint);
                     listener.Listen(1);
@@ -41,7 +40,11 @@ namespace Link_Master.Worker
                     {
                         try
                         {
-                            socket = listener.Accept();
+                            if (InterruptibleAccept(ref cancellationToken))
+                            {
+                                continue;
+                            }
+
                             socket.Blocking = true;
                             socket.NoDelay = true;
                             socket.ReceiveTimeout = 5120;
@@ -75,8 +78,6 @@ namespace Link_Master.Worker
                         liveQueue = new();
                     }
 
-                    Log.FastLog("Console", $"Worker shutdown done", LogSeverity.Info);
-
                     return;
                 }
                 catch (Exception ex)
@@ -101,6 +102,20 @@ namespace Link_Master.Worker
                     return;
                 }
             }
+        }
+
+        private static Boolean InterruptibleAccept(ref CancellationToken cancellationToken)
+        {
+            Thread accepter = new(() => socket = listener.Accept());
+            accepter.Name = "Console Log connection accepter";
+            accepter.Start();
+
+            while (!cancellationToken.IsCancellationRequested && accepter.IsAlive)
+            {
+                Task.Delay(256).Wait();
+            }
+
+            return cancellationToken.IsCancellationRequested;
         }
 
         //

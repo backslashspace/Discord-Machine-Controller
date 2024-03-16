@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Discord;
+using Link_Master.Worker;
+using System;
+using System.Threading.Tasks;
 
 namespace Link_Master
 {
@@ -7,6 +10,10 @@ namespace Link_Master
 
         internal static void Start(String[] args)
         {
+            //Task.Delay(10000).Wait();
+
+            Log.FastLog("Win32", "Service start initiated", LogSeverity.Info);
+
             Worker.Control.Boot.Initiate();
         }
 

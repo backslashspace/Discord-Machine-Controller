@@ -8,22 +8,30 @@ namespace Link_Master.Worker.Control
     {
         internal static void ServiceComponents(Boolean unsafeShutdown = true)
         {
-            if (!unsafeShutdown)
+            if (unsafeShutdown)
+            {
+                Task.Delay(5120).Wait();
+            }
+            else
             {
                 Log.FastLog("Win32", "Service shutdown initiated", LogSeverity.Info);
             }
 
             Stop.LinkManager();
-            Stop.Links();
+            Log.FastLog("Shutdown", "Stopped new link manager", LogSeverity.Info);
 
+            Stop.Links();
             Log.FastLog("Shutdown", "Stopped all link workers", LogSeverity.Info);
 
             Client.IsConnected = false;
             //disconnect
 
-            Log.FastLog("Shutdown", "Stopping log worker, terminating", LogSeverity.Info);
+            Log.FastLog("Shutdown", "Stopping console log worker", LogSeverity.Info);
+            Stop.StopConsoleLogWorker();
+            Log.FastLog("Shutdown", "Stopped console log worker", LogSeverity.Info);
 
-            Stop.DrainThen_EndLogWorker_WithTimeOut();
+            Log.FastLog("Shutdown", "Stopping log dispatcher and terminating", LogSeverity.Info);
+            Stop.StopLogWorker();
 
             if (unsafeShutdown)
             {
@@ -59,20 +67,26 @@ namespace Link_Master.Worker.Control
                 }
             }
 
-            internal static void DrainThen_EndLogWorker_WithTimeOut()
+            internal static void StopConsoleLogWorker()
             {
-                try
-                {
-                    Byte timeOut = 0;
-                    while (timeOut < 16 && !Log.logQueue.IsEmpty)
-                    {
-                        Task.Delay(256).Wait();
-                        ++timeOut;
-                    }
-                }
-                catch { }
+                LogConsole.tokenSource.Cancel();
 
-                Log.cancellationTokenSource.Cancel();
+                while (WorkerThreads.LocalConsoleLogWorker != null && WorkerThreads.LocalConsoleLogWorker.IsAlive)
+                {
+                    Task.Delay(256).Wait();
+                }
+            }
+
+            internal static void StopLogWorker()
+            {
+                Log.IgnoreNew = true;
+
+                while (!Log.logQueue.IsEmpty)
+                {
+                    Task.Delay(128).Wait();
+                }
+
+                Log.tokenSource.Cancel();
 
                 while (WorkerThreads.LogWorker != null && WorkerThreads.LogWorker.IsAlive)
                 {

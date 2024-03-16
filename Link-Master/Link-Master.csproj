@@ -116,7 +116,7 @@
       <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
-    <Compile Include="3. Worker\IMC_AES-Packer.cs" />
+    <Compile Include="3. Worker\Encrypted_TCP.cs" />
     <Compile Include="xSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="1. WinService\StartStop.cs" />

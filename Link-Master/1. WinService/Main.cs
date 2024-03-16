@@ -22,6 +22,8 @@ namespace Link_Master
                 new Service()
             };
             ServiceBase.Run(service);
+
+            Environment.Exit(0);
         }
     }
 }
