@@ -106,7 +106,14 @@ namespace Link_Master.Worker
 
         private static Boolean InterruptibleAccept(ref CancellationToken cancellationToken)
         {
-            Thread accepter = new(() => socket = listener.Accept());
+            Thread accepter = new(() =>
+            {
+                try
+                {
+                    socket = listener.Accept();
+                }
+                catch { }
+            });
             accepter.Name = "Console Log connection accepter";
             accepter.Start();
 
@@ -115,7 +122,19 @@ namespace Link_Master.Worker
                 Task.Delay(256).Wait();
             }
 
-            return cancellationToken.IsCancellationRequested;
+            if (cancellationToken.IsCancellationRequested)
+            {
+                listener.Close(0);
+
+                for (Byte b = 0; b < 16 && accepter.ThreadState != System.Threading.ThreadState.Stopped; ++b)
+                {
+                    Task.Delay(128);
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         //
