@@ -36,7 +36,7 @@ namespace Link_Master.Worker
         {
             if (!IgnoreNew)
             {
-                if (message.Exception == null || message.Source == null || message.Message == null)
+                if (message.Source == null || message.Message == null)
                 {
                     if (message.Source == null)
                     {
