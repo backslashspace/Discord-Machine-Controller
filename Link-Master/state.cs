@@ -25,21 +25,21 @@ namespace Link_Master.Worker
     {
         internal static String __MESSAGE_no_perm_hint_admin = null;
 
-        internal static String tokenPath = null;
+        internal static String TokenPath = null;
 
-        internal static String discordAdmin = null;
-        internal static UInt64? discordAdminID = null;
+        internal static String DiscordAdmin = null;
+        internal static UInt64? DiscordAdminID = null;
 
-        internal static UInt16? tcpListenerPort = null;
-        internal static IPAddress tcpListenerIP = null;
+        internal static UInt16? TcpListenerPort = null;
+        internal static IPAddress TcpListenerIP = null;
 
-        internal static UInt64? guildID = null;
+        internal static UInt64? GuildID = null;
 
-        internal static Boolean? cmdRegisterOnBoot = null;
+        internal static Boolean? CmdRegisterOnBoot = null;
 
-        internal static SocketTextChannel logChannel = null;
+        internal static SocketTextChannel LogChannel = null;
 
-        internal static Dictionary<UInt64?, ChannelLink> vmChannelLink = new();
+        internal static Dictionary<UInt64?, ChannelLink> MachineChannelLink = new();
     }
 
     internal struct ChannelLink

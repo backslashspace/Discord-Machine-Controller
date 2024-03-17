@@ -82,7 +82,7 @@ namespace Link_Master.Worker
         {
             try
             {
-                if (CurrentConfig.logChannel != null && Client.IsConnected && !internalLogMessage.BypassDiscord)
+                if (CurrentConfig.LogChannel != null && Client.IsConnected && !internalLogMessage.BypassDiscord)
                 {
                     PushDiscord(ref internalLogMessage.LogMessage, ref internalLogMessage.TimeStamp);
                 }

@@ -18,7 +18,7 @@ namespace Link_Master.Worker.Control
         {
             for (Byte b = 0; b < postLoadConfigLines.Count; ++b)
             {
-                if (CurrentConfig.discordAdmin == "")
+                if (CurrentConfig.DiscordAdmin == "")
                 {
                     Match match = Regex.Match(postLoadConfigLines[b], Pattern.discordAdminUserID, RegexOptions.IgnoreCase);
 
@@ -30,8 +30,8 @@ namespace Link_Master.Worker.Control
 
                             IUser user = Client.Current.GetUserAsync(id).Result;
 
-                            CurrentConfig.discordAdminID = id;
-                            CurrentConfig.discordAdmin = user.Username;
+                            CurrentConfig.DiscordAdminID = id;
+                            CurrentConfig.DiscordAdmin = user.Username;
                             CurrentConfig.__MESSAGE_no_perm_hint_admin = $"You have no permissions to execute this command, you may ask (spam ping) `{user.Username}` to execute this command for you.";
                             postLoadConfigLines.RemoveAt(b);
                         }
@@ -42,7 +42,7 @@ namespace Link_Master.Worker.Control
                     }
                 }
 
-                if (CurrentConfig.guildID == 0)
+                if (CurrentConfig.GuildID == 0)
                 {
                     Match match = Regex.Match(postLoadConfigLines[b], Pattern.guildID, RegexOptions.IgnoreCase);
 
@@ -50,9 +50,9 @@ namespace Link_Master.Worker.Control
                     {
                         try
                         {
-                            CurrentConfig.guildID = UInt64.Parse(match.Groups[1].Value);
+                            CurrentConfig.GuildID = UInt64.Parse(match.Groups[1].Value);
 
-                            if (Client.Current.GetGuild((UInt64)CurrentConfig.guildID) == null)
+                            if (Client.Current.GetGuild((UInt64)CurrentConfig.GuildID) == null)
                             {
                                 throw new InvalidDataException();
                             }
@@ -102,7 +102,7 @@ namespace Link_Master.Worker.Control
             {
                 if (_logChannelID != 0)
                 {
-                    CurrentConfig.logChannel = Client.Current.GetGuild((UInt64)CurrentConfig.guildID).GetTextChannel((UInt64)_logChannelID);
+                    CurrentConfig.LogChannel = Client.Current.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel((UInt64)_logChannelID);
                 }
             }
             catch

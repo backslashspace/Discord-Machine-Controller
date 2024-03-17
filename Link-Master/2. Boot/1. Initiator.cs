@@ -1,5 +1,6 @@
 ﻿using Discord;
-using Pcg;
+using RandomDataGenerator.FieldOptions;
+using RandomDataGenerator.Randomizers;
 using System;
 using System.Text;
 using System.Threading;
@@ -27,25 +28,33 @@ namespace Link_Master.Worker.Control
 
             ConfigLoader.Load();
 
-            //## ## ## ## ## ## ## ## ## ## ## ##
+            Bot.Connect();
 
-            PcgRandom random = new();
-            Byte[] buffer = new Byte[8];
+            //ConfigLoader.PostLoad();
+
+            //## ## ## ## ## ## ## ## ## ## ## ##
 
             Thread test = new(() =>
             {
-                random.NextBytes(buffer);
+                while (true)
+                {
+                    Log.FastLog("Test", $"Test message: {GenText()}", LogSeverity.Debug);
 
-                Log.FastLog("Test", $"Test message: {Encoding.UTF8.GetString(buffer)}", LogSeverity.Debug);
-
-                Task.Delay(2000).Wait();
+                    Task.Delay(10000).Wait();
+                }
             });
             test.Name = "test";
             test.Start();
+        }
 
-            //connect
+        //## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-            //ConfigLoader.PostLoad();
+        private static String GenText()
+        {
+            IRandomizerString textGen = RandomizerFactory.GetRandomizer(new FieldOptionsTextLipsum());
+            String output = textGen.Generate();
+
+            return output.Split('.')[0] + '.';
         }
     }
 }

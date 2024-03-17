@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace Link_Master.Worker
 {
-    internal static class Debug
+    internal static class Bot
     {
-        internal static void Test()
+        internal static void Connect()
         {
-            while (true)
-            {
-                Log.FastLog("Test", "ping", Discord.LogSeverity.Debug);
-
-                Task.Delay(100).Wait();
-            }
+           
         }
     }
 }

@@ -18,13 +18,15 @@ namespace Link_Master.Worker
         internal static Socket socket;
         internal static Socket listener;
 
+        internal static Boolean IsInLiveLogMode = false;
+
         internal static CancellationTokenSource tokenSource = new();
 
         //
 
         internal static void ConsoleServer(CancellationToken cancellationToken)
         {
-            Byte issues = 0;
+            Byte restartAttempts = 0;
 
             while (true)
             {
@@ -34,7 +36,7 @@ namespace Link_Master.Worker
                     listener = new(IPAddress.Loopback.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                     listener.Bind(localEndPoint);
-                    listener.Listen(1);
+                    listener.Listen(0);
 
                     while (!cancellationToken.IsCancellationRequested)
                     {
@@ -42,16 +44,14 @@ namespace Link_Master.Worker
                         {
                             if (InterruptibleAccept(ref cancellationToken))
                             {
-                                continue;
+                                continue;   //cancel was requested while socket was in Accept()
                             }
 
-                            socket.Blocking = true;
-                            socket.NoDelay = true;
-                            socket.ReceiveTimeout = 5120;
-
-                            Log.FastLog("Console", "Client connected", LogSeverity.Info, bypassConsole: true);
+                            Log.FastLog("Console", "Client connected", LogSeverity.Info);
 
                             SendPastLog();
+
+                            IsInLiveLogMode = true;
 
                             LiveLogLoop(ref cancellationToken);
                         }
@@ -69,37 +69,29 @@ namespace Link_Master.Worker
                             }
                         }
 
-                        try
-                        {
-                            socket.Close();
-                        }
-                        catch { }
-
-                        liveQueue = new();
+                        ResetWorker();
                     }
 
-                    return;
+                    ResetWorker(512);   //give time so client can read SendGoodbye()
+
+                    return;     //when cancel requested
                 }
                 catch (Exception ex)
                 {
-                    ++issues;
+                    ++restartAttempts;
 
-                    if (issues < 5)
+                    if (restartAttempts < 5)
                     {
-                        Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nThis is the '{issues}' out of 5 allowed attempting to restart the worker.", LogSeverity.Critical);
+                        Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempting to restart the worker.", LogSeverity.Critical);
 
                         continue;
                     }
 
-                    Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of unknown issues ({issues}), ending and disposing worker.", LogSeverity.Critical);
+                    Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of unknown issues ({restartAttempts}), ending and disposing worker.", LogSeverity.Critical);
 
-                    try
-                    {
-                        socket.Close();
-                    }
-                    catch { }
+                    ResetWorker();
 
-                    return;
+                    Control.Shutdown.ServiceComponents();
                 }
             }
         }
@@ -111,9 +103,14 @@ namespace Link_Master.Worker
                 try
                 {
                     socket = listener.Accept();
+
+                    socket.Blocking = true;
+                    socket.NoDelay = true;
+                    socket.ReceiveTimeout = 5120;
                 }
                 catch { }
             });
+
             accepter.Name = "Console Log connection accepter";
             accepter.Start();
 
@@ -139,6 +136,18 @@ namespace Link_Master.Worker
 
         //
 
+        private static void ResetWorker(Int32 delay = 0)
+        {
+            try
+            {
+                socket.Close(delay);
+            }
+            catch { }
+
+            liveQueue = new();
+            IsInLiveLogMode = false;
+        }
+
         private static void SendPastLog()
         {
             Byte[] rawLog = Serialize(logHistory);
@@ -154,7 +163,7 @@ namespace Link_Master.Worker
             {
                 if (liveQueue.IsEmpty)
                 {
-                    Task.Delay(256).Wait();
+                    Task.Delay(512).Wait();
 
                     AliveCheck();
 
@@ -168,7 +177,7 @@ namespace Link_Master.Worker
                 xSocket.TCP_Send(ref socket, ref buffer);
             }
 
-            Log.FastLog("Console", $"Worker shutdown was initiated", LogSeverity.Info);
+            Log.FastLog("Console", $"Worker shutdown was initiated, disconnecting client", LogSeverity.Info);
 
             SendGoodbye();
         }

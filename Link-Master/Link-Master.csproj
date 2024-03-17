@@ -58,6 +58,9 @@
     <Reference Include="Discord.Net.WebSocket, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\7. Nuget Packages\Discord.Net.WebSocket.3.13.1\lib\net461\Discord.Net.WebSocket.dll</HintPath>
     </Reference>
+    <Reference Include="Fare, Version=2.2.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Fare.2.2.1\lib\net35\Fare.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\7. Nuget Packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -69,6 +72,12 @@
     </Reference>
     <Reference Include="PcgRandom, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\7. Nuget Packages\PcgRandom.1.2.0\lib\netstandard2.0\PcgRandom.dll</HintPath>
+    </Reference>
+    <Reference Include="RandomDataGenerator, Version=1.0.16.0, Culture=neutral, PublicKeyToken=ae5c571d29a3b8d9, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\RandomDataGenerator.Net.1.0.17\lib\net45\RandomDataGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="Stef.Validation, Version=0.1.1.0, Culture=neutral, PublicKeyToken=8f3400880c321038, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Stef.Validation.0.1.1\lib\net40\Stef.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />

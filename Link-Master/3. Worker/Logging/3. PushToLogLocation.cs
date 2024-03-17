@@ -20,12 +20,9 @@ namespace Link_Master.Worker
                 LogConsole.logHistory.Add(new LogConsole.ConsoleMessage(formattedLogMessage.Source, formattedLogMessage.Message, formattedLogMessage.Severity, timeStamp));
             }
 
-            if (LogConsole.socket != null && !bypassIPCLog)
+            if (LogConsole.IsInLiveLogMode && LogConsole.socket != null && !bypassIPCLog)
             {
-                if (LogConsole.socket.Connected)
-                {
-                    LogConsole.liveQueue.Enqueue(new LogConsole.ConsoleMessage(formattedLogMessage.Source, formattedLogMessage.Message, formattedLogMessage.Severity, timeStamp));
-                }
+                LogConsole.liveQueue.Enqueue(new LogConsole.ConsoleMessage(formattedLogMessage.Source, formattedLogMessage.Message, formattedLogMessage.Severity, timeStamp));
             }
         }
 
@@ -142,12 +139,12 @@ namespace Link_Master.Worker
 
             if (formattedLogMessage.Severity == LogSeverity.Critical || formattedLogMessage.Severity == LogSeverity.Error)
             {
-                log += $"\n<@{CurrentConfig.discordAdminID}>";
+                log += $"\n<@{CurrentConfig.DiscordAdminID}>";
             }
 
             try
             {
-                CurrentConfig.logChannel.SendMessageAsync(log);
+                CurrentConfig.LogChannel.SendMessageAsync(log);
             }
             catch
             {

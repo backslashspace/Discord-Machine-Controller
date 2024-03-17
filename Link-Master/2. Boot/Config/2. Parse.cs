@@ -19,17 +19,17 @@ namespace Link_Master.Worker.Control
 
                 TryGetChannelPerm(ref configLines, ref b);
 
-                if (CurrentConfig.tokenPath == null)
+                if (CurrentConfig.TokenPath == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.tokenPath, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        CurrentConfig.tokenPath = match.Groups[1].Value;
+                        CurrentConfig.TokenPath = match.Groups[1].Value;
                     }
                 }
 
-                if (CurrentConfig.cmdRegisterOnBoot == null)
+                if (CurrentConfig.CmdRegisterOnBoot == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.cmdRegisterOnBoot, RegexOptions.IgnoreCase);
 
@@ -37,7 +37,7 @@ namespace Link_Master.Worker.Control
                     {
                         try
                         {
-                            CurrentConfig.cmdRegisterOnBoot = Boolean.Parse(match.Groups[1].Value);
+                            CurrentConfig.CmdRegisterOnBoot = Boolean.Parse(match.Groups[1].Value);
                         }
                         catch
                         {
@@ -46,7 +46,7 @@ namespace Link_Master.Worker.Control
                     }
                 }
 
-                if (CurrentConfig.tcpListenerPort == null)
+                if (CurrentConfig.TcpListenerPort == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.tcpListenerPort, RegexOptions.IgnoreCase);
 
@@ -54,7 +54,7 @@ namespace Link_Master.Worker.Control
                     {
                         try
                         {
-                            CurrentConfig.tcpListenerPort = UInt16.Parse(match.Groups[1].Value);
+                            CurrentConfig.TcpListenerPort = UInt16.Parse(match.Groups[1].Value);
                         }
                         catch
                         {
@@ -63,7 +63,7 @@ namespace Link_Master.Worker.Control
                     }
                 }
 
-                if (CurrentConfig.tcpListenerIP == null)
+                if (CurrentConfig.TcpListenerIP == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.tcpListenerIP, RegexOptions.IgnoreCase);
 
@@ -71,7 +71,7 @@ namespace Link_Master.Worker.Control
                     {
                         try
                         {
-                            CurrentConfig.tcpListenerIP = IPAddress.Parse(match.Groups[1].Value);
+                            CurrentConfig.TcpListenerIP = IPAddress.Parse(match.Groups[1].Value);
                         }
                         catch
                         {
@@ -81,25 +81,25 @@ namespace Link_Master.Worker.Control
                 }
 
                 //post load
-                if (CurrentConfig.discordAdmin == null)
+                if (CurrentConfig.DiscordAdmin == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.discordAdminUserID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        CurrentConfig.discordAdmin = "";
+                        CurrentConfig.DiscordAdmin = "";
 
                         postLoadConfigLines.Add(configLines[b]);
                     }
                 }
 
-                if (CurrentConfig.guildID == null)
+                if (CurrentConfig.GuildID == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.guildID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        CurrentConfig.guildID = 0;
+                        CurrentConfig.GuildID = 0;
 
                         postLoadConfigLines.Add(configLines[b]);
                     }
@@ -138,7 +138,7 @@ namespace Link_Master.Worker.Control
 
                     try
                     {
-                        CurrentConfig.vmChannelLink.Add(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref keys));
+                        CurrentConfig.MachineChannelLink.Add(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref keys));
                     }
                     catch
                     {

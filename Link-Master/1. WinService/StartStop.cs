@@ -12,7 +12,7 @@ namespace Link_Master
         {
             //Task.Delay(10000).Wait();
 
-            Log.FastLog("Win32", "Service start initiated", LogSeverity.Info);
+            Log.FastLog("Win32", $"Service [v{version}] start initiated", LogSeverity.Info);
 
             Worker.Control.Boot.Initiate();
         }
