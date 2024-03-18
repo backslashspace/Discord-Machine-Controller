@@ -1,6 +1,7 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -80,16 +81,22 @@ namespace Link_Master.Worker.Control
                     }
                 }
 
-                //post load
+                //will be verified after Bot.Connect()
+
                 if (CurrentConfig.DiscordAdmin == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.discordAdminUserID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        CurrentConfig.DiscordAdmin = "";
-
-                        postLoadConfigLines.Add(configLines[b]);
+                        try
+                        {
+                            CurrentConfig.DiscordAdminID = UInt64.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Invalid discordAdminID, terminating");
+                        }
                     }
                 }
 
@@ -99,21 +106,31 @@ namespace Link_Master.Worker.Control
 
                     if (match.Success)
                     {
-                        CurrentConfig.GuildID = 0;
-
-                        postLoadConfigLines.Add(configLines[b]);
+                        try
+                        {
+                            CurrentConfig.GuildID = UInt64.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Failed to parse guildID from config, terminating");
+                        }
                     }
                 }
 
-                if (_logChannelID == null)
+                if (Bot.LogChannelID == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.logChannelID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        _logChannelID = 0;
-
-                        postLoadConfigLines.Add(configLines[b]);
+                        try
+                        {
+                            Bot.LogChannelID = UInt64.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Failed to parse logChannelID from config, terminating");
+                        }
                     }
                 }
             }

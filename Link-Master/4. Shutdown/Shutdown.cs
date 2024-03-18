@@ -8,13 +8,19 @@ namespace Link_Master.Worker.Control
     {
         internal static void ServiceComponents(Boolean unsafeShutdown = true)
         {
+            Client.BlockNew = true;
+
             if (unsafeShutdown)
             {
                 Task.Delay(5120).Wait();
+
+                SendDiscordGoodbye(Color.Red, "Error: service shutting down, read logs for more information");
             }
             else
             {
                 Log.FastLog("Win32", "Service shutdown initiated", LogSeverity.Info);
+
+                SendDiscordGoodbye(Color.Orange, "Service shutting down");
             }
 
             Stop.LinkManager();
@@ -24,6 +30,7 @@ namespace Link_Master.Worker.Control
             Log.FastLog("Shutdown", "Stopped all link workers", LogSeverity.Info);
 
             Log.FastLog("Shutdown", "Disconnecting from discord", LogSeverity.Info);
+
             Client.IsConnected = false;
             Bot.Disconnect();
 
@@ -94,6 +101,16 @@ namespace Link_Master.Worker.Control
                     Task.Delay(256).Wait();
                 }
             }
+        }
+
+        private static void SendDiscordGoodbye(Color color, String message)
+        {
+            EmbedBuilder sendGoodbye = new()
+            {
+                Color = color,
+                Description = message
+            };
+            CurrentConfig.LogChannel.SendMessageAsync(embed: sendGoodbye.Build()).Wait();
         }
     }
 }

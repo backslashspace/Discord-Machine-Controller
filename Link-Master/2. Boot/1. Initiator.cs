@@ -32,9 +32,6 @@ namespace Link_Master.Worker.Control
             Log.FastLog("Initiator", "Attempting to connect to discord", LogSeverity.Info);
             Bot.Connect();
 
-            Log.FastLog("Initiator", "Attempting verify discord related configs", LogSeverity.Info);
-            Bot.VerifyConfig();
-
             //## ## ## ## ## ## ## ## ## ## ## ##
 
             Thread test = new(() =>

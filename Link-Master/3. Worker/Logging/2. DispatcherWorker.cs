@@ -50,7 +50,7 @@ namespace Link_Master.Worker
                     Console(ref internalLogMessage);
                 }
 
-                if (!internalLogMessage.BypassDiscord)
+                if (!internalLogMessage.BypassDiscord && !Client.BlockNew)
                 {
                     Discord(ref internalLogMessage);
                 }
@@ -83,8 +83,6 @@ namespace Link_Master.Worker
 
         private static void Discord(ref InternalLogMessage internalLogMessage)
         {
-            FastLog("Log-Worker", $"Discord Event", LogSeverity.Verbose, bypassDiscord: true);
-
             try
             {
                 if (CurrentConfig.LogChannel != null && Client.IsConnected)

@@ -10,6 +10,8 @@ namespace Link_Master.Worker
     {
         internal static DiscordSocketClient Discord;
         internal static Boolean IsConnected = false;
+        internal static Boolean WasReadyOnce = false;
+        internal static Boolean BlockNew = false;
     }
 
     internal struct WorkerThreads

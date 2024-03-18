@@ -143,19 +143,25 @@ namespace Link_Master.Worker
                 log += $"\n<@{CurrentConfig.DiscordAdminID}>";
             }
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
-                    FastLog("Logging", "bbbbbb", LogSeverity.Error, bypassDiscord: true);
+                    Task sendTask = CurrentConfig.LogChannel.SendMessageAsync(log);
 
-                    CurrentConfig.LogChannel.SendMessageAsync(log);
+                    await sendTask;
 
-                    FastLog("Logging", "ffff", LogSeverity.Error, bypassDiscord: true);
+                    if (sendTask.Exception != null)
+                    {
+                        FastLog("Logging", $"Unable to send log to discord: {sendTask.Exception.Message}", LogSeverity.Error, bypassDiscord: true);
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    FastLog("Logging", "Unable to push log to discord", LogSeverity.Error, bypassDiscord: true);
+                    if (!Client.BlockNew)
+                    {
+                        FastLog("Logging", $"Unable to push log to discord: {ex.Message}", LogSeverity.Error, bypassDiscord: true);
+                    }
                 }
             }).ConfigureAwait(false);
         }

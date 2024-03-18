@@ -71,7 +71,7 @@ namespace Link_Master.Worker.Control
 
         //
 
-        internal static void Error(String msg)
+        private static void Error(String msg)
         {
             Log.FastLog("Initiator", msg, LogSeverity.Critical);
 

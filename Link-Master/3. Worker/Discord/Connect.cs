@@ -16,7 +16,9 @@ namespace Link_Master.Worker
             {
                 DiscordSocketConfig config = new()
                 {
-                    GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.Guilds | GatewayIntents.GuildMessages, //| GatewayIntents.GuildMembers
+                    GatewayIntents = GatewayIntents.Guilds,
+                    LogGatewayIntentWarnings = true,
+                    //GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.Guilds | GatewayIntents.GuildMessages, //| GatewayIntents.GuildMembers
                     //LogLevel = LogSeverity.Debug
                 };
 

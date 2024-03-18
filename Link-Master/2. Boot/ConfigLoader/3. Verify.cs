@@ -9,7 +9,7 @@
                 Error("Unable to find tokenPath variable in config, terminating");
             }
 
-            if (CurrentConfig.DiscordAdmin == null)
+            if (CurrentConfig.DiscordAdminID == null)
             {
                 Error("Unable to find discordAdminUserID variable in config, terminating");
             }
