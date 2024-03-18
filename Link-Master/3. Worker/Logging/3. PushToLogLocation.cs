@@ -2,12 +2,13 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Link_Master.Worker
 {
     internal static partial class Log
     {
-        private static void EnqueueConsole(ref LogMessage formattedLogMessage, ref DateTime timeStamp, ref Boolean bypassIPCLog)
+        private static void EnqueueConsole(ref LogMessage formattedLogMessage, ref DateTime timeStamp, ref Boolean bypassIPCLog_Live)
         {
             if (LogConsole.logHistory.Count < 4096)
             {
@@ -20,7 +21,7 @@ namespace Link_Master.Worker
                 LogConsole.logHistory.Add(new LogConsole.ConsoleMessage(formattedLogMessage.Source, formattedLogMessage.Message, formattedLogMessage.Severity, timeStamp));
             }
 
-            if (LogConsole.IsInLiveLogMode && LogConsole.socket != null && !bypassIPCLog)
+            if (LogConsole.IsInLiveLogMode && LogConsole.socket != null && !bypassIPCLog_Live)
             {
                 LogConsole.liveQueue.Enqueue(new LogConsole.ConsoleMessage(formattedLogMessage.Source, formattedLogMessage.Message, formattedLogMessage.Severity, timeStamp));
             }
@@ -142,14 +143,21 @@ namespace Link_Master.Worker
                 log += $"\n<@{CurrentConfig.DiscordAdminID}>";
             }
 
-            try
+            Task.Run(() =>
             {
-                CurrentConfig.LogChannel.SendMessageAsync(log);
-            }
-            catch
-            {
-                FastLog("Logging", "Unable to push log to discord", LogSeverity.Error, bypassDiscord: true);
-            }
+                try
+                {
+                    FastLog("Logging", "bbbbbb", LogSeverity.Error, bypassDiscord: true);
+
+                    CurrentConfig.LogChannel.SendMessageAsync(log);
+
+                    FastLog("Logging", "ffff", LogSeverity.Error, bypassDiscord: true);
+                }
+                catch
+                {
+                    FastLog("Logging", "Unable to push log to discord", LogSeverity.Error, bypassDiscord: true);
+                }
+            }).ConfigureAwait(false);
         }
     }
 }

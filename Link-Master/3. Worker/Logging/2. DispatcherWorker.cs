@@ -40,14 +40,20 @@ namespace Link_Master.Worker
 
                 //
 
-                File(ref internalLogMessage);
+                if (!internalLogMessage.BypassFile)
+                {
+                    File(ref internalLogMessage);
+                }
 
                 if (!IgnoreNew)
                 {
                     Console(ref internalLogMessage);
                 }
 
-                Discord(ref internalLogMessage);
+                if (!internalLogMessage.BypassDiscord)
+                {
+                    Discord(ref internalLogMessage);
+                }
             }
         }
 
@@ -55,10 +61,7 @@ namespace Link_Master.Worker
         {
             try
             {
-                if (!internalLogMessage.BypassFile)
-                {
-                    PushFile(ref internalLogMessage.LogMessage, ref internalLogMessage.TimeStamp);
-                }
+                PushFile(ref internalLogMessage.LogMessage, ref internalLogMessage.TimeStamp);
             }
             catch (Exception ex)
             {
@@ -70,7 +73,7 @@ namespace Link_Master.Worker
         {
             try
             {
-                EnqueueConsole(ref internalLogMessage.LogMessage, ref internalLogMessage.TimeStamp, ref internalLogMessage.BypassIPC);
+                EnqueueConsole(ref internalLogMessage.LogMessage, ref internalLogMessage.TimeStamp, ref internalLogMessage.bypassIPCLog_Live);
             }
             catch (Exception ex)
             {
@@ -80,9 +83,11 @@ namespace Link_Master.Worker
 
         private static void Discord(ref InternalLogMessage internalLogMessage)
         {
+            FastLog("Log-Worker", $"Discord Event", LogSeverity.Verbose, bypassDiscord: true);
+
             try
             {
-                if (CurrentConfig.LogChannel != null && Client.IsConnected && !internalLogMessage.BypassDiscord)
+                if (CurrentConfig.LogChannel != null && Client.IsConnected)
                 {
                     PushDiscord(ref internalLogMessage.LogMessage, ref internalLogMessage.TimeStamp);
                 }

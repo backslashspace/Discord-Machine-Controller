@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Link_Master.Worker.Control
+namespace Link_Master.Worker
 {
-    internal static partial class ConfigLoader
+    internal static partial class Bot
     {
         private static List<String> postLoadConfigLines = new();
 
@@ -14,13 +14,13 @@ namespace Link_Master.Worker.Control
 
         //
 
-        internal static void PostLoad()
+        internal static void VerifyConfig()
         {
             for (Byte b = 0; b < postLoadConfigLines.Count; ++b)
             {
                 if (CurrentConfig.DiscordAdmin == "")
                 {
-                    Match match = Regex.Match(postLoadConfigLines[b], Pattern.discordAdminUserID, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(postLoadConfigLines[b], Control.ConfigLoader.Pattern.discordAdminUserID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -28,7 +28,7 @@ namespace Link_Master.Worker.Control
                         {
                             UInt64 id = UInt64.Parse(match.Groups[1].Value);
 
-                            IUser user = Client.Current.GetUserAsync(id).Result;
+                            IUser user = Client.Discord.GetUserAsync(id).Result;
 
                             CurrentConfig.DiscordAdminID = id;
                             CurrentConfig.DiscordAdmin = user.Username;
@@ -37,14 +37,14 @@ namespace Link_Master.Worker.Control
                         }
                         catch
                         {
-                            Error("Invalid discordAdminID, terminating");
+                            Control.ConfigLoader.Error("Invalid discordAdminID, terminating");
                         }
                     }
                 }
 
                 if (CurrentConfig.GuildID == 0)
                 {
-                    Match match = Regex.Match(postLoadConfigLines[b], Pattern.guildID, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(postLoadConfigLines[b], Control.ConfigLoader.Pattern.guildID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -52,7 +52,7 @@ namespace Link_Master.Worker.Control
                         {
                             CurrentConfig.GuildID = UInt64.Parse(match.Groups[1].Value);
 
-                            if (Client.Current.GetGuild((UInt64)CurrentConfig.GuildID) == null)
+                            if (Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID) == null)
                             {
                                 throw new InvalidDataException();
                             }
@@ -61,14 +61,14 @@ namespace Link_Master.Worker.Control
                         }
                         catch
                         {
-                            Error("invalid guildID in config, terminating");
+                            Control.ConfigLoader.Error("invalid guildID in config, terminating");
                         }
                     }
                 }
 
                 if (_logChannelID == 0)
                 {
-                    Match match = Regex.Match(postLoadConfigLines[b], Pattern.logChannelID, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(postLoadConfigLines[b], Control.ConfigLoader.Pattern.logChannelID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -80,7 +80,7 @@ namespace Link_Master.Worker.Control
                         }
                         catch
                         {
-                            Error("Failed parse logChannelID from config, terminating");
+                            Control.ConfigLoader.Error("Failed parse logChannelID from config, terminating");
                         }
                     }
                 }
@@ -102,12 +102,12 @@ namespace Link_Master.Worker.Control
             {
                 if (_logChannelID != 0)
                 {
-                    CurrentConfig.LogChannel = Client.Current.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel((UInt64)_logChannelID);
+                    CurrentConfig.LogChannel = Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel((UInt64)_logChannelID);
                 }
             }
             catch
             {
-                Error("Unable to find specified channel, terminating");
+                Control.ConfigLoader.Error("Unable to find specified channel, terminating");
             }
         }
     }

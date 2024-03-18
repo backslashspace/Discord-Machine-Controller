@@ -23,8 +23,9 @@ namespace Link_Master.Worker.Control
             Stop.Links();
             Log.FastLog("Shutdown", "Stopped all link workers", LogSeverity.Info);
 
+            Log.FastLog("Shutdown", "Disconnecting from discord", LogSeverity.Info);
             Client.IsConnected = false;
-            //disconnect
+            Bot.Disconnect();
 
             Log.FastLog("Shutdown", "Stopping console log worker", LogSeverity.Info);
             Stop.StopConsoleLogWorker();

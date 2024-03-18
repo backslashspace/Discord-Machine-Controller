@@ -8,7 +8,7 @@ namespace Link_Master.Worker
 {
     internal struct Client
     {
-        internal static DiscordSocketClient Current;
+        internal static DiscordSocketClient Discord;
         internal static Boolean IsConnected = false;
     }
 

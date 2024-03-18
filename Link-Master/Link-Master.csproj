@@ -13,6 +13,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -128,26 +143,28 @@
       <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
+    <Compile Include="3. Worker\Discord\Connect.cs" />
+    <Compile Include="3. Worker\Discord\Disconnect.cs" />
+    <Compile Include="3. Worker\Discord\Event Handler\Log.cs" />
+    <Compile Include="3. Worker\Discord\Event Handler\temp.cs" />
     <Compile Include="Encrypted_TCP.cs" />
     <Compile Include="xSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="1. WinService\StartStop.cs" />
-    <Compile Include="2. Boot\Config\ConfigPattern.cs" />
-    <Compile Include="2. Boot\Config\2. Parse.cs" />
-    <Compile Include="2. Boot\Config\Template.cs" />
-    <Compile Include="2. Boot\Config\3. Verify.cs" />
-    <Compile Include="2. Boot\3. PostConnectConfigVerifier.cs" />
+    <Compile Include="2. Boot\ConfigLoader\ConfigPattern.cs" />
+    <Compile Include="2. Boot\ConfigLoader\2. Parse.cs" />
+    <Compile Include="2. Boot\ConfigLoader\Template.cs" />
+    <Compile Include="2. Boot\ConfigLoader\3. Verify.cs" />
+    <Compile Include="3. Worker\Discord\3. PostConnectConfigVerifier.cs" />
     <Compile Include="4. Shutdown\Shutdown.cs" />
-    <Compile Include="2. Boot\Config\1. Load.cs" />
+    <Compile Include="2. Boot\ConfigLoader\1. Load.cs" />
     <Compile Include="2. Boot\1. Initiator.cs" />
     <Compile Include="3. Worker\Logging\3. PushToLogLocation.cs" />
     <Compile Include="3. Worker\Logging\2. DispatcherWorker.cs" />
     <Compile Include="3. Worker\Logging\1. Receiver.cs" />
-    <Compile Include="3. Worker\Logging\Discord.Net_Handler.cs" />
     <Compile Include="3. Worker\Logging\LogConsole\RequestTypes.cs" />
     <Compile Include="3. Worker\Logging\LogConsole\1. Worker.cs" />
     <Compile Include="3. Worker\Logging\LogConsole\Serializer.cs" />
-    <Compile Include="2. Boot\2. Connect.cs" />
     <Compile Include="state.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +174,18 @@
   <ItemGroup>
     <Folder Include="3. Worker\1. NewConnectionHandler\" />
     <Folder Include="3. Worker\2. Link Worker\" />
-    <Folder Include="3. Worker\Discord Handler\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8.1 %28x86 und x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

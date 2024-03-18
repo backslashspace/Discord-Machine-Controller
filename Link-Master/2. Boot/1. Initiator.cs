@@ -26,11 +26,14 @@ namespace Link_Master.Worker.Control
             WorkerThreads.LocalConsoleLogWorker.Start();
             Log.FastLog("Initiator", $"Started local console log server", LogSeverity.Info);
 
+            Log.FastLog("Initiator", "Loading config", LogSeverity.Info);
             ConfigLoader.Load();
 
+            Log.FastLog("Initiator", "Attempting to connect to discord", LogSeverity.Info);
             Bot.Connect();
 
-            //ConfigLoader.PostLoad();
+            Log.FastLog("Initiator", "Attempting verify discord related configs", LogSeverity.Info);
+            Bot.VerifyConfig();
 
             //## ## ## ## ## ## ## ## ## ## ## ##
 

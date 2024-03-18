@@ -13,7 +13,7 @@ namespace Link_Master.Worker
             {
                 LogMessage = logMessage;
                 TimeStamp = timeStamp;
-                BypassIPC = bypassIPC;
+                bypassIPCLog_Live = bypassIPC;
                 BypassDiscord = bypassDiscord;
                 BypassFile = bypassFile;
             }
@@ -21,7 +21,7 @@ namespace Link_Master.Worker
             internal LogMessage LogMessage;
             internal DateTime TimeStamp;
 
-            internal Boolean BypassIPC;
+            internal Boolean bypassIPCLog_Live;
             internal Boolean BypassDiscord;
             internal Boolean BypassFile;
 
@@ -36,16 +36,20 @@ namespace Link_Master.Worker
         {
             if (!IgnoreNew)
             {
-                if (message.Source == null || message.Message == null)
+                if (message.Message == null)
                 {
                     if (message.Source == null)
                     {
-                        message = new(LogSeverity.Error, "Internal", "It appears that something created a log message that contained 'null' (probably the discord library?)");
+                        message = new(LogSeverity.Error, "Internal", $"It appears that something created a log message that contained 'null' as message & source, this should not happen");
                     }
                     else
                     {
-                        message = new(LogSeverity.Error, "Internal", $"It appears that '{message.Source}' created a log message that contained 'null', this should not happen");
+                        message = new(LogSeverity.Warning, message.Source, "{null}");
                     }
+                }
+                else if (message.Source == null)
+                {
+                    message = new(LogSeverity.Warning, "{null}", message.Message);
                 }
 
                 DateTime now = DateTime.Now;
