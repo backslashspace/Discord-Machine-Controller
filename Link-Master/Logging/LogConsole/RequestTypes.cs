@@ -1,4 +1,4 @@
-﻿namespace Link_Master.Worker
+﻿namespace Link_Master.Logging
 {
     internal static partial class LogConsole
     {

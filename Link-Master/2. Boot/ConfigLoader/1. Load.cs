@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Link_Master.Worker.Control
+namespace Link_Master.Control
 {
     internal static partial class ConfigLoader
     {
         internal static void Load()
         {
-            List<String> configLines = new(); ;
+            List<String> configLines = new();
 
             ReadConfigFile(ref configLines);
 
             if (configLines.Count > 128)
             {
-                Log.FastLog("Initiator", "Consider storing config non-mandatory data in a different file, terminating", LogSeverity.Critical);
+                Log.FastLog("Initiator", "Consider storing config non-mandatory data in a different file, terminating", LogSeverity.Error);
 
                 Shutdown.ServiceComponents();
             }

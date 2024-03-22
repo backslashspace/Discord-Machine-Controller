@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Link_Master.Worker.Control
+namespace Link_Master.Control
 {
     internal static partial class ConfigLoader
     {

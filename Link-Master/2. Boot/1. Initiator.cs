@@ -2,52 +2,42 @@
 using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Link_Master.Worker.Control
+namespace Link_Master.Control
 {
     internal static partial class Boot
     {
-        internal static void Initiate()
+        internal static async void Initiate()
         {
-            WorkerThreads.LogWorker = new(() => Log.Worker(Log.tokenSource.Token))
-            {
-                Name = "Log Worker",
-            };
-            WorkerThreads.LogWorker.Start();
-            Log.FastLog("Initiator", "Started log worker", LogSeverity.Info);
-
-            WorkerThreads.LocalConsoleLogWorker = new(() => LogConsole.ConsoleServer(LogConsole.tokenSource.Token))
-            {
-                Name = "Local Log TCP Server",
-            };
-            WorkerThreads.LocalConsoleLogWorker.Start();
-            Log.FastLog("Initiator", $"Started local console log server", LogSeverity.Info);
+            StartLogWorker();
 
             Log.FastLog("Initiator", "Loading config", LogSeverity.Info);
             ConfigLoader.Load();
 
+            //Log.FastLog("Initiator", "Starting machine link manager", LogSeverity.Info);
+            //ff
+
             Log.FastLog("Initiator", "Attempting to connect to discord", LogSeverity.Info);
-            Bot.Connect();
+            await Worker.Bot.Connect();
 
             //## ## ## ## ## ## ## ## ## ## ## ##
 
-            Thread test = new(() =>
+            await Task.Delay(4000);
+
+            Thread test3 = new(() =>
             {
                 while (true)
                 {
-                    Log.FastLog("Test", $"Test message: {GenText()}", LogSeverity.Debug);
+                    Log.FastLog("Test", $"Test message: GenText(){Logging.Log.DiscordLogQueue.Count}", LogSeverity.Debug);
 
                     Task.Delay(10000).Wait();
                 }
             });
-            test.Name = "test";
-            test.Start();
+            test3.Name = "test";
+            test3.Start();
         }
-
-        //## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
         private static String GenText()
         {

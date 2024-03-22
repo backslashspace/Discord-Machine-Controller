@@ -40,15 +40,12 @@ namespace LogViewer
 
                     LiveUpdateLoop();
                 }
-                catch (SocketException ex)
+                catch
                 {
                     ConsoleMSG("> Lost connection", ConsoleColor.DarkRed);
 
-                    if (ex.SocketErrorCode == SocketError.ConnectionReset)
-                    {
-                        Task.Delay(1024).Wait();
-                    }
-
+                    Task.Delay(2048).Wait();
+                    
                     try
                     {
                         socket.Close(0);

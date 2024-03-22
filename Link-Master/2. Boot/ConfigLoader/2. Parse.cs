@@ -1,11 +1,10 @@
 ﻿using Discord;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Link_Master.Worker.Control
+namespace Link_Master.Control
 {
     internal static partial class ConfigLoader
     {
@@ -117,7 +116,7 @@ namespace Link_Master.Worker.Control
                     }
                 }
 
-                if (Bot.LogChannelID == null)
+                if (Worker.Bot.LogChannelID == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.logChannelID, RegexOptions.IgnoreCase);
 
@@ -125,7 +124,7 @@ namespace Link_Master.Worker.Control
                     {
                         try
                         {
-                            Bot.LogChannelID = UInt64.Parse(match.Groups[1].Value);
+                            Worker.Bot.LogChannelID = UInt64.Parse(match.Groups[1].Value);
                         }
                         catch
                         {

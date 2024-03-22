@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 
-namespace Link_Master.Worker
+namespace Link_Master
 {
     internal struct Client
     {
         internal static DiscordSocketClient Discord;
         internal static Boolean IsConnected = false;
-        internal static Boolean WasReadyOnce = false;
+        internal static Boolean WasReadyAtLeastOnce = false;
         internal static Boolean BlockNew = false;
     }
 
     internal struct WorkerThreads
     {
-        internal static Thread LogWorker = null;
+        internal static CancellationTokenSource LocalConsoleLogWorker_TokenSource = new();
         internal static Thread LocalConsoleLogWorker = null;
+
+        internal static CancellationTokenSource DiscordLogWorker_TokenSource = new();
+        internal static Thread DiscordLogWorker = null;
 
         internal static Thread LinkManager = null;
         internal static List<Thread> Links = null;

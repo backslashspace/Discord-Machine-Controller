@@ -55,23 +55,23 @@
     <Reference Include="BSS.Encryption">
       <HintPath>..\libs\BSS.Encryption.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.Commands, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Commands.3.13.1\lib\net461\Discord.Net.Commands.dll</HintPath>
+    <Reference Include="Discord.Net.Commands, Version=3.14.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Commands.3.14.1\lib\net461\Discord.Net.Commands.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.Core, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Core.3.13.1\lib\net461\Discord.Net.Core.dll</HintPath>
+    <Reference Include="Discord.Net.Core, Version=3.14.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Core.3.14.1\lib\net461\Discord.Net.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.Interactions, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Interactions.3.13.1\lib\net461\Discord.Net.Interactions.dll</HintPath>
+    <Reference Include="Discord.Net.Interactions, Version=3.14.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Interactions.3.14.1\lib\net461\Discord.Net.Interactions.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.Rest, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Rest.3.13.1\lib\net461\Discord.Net.Rest.dll</HintPath>
+    <Reference Include="Discord.Net.Rest, Version=3.14.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Rest.3.14.1\lib\net461\Discord.Net.Rest.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.Webhook, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Webhook.3.13.1\lib\netstandard2.0\Discord.Net.Webhook.dll</HintPath>
+    <Reference Include="Discord.Net.Webhook, Version=3.14.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.Webhook.3.14.1\lib\netstandard2.0\Discord.Net.Webhook.dll</HintPath>
     </Reference>
-    <Reference Include="Discord.Net.WebSocket, Version=3.13.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.WebSocket.3.13.1\lib\net461\Discord.Net.WebSocket.dll</HintPath>
+    <Reference Include="Discord.Net.WebSocket, Version=3.14.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\7. Nuget Packages\Discord.Net.WebSocket.3.14.1\lib\net461\Discord.Net.WebSocket.dll</HintPath>
     </Reference>
     <Reference Include="Fare, Version=2.2.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
       <HintPath>..\..\..\7. Nuget Packages\Fare.2.2.1\lib\net35\Fare.dll</HintPath>
@@ -143,11 +143,17 @@
       <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
-    <Compile Include="3. Worker\Discord\Connect.cs" />
-    <Compile Include="3. Worker\Discord\Disconnect.cs" />
-    <Compile Include="3. Worker\Discord\Event Handler\Log.cs" />
-    <Compile Include="3. Worker\Discord\Event Handler\temp.cs" />
+    <Compile Include="2. Boot\StartWorkers.cs" />
+    <Compile Include="3. Application\Bot\1. Connect.cs" />
+    <Compile Include="3. Application\Bot\3. Disconnect.cs" />
+    <Compile Include="3. Application\Bot\OnReady.cs" />
+    <Compile Include="Logging\Discord\1. Discord.Net Log Handler.cs" />
+    <Compile Include="3. Application\Bot\Event Handler\temp.cs" />
+    <Compile Include="4. Shutdown\1. DisconnectDiscord.cs" />
+    <Compile Include="4. Shutdown\3. StopLogging.cs" />
     <Compile Include="Encrypted_TCP.cs" />
+    <Compile Include="Logging\Discord\3. DiscordLogWorker.cs" />
+    <Compile Include="Logging\LogConsole\1. LogRecipient.cs" />
     <Compile Include="xSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="1. WinService\StartStop.cs" />
@@ -155,16 +161,15 @@
     <Compile Include="2. Boot\ConfigLoader\2. Parse.cs" />
     <Compile Include="2. Boot\ConfigLoader\Template.cs" />
     <Compile Include="2. Boot\ConfigLoader\3. Verify.cs" />
-    <Compile Include="3. Worker\Discord\3. PostConnectConfigVerifier.cs" />
+    <Compile Include="3. Application\Bot\2. PostConnectConfigVerifier.cs" />
     <Compile Include="4. Shutdown\Shutdown.cs" />
     <Compile Include="2. Boot\ConfigLoader\1. Load.cs" />
     <Compile Include="2. Boot\1. Initiator.cs" />
-    <Compile Include="3. Worker\Logging\3. PushToLogLocation.cs" />
-    <Compile Include="3. Worker\Logging\2. DispatcherWorker.cs" />
-    <Compile Include="3. Worker\Logging\1. Receiver.cs" />
-    <Compile Include="3. Worker\Logging\LogConsole\RequestTypes.cs" />
-    <Compile Include="3. Worker\Logging\LogConsole\1. Worker.cs" />
-    <Compile Include="3. Worker\Logging\LogConsole\Serializer.cs" />
+    <Compile Include="Logging\Discord\2. LogRecipient.cs" />
+    <Compile Include="Logging\Distributer.cs" />
+    <Compile Include="Logging\LogConsole\RequestTypes.cs" />
+    <Compile Include="Logging\LogConsole\2. Worker.cs" />
+    <Compile Include="Logging\LogConsole\Serializer.cs" />
     <Compile Include="state.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -172,8 +177,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="3. Worker\1. NewConnectionHandler\" />
-    <Folder Include="3. Worker\2. Link Worker\" />
+    <Folder Include="3. Application\1. NewConnectionHandler\" />
+    <Folder Include="3. Application\2. LinkWorker\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">

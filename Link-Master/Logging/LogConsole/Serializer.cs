@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace Link_Master.Worker
+namespace Link_Master.Logging
 {
     internal static partial class LogConsole
     {
