@@ -143,12 +143,13 @@
       <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
-    <Compile Include="2. Boot\StartWorkers.cs" />
-    <Compile Include="3. Application\Bot\1. Connect.cs" />
-    <Compile Include="3. Application\Bot\3. Disconnect.cs" />
-    <Compile Include="3. Application\Bot\OnReady.cs" />
+    <Compile Include="2. Boot\StartLogWorkers.cs" />
+    <Compile Include="3. Application\Bot\1. Boot\1. Connect.cs" />
+    <Compile Include="3. Application\Bot\1. Boot\2. OnReady.cs" />
+    <Compile Include="3. Application\Bot\1. Boot\4. RegisterCommands.cs" />
+    <Compile Include="3. Application\Bot\GatewayConnectionHandler.cs" />
     <Compile Include="Logging\Discord\1. Discord.Net Log Handler.cs" />
-    <Compile Include="3. Application\Bot\Event Handler\temp.cs" />
+    <Compile Include="3. Application\Bot\Event Handler\1. CommandHandler.cs" />
     <Compile Include="4. Shutdown\1. DisconnectDiscord.cs" />
     <Compile Include="4. Shutdown\3. StopLogging.cs" />
     <Compile Include="Encrypted_TCP.cs" />
@@ -161,7 +162,7 @@
     <Compile Include="2. Boot\ConfigLoader\2. Parse.cs" />
     <Compile Include="2. Boot\ConfigLoader\Template.cs" />
     <Compile Include="2. Boot\ConfigLoader\3. Verify.cs" />
-    <Compile Include="3. Application\Bot\2. PostConnectConfigVerifier.cs" />
+    <Compile Include="3. Application\Bot\1. Boot\3. PostConnectConfigVerifier.cs" />
     <Compile Include="4. Shutdown\Shutdown.cs" />
     <Compile Include="2. Boot\ConfigLoader\1. Load.cs" />
     <Compile Include="2. Boot\1. Initiator.cs" />

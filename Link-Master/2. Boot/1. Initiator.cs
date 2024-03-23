@@ -30,7 +30,7 @@ namespace Link_Master.Control
             {
                 while (true)
                 {
-                    Log.FastLog("Test", $"Test message: GenText(){Logging.Log.DiscordLogQueue.Count}", LogSeverity.Debug);
+                    Log.FastLog("Test", $"Test message: {GenText()}", LogSeverity.Debug);
 
                     Task.Delay(10000).Wait();
                 }

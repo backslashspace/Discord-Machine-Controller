@@ -82,12 +82,12 @@ namespace Link_Master.Logging
 
                     if (restartAttempts < 5)
                     {
-                        Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempting to restart the worker.", LogSeverity.Critical);
+                        Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempting to restart the worker.", LogSeverity.Critical);
 
                         continue;
                     }
 
-                    Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of unknown issues ({restartAttempts}), ending and disposing worker.", LogSeverity.Critical);
+                    Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({restartAttempts}), terminating", LogSeverity.Critical);
 
                     ResetWorker();
 

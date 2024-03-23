@@ -7,6 +7,8 @@ namespace Link_Master.Control
     {
         private static void DisconnectDiscord(ref Boolean unsafeShutdown)
         {
+            Logging.Log.IgnoreNewDiscord = true;
+
             lock (Logging.Log.DiscordLogQueue_LOCK)
             {
                 Logging.Log.DiscordLogQueue.Clear();
@@ -21,7 +23,6 @@ namespace Link_Master.Control
                 SendDiscordGoodbye(Color.Orange, "Service shutting down");
             }
 
-            Logging.Log.IgnoreNewDiscord = true;
             Client.IsConnected = false;
 
             Log.FastLog("Shutdown", "Disconnecting from discord", LogSeverity.Info);
