@@ -1,5 +1,6 @@
 ﻿using Discord.WebSocket;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
@@ -44,7 +45,7 @@ namespace Link_Master
 
         internal static SocketTextChannel LogChannel = null;
 
-        internal static Dictionary<UInt64?, ChannelLink> MachineChannelLink = new();
+        internal static ConcurrentDictionary<UInt64, ChannelLink> MachineChannelLinks = new();
     }
 
     internal struct ChannelLink

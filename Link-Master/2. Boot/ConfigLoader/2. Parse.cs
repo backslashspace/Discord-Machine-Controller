@@ -154,7 +154,7 @@ namespace Link_Master.Control
 
                     try
                     {
-                        CurrentConfig.MachineChannelLink.Add(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref keys));
+                        CurrentConfig.MachineChannelLinks.TryAdd(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref keys));
                     }
                     catch
                     {

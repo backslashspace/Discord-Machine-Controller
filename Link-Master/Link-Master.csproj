@@ -144,12 +144,24 @@
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
     <Compile Include="2. Boot\StartLogWorkers.cs" />
-    <Compile Include="3. Application\Bot\1. Boot\1. Connect.cs" />
-    <Compile Include="3. Application\Bot\1. Boot\2. OnReady.cs" />
-    <Compile Include="3. Application\Bot\1. Boot\4. RegisterCommands.cs" />
-    <Compile Include="3. Application\Bot\GatewayConnectionHandler.cs" />
+    <Compile Include="3. Application\1. Boot\1. Connect.cs" />
+    <Compile Include="3. Application\1. Boot\2. OnReady.cs" />
+    <Compile Include="3. Application\1. Boot\4. RegisterCommands.cs" />
+    <Compile Include="3. Application\ActiveLinks.cs" />
+    <Compile Include="3. Application\Bot\3. AwaitResponse.cs" />
+    <Compile Include="3. Application\Bot\4. HandleResponse.cs" />
+    <Compile Include="3. Application\Bot\Commands\Debug.cs" />
+    <Compile Include="3. Application\Bot\Commands\ExecuteScript.cs" />
+    <Compile Include="3. Application\Bot\Commands\Help.cs" />
+    <Compile Include="3. Application\Bot\Commands\ListScripts.cs" />
+    <Compile Include="3. Application\Bot\Commands\Lock.cs" />
+    <Compile Include="3. Application\Bot\Commands\Upload.cs" />
+    <Compile Include="3. Application\Bot\Commands\_ReponseStrings.cs" />
+    <Compile Include="3. Application\Bot\DiscordMessageWrapper.cs" />
+    <Compile Include="3. Application\1. Boot\GatewayConnectionHandler.cs" />
+    <Compile Include="3. Application\Bot\2. EnqueueEndpointSend.cs" />
     <Compile Include="Logging\Discord\1. Discord.Net Log Handler.cs" />
-    <Compile Include="3. Application\Bot\Event Handler\1. CommandHandler.cs" />
+    <Compile Include="3. Application\Bot\1. SlashCommandHandler.cs" />
     <Compile Include="4. Shutdown\1. DisconnectDiscord.cs" />
     <Compile Include="4. Shutdown\3. StopLogging.cs" />
     <Compile Include="Encrypted_TCP.cs" />
@@ -162,7 +174,7 @@
     <Compile Include="2. Boot\ConfigLoader\2. Parse.cs" />
     <Compile Include="2. Boot\ConfigLoader\Template.cs" />
     <Compile Include="2. Boot\ConfigLoader\3. Verify.cs" />
-    <Compile Include="3. Application\Bot\1. Boot\3. PostConnectConfigVerifier.cs" />
+    <Compile Include="3. Application\1. Boot\3. PostConnectConfigVerifier.cs" />
     <Compile Include="4. Shutdown\Shutdown.cs" />
     <Compile Include="2. Boot\ConfigLoader\1. Load.cs" />
     <Compile Include="2. Boot\1. Initiator.cs" />
@@ -178,8 +190,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="3. Application\1. NewConnectionHandler\" />
-    <Folder Include="3. Application\2. LinkWorker\" />
+    <Folder Include="3. Application\2. LinkFactory\" />
+    <Folder Include="3. Application\3. LinkWorker\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">
