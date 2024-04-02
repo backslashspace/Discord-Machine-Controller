@@ -3,12 +3,13 @@ using System.Net.Sockets;
 using System.IO;
 //
 using BSS.Encryption.Fips;
+using Org.BouncyCastle.Crypto.Fips;
 
 namespace Link_Master.Worker
 {
     internal static class AES_TCP
     {
-        internal static void Send(ref Socket socket, Byte[] data, Byte[] key, Byte[] hmac_key)
+        internal static void Send(ref Socket socket, ref Byte[] data, Byte[] key, Byte[] hmac_key)
         {
             Byte[] cipherData = Pack(ref data, ref key, ref hmac_key);
 
@@ -24,11 +25,15 @@ namespace Link_Master.Worker
 
         //# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        private static Byte[] Pack(ref Byte[] plainBytes, ref Byte[] key, ref Byte[] hmac_key)
+        internal static Byte[] Pack(ref Byte[] plainBytes, ref Byte[] key, ref Byte[] hmac_key)
         {
             xFips.SetApprovedOnlyMode(true);
 
-            Byte[] cipherText = xAES_Fips.CTR.Encrypt(plainBytes, ref key);
+            FipsSecureRandom random = xFips.GenerateSecureRandom();
+            Byte[] iv = new Byte[16];
+            random.NextBytes(iv);
+
+            Byte[] cipherText = xAES_Fips.CTR.Encrypt(plainBytes, ref key,ref iv);
             Byte[] hmac = xHMAC_Fips.ComputeHMAC_512(ref cipherText, ref hmac_key);
 
             Byte[] transportableBytes = new Byte[hmac.Length + cipherText.Length];
@@ -39,7 +44,7 @@ namespace Link_Master.Worker
             return transportableBytes;
         }
 
-        private static Byte[] UnPack(ref Byte[] cipherData, ref Byte[] key, ref Byte[] hmac_key)
+        internal static Byte[] UnPack(ref Byte[] cipherData, ref Byte[] key, ref Byte[] hmac_key)
         {
             xFips.SetApprovedOnlyMode(true);
 

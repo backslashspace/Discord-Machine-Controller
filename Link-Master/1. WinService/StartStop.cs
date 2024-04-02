@@ -19,9 +19,9 @@ namespace Link_Master
                 streamWriter.WriteLine();   //create new line in log for better readability
             }
 
-            Log.FastLog("Win32", $"Service [v{version}] start initiated", LogSeverity.Info);
+            Log.FastLog("Win32", $"Service [v{version}] start initiated", xLogSeverity.Info);
 
-            Control.Boot.Initiate();
+            Control.Start.Initiate();
         }
 
         internal static void Stop()

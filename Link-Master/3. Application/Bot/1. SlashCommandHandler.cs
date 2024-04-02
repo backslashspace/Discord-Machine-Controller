@@ -18,7 +18,7 @@ namespace Link_Master.Worker
 
             if (!IsMachineControlChannel(ref originChannel))
             {
-                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.Data.Name} in #{command.Channel.Name} ({command.Channel.Id}), but got rejected (not a machine control channel)", LogSeverity.Info);
+                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.Data.Name} in #{command.Channel.Name} ({command.Channel.Id}), but got rejected (not a machine control channel)", xLogSeverity.Info);
                 await Respond_NotAControlChannel(command);
 
                 return;
@@ -39,7 +39,7 @@ namespace Link_Master.Worker
 
             if (CurrentConfig.MachineChannelLinks[originChannel].IsLocked)
             {
-                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' issued /{command.CommandName} in #{command.Channel.Name} but got rejected (channel locked)", LogSeverity.Info);
+                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' issued /{command.CommandName} in #{command.Channel.Name} but got rejected (channel locked)", xLogSeverity.Info);
                 await FormattedResponseAsync(command, "You are currently not allowed to enqueue commands, channel is locked", Color.Orange);
 
                 return;
@@ -47,13 +47,13 @@ namespace Link_Master.Worker
 
             if (!ChannelEndpointIsConnected(ref channelLink))
             {
-                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.CommandName} in #{command.Channel.Name} ({command.Channel.Id}), but got rejected (endpoint not connected)", LogSeverity.Info);
+                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.CommandName} in #{command.Channel.Name} ({command.Channel.Id}), but got rejected (endpoint not connected)", xLogSeverity.Info);
                 await FormattedErrorRespondAsync(command, "Endpoint is not connected");
 
                 return;
             }
 
-            Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.CommandName} in #{command.Channel.Name} ({command.Channel.Id})", LogSeverity.Info);
+            Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.CommandName} in #{command.Channel.Name} ({command.Channel.Id})", xLogSeverity.Info);
 
             switch (command.Data.Name)
             {

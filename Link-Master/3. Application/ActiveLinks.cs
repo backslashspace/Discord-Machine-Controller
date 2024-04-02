@@ -6,14 +6,15 @@ namespace Link_Master.Worker
 {
     internal static partial class Bot
     {
-        private static readonly ConcurrentDictionary<UInt64, Machine> ActiveMachineLinks = new();
+        internal static readonly ConcurrentDictionary<UInt64, Machine> ActiveMachineLinks = new();
 
-        private readonly struct Machine
+        internal readonly struct Machine
         {
-            internal Machine(ref UInt64 channelID, IPAddress iPAddress)
+            internal Machine(UInt64 channelID, IPAddress iPAddress, ref xVersion version)
             {
                 ChannelID = channelID;
                 Address = iPAddress;
+                Version = version;
 
                 CommandQueue = new();
                 ResultsQueue = new();
@@ -21,6 +22,7 @@ namespace Link_Master.Worker
 
             internal readonly UInt64 ChannelID;
             internal readonly IPAddress Address;
+            internal readonly xVersion Version;
 
             internal readonly ConcurrentQueue<Command> CommandQueue;
             internal readonly Object CommandQueue_Lock = new();
@@ -29,7 +31,7 @@ namespace Link_Master.Worker
             internal readonly Object ResultsQueue_Lock = new();
         }
 
-        private struct Result
+        internal struct Result
         {
             internal Result(Byte id, Byte[] result)
             {
@@ -41,7 +43,7 @@ namespace Link_Master.Worker
             internal Byte[] ResultData;
         }
 
-        private readonly struct Command
+        internal readonly struct Command
         {
             internal Command(Byte id, CommandAction action, Byte[] data)
             {
@@ -55,7 +57,7 @@ namespace Link_Master.Worker
             internal readonly Byte[] Data;
         }
 
-        private enum CommandAction
+        internal enum CommandAction
         {
             UAliveQuestionMark = 0x01,
             YuesAmIAlive = 0x02,

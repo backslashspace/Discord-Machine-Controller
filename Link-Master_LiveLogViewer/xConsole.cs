@@ -27,35 +27,40 @@ namespace LogViewer
 
             switch (formattedLogMessage.Severity)
             {
-                case Program.LogSeverity.Info:
+                case Program.xLogSeverity.Info:
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                     lineLength += 4;
                     Console.Write("Info");
                     break;
-                case Program.LogSeverity.Debug:
+                case Program.xLogSeverity.Debug:
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     lineLength += 5;
                     Console.Write("Debug");
                     break;
-                case Program.LogSeverity.Warning:
+                case Program.xLogSeverity.Warning:
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     lineLength += 7;
                     Console.Write("Warning");
                     break;
-                case Program.LogSeverity.Verbose:
+                case Program.xLogSeverity.Verbose:
                     Console.ForegroundColor = ConsoleColor.Blue;
                     lineLength += 7;
                     Console.Write("Verbose");
                     break;
-                case Program.LogSeverity.Error:
+                case Program.xLogSeverity.Error:
                     Console.ForegroundColor = ConsoleColor.Red;
                     lineLength += 5;
                     Console.Write("Error");
                     break;
-                case Program.LogSeverity.Critical:
+                case Program.xLogSeverity.Critical:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     lineLength += 8;
                     Console.Write("Critical");
+                    break;
+                case Program.xLogSeverity.Alert:
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    lineLength += 5;
+                    Console.Write("Alert");
                     break;
             }
 

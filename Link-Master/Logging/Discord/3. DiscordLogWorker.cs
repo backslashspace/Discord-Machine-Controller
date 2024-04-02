@@ -13,13 +13,13 @@ namespace Link_Master.Logging
 
         //
 
-        internal static async void DiscordLogWorker(CancellationToken cancellationToken)
+        internal static async void DiscordLogWorker()
         {
-            while (!cancellationToken.IsCancellationRequested)
+            while (!WorkerThreads.DiscordLogWorker_WasCanceled)
             {
                 while (DiscordLogQueue.Count == 0)
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    if (WorkerThreads.DiscordLogWorker_WasCanceled)
                     {
                         return;
                     }
@@ -41,23 +41,26 @@ namespace Link_Master.Logging
 
                 switch (consoleMessage.Severity)
                 {
-                    case LogSeverity.Info:
+                    case xLogSeverity.Info:
                         log += "Info";
                         break;
-                    case LogSeverity.Debug:
+                    case xLogSeverity.Debug:
                         log += "Debug";
                         break;
-                    case LogSeverity.Warning:
+                    case xLogSeverity.Warning:
                         log += "Warning";
                         break;
-                    case LogSeverity.Verbose:
+                    case xLogSeverity.Verbose:
                         log += "Verbose";
                         break;
-                    case LogSeverity.Error:
+                    case xLogSeverity.Error:
                         log += "Error";
                         break;
-                    case LogSeverity.Critical:
+                    case xLogSeverity.Critical:
                         log += "Critical";
+                        break;
+                    case xLogSeverity.Alert:
+                        log += "Alert";
                         break;
                 }
 
@@ -67,12 +70,12 @@ namespace Link_Master.Logging
 
                 if (log.Length > 4000)
                 {
-                    Link_Master.Log.FastLog("PushLogDiscord", $"Log message was too long, cutting output..", LogSeverity.Warning);
+                    Link_Master.Log.FastLog("PushLogDiscord", $"Log message was too long, cutting output..", xLogSeverity.Warning);
 
                     log = log.Substring(0, 4000);
                 }
 
-                if (consoleMessage.Severity == LogSeverity.Critical || consoleMessage.Severity == LogSeverity.Error)
+                if (consoleMessage.Severity == xLogSeverity.Critical || consoleMessage.Severity == xLogSeverity.Error || consoleMessage.Severity == xLogSeverity.Alert)
                 {
                     log += $"\n<@{CurrentConfig.DiscordAdminID}>";
                 }
@@ -107,7 +110,7 @@ namespace Link_Master.Logging
                         continue;
                     }
 
-                    Link_Master.Log.FastLog("Logging", $"Unable to push log to discord: {ex.Message}, {ex.InnerException}", LogSeverity.Error, bypassDiscord: true);
+                    Link_Master.Log.FastLog("Logging", $"Unable to push log to discord: {ex.Message}, {ex.InnerException}", xLogSeverity.Error, bypassDiscord: true);
                 }
             }
         }

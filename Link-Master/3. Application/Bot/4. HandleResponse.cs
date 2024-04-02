@@ -18,7 +18,7 @@ namespace Link_Master.Worker
             }
             catch
             {
-                Log.FastLog("Discord-CMD", $"Unable to parse response from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) in #{slashCommand.Channel.Name} (Byte[] => String, Color)", LogSeverity.Error);
+                Log.FastLog("Discord-CMD", $"Unable to parse response from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) in #{slashCommand.Channel.Name} (Byte[] => String, Color)", xLogSeverity.Error);
                 await FormattedMessageAsync(slashCommand, "Error, unable to parse response from endpoint", Color.Red);
                 
                 return;
@@ -26,14 +26,14 @@ namespace Link_Master.Worker
             
             if (response.Length > 4064)
             {
-                Log.FastLog("Discord-CMD", $"Response from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) was too long, cutting output..", LogSeverity.Warning);
+                Log.FastLog("Discord-CMD", $"Response from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) was too long, cutting output..", xLogSeverity.Warning);
                 await FormattedMessageAsync(slashCommand, "Response string to long, cutting output..", Color.DarkOrange);
 
                 response = response.Substring(0, 4064);
             }
 
             await FormattedMessageAsync(slashCommand, response, color);
-            Log.FastLog("Discord-CMD", $"Successfully received and displayed result from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) in channel #{slashCommand.Channel.Name}", LogSeverity.Info);
+            Log.FastLog("Discord-CMD", $"Successfully received and displayed result from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) in channel #{slashCommand.Channel.Name}", xLogSeverity.Info);
         }
 
         //

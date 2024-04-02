@@ -23,7 +23,7 @@ namespace Link_Master.Logging
 
         //
 
-        internal static void ConsoleServer(CancellationToken cancellationToken)
+        internal static void ConsoleServer()
         {
             Byte restartAttempts = 0;
             
@@ -37,21 +37,21 @@ namespace Link_Master.Logging
                     listener.Bind(localEndPoint);
                     listener.Listen(0);
 
-                    while (!cancellationToken.IsCancellationRequested)
+                    while (!WorkerThreads.LocalConsoleLogWorker_WasCanceled)
                     {
                         try
                         {
-                            if (InterruptibleAccept(ref cancellationToken))
+                            if (InterruptibleAccept())
                             {
                                 continue;   //if cancel was requested while socket was in Accept()
                             }
 
-                            Link_Master.Log.FastLog("Console", "Client connected", LogSeverity.Info);
+                            Link_Master.Log.FastLog("Console", "Client connected", xLogSeverity.Info);
 
                             SendPastLog();
 
                             IsInLiveLogMode = true;
-                            LiveLogLoop(ref cancellationToken);
+                            LiveLogLoop();
 
                             continue;
                         }
@@ -59,11 +59,11 @@ namespace Link_Master.Logging
                         {
                             if (ex is SocketException x)
                             {
-                                Link_Master.Log.FastLog("Console", "Client disconnected", LogSeverity.Info);
+                                Link_Master.Log.FastLog("Console", "Client disconnected", xLogSeverity.Info);
                             }
                             else
                             {
-                                Link_Master.Log.FastLog("Console", $"Connection broke for following reason: {ex.Message}", LogSeverity.Warning);
+                                Link_Master.Log.FastLog("Console", $"Connection broke for following reason: {ex.Message}", xLogSeverity.Warning);
 
                                 Task.Delay(3840).Wait();
                             }
@@ -82,12 +82,12 @@ namespace Link_Master.Logging
 
                     if (restartAttempts < 5)
                     {
-                        Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempting to restart the worker.", LogSeverity.Critical);
+                        Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempting to restart the worker.", xLogSeverity.Critical);
 
                         continue;
                     }
 
-                    Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({restartAttempts}), terminating", LogSeverity.Critical);
+                    Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({restartAttempts}), terminating", xLogSeverity.Critical);
 
                     ResetWorker();
 
@@ -96,7 +96,7 @@ namespace Link_Master.Logging
             }
         }
 
-        private static Boolean InterruptibleAccept(ref CancellationToken cancellationToken)
+        private static Boolean InterruptibleAccept()
         {
             Thread accepter = new(() =>
             {
@@ -114,18 +114,18 @@ namespace Link_Master.Logging
             accepter.Name = "Console Log connection accepter";
             accepter.Start();
 
-            while (!cancellationToken.IsCancellationRequested && accepter.IsAlive)
+            while (!WorkerThreads.LocalConsoleLogWorker_WasCanceled && accepter.IsAlive)
             {
                 Task.Delay(256).Wait();
             }
 
-            if (cancellationToken.IsCancellationRequested)
+            if (WorkerThreads.LocalConsoleLogWorker_WasCanceled)
             {
                 listener.Close(0);
 
                 for (Byte b = 0; b < 16 && accepter.ThreadState != ThreadState.Stopped; ++b)
                 {
-                    Task.Delay(128);
+                    Task.Delay(64).Wait();
                 }
 
                 return true;
@@ -164,11 +164,11 @@ namespace Link_Master.Logging
             xSocket.TCP_Send(ref socket, ref rawLog);
         }
 
-        private static void LiveLogLoop(ref CancellationToken cancellationToken)
+        private static void LiveLogLoop()
         {
             Byte[] buffer;
 
-            while (!cancellationToken.IsCancellationRequested)
+            while (!WorkerThreads.LocalConsoleLogWorker_WasCanceled)
             {
                 if (liveQueue.Count == 0)
                 {
@@ -192,7 +192,7 @@ namespace Link_Master.Logging
                 xSocket.TCP_Send(ref socket, ref buffer);
             }
 
-            Link_Master.Log.FastLog("Console", $"Worker shutdown was initiated, disconnecting client", LogSeverity.Info, bypassIPCLog_Live: true);
+            Link_Master.Log.FastLog("Console", $"Worker shutdown was initiated, disconnecting client", xLogSeverity.Info, bypassIPCLog_Live: true);
 
             SendGoodbye();
         }
@@ -208,7 +208,7 @@ namespace Link_Master.Logging
 
         private static void SendGoodbye()
         {
-            Byte[] buffer = Serialize(new ConsoleMessage("Console-Server", "Server shutting down, disconnecting console", LogSeverity.Info, DateTime.Now));
+            Byte[] buffer = Serialize(new ConsoleMessage("Console-Server", "Server shutting down, disconnecting console", xLogSeverity.Info, DateTime.Now));
 
             xSocket.TCP_Send(ref socket, ref buffer);
         }

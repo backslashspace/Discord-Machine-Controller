@@ -15,7 +15,7 @@ namespace Link_Master.Worker
         {
             if (slashCommand.User.Id != CurrentConfig.DiscordAdminID)
             {
-                Log.FastLog("Discord-CMD", $"User '{slashCommand.User.Username}' issued /{slashCommand.CommandName} in #{slashCommand.Channel.Name} but got rejected (no permissions)", LogSeverity.Info);
+                Log.FastLog("Discord-CMD", $"User '{slashCommand.User.Username}' issued /{slashCommand.CommandName} in #{slashCommand.Channel.Name} but got rejected (no permissions)", xLogSeverity.Info);
                 await FormattedResponseAsync(slashCommand, CurrentConfig.__MESSAGE_no_perm_hint_admin);
 
                 return;
@@ -32,7 +32,7 @@ namespace Link_Master.Worker
             }
             catch (Exception ex)
             {
-                Log.FastLog("/upload", $"Attachment data error\n\n{ex.Message}", LogSeverity.Error);
+                Log.FastLog("/upload", $"Attachment data error\n\n{ex.Message}", xLogSeverity.Error);
                 await FormattedErrorRespondAsync(slashCommand, "Encountered an error while parsing the attachment, please contact your administrator providing this useless error message: 22_ERROR_NOT_DOS_DISK`");
 
                 return;

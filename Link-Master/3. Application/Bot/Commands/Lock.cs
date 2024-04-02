@@ -12,7 +12,7 @@ namespace Link_Master.Worker
             if (command.User.Id != CurrentConfig.DiscordAdminID)
             {
                 await FormattedResponseAsync(command, ResponseStrings.No_Permission);
-                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' issued /{command.CommandName} in #{command.Channel.Name} but got rejected (no permissions)", LogSeverity.Info);
+                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' issued /{command.CommandName} in #{command.Channel.Name} but got rejected (no permissions)", xLogSeverity.Info);
 
                 return;
             }
@@ -26,7 +26,7 @@ namespace Link_Master.Worker
 
             SetChannelLockState(ref channelLink, true);
 
-            Log.FastLog("Discord-CMD", $"User '{command.User.Username}' locked #{command.Channel.Name}", LogSeverity.Info);
+            Log.FastLog("Discord-CMD", $"User '{command.User.Username}' locked #{command.Channel.Name}", xLogSeverity.Info);
 
             await FormattedResponseAsync(command, "Locked channel", Color.Green);
         }
@@ -36,7 +36,7 @@ namespace Link_Master.Worker
             if (command.User.Id != CurrentConfig.DiscordAdminID)
             {
                 await FormattedResponseAsync(command, ResponseStrings.No_Permission);
-                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' issued /{command.CommandName} in #{command.Channel.Name} but got rejected (no permissions)", LogSeverity.Info);
+                Log.FastLog("Discord-CMD", $"User '{command.User.Username}' issued /{command.CommandName} in #{command.Channel.Name} but got rejected (no permissions)", xLogSeverity.Info);
 
                 return;
             }
@@ -50,7 +50,7 @@ namespace Link_Master.Worker
 
             SetChannelLockState(ref channelLink, false);
 
-            Log.FastLog("Discord-CMD", $"User '{command.User.Username}' unlocked #{command.Channel.Name}", LogSeverity.Info);
+            Log.FastLog("Discord-CMD", $"User '{command.User.Username}' unlocked #{command.Channel.Name}", xLogSeverity.Info);
 
             await FormattedResponseAsync(command, "Unlocked channel", Color.Green);
         }

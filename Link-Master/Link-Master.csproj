@@ -52,6 +52,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="bc-fips-1.0.2">
+      <HintPath>..\libs\bc-fips-1.0.2.dll</HintPath>
+    </Reference>
     <Reference Include="BSS.Encryption">
       <HintPath>..\libs\BSS.Encryption.dll</HintPath>
     </Reference>
@@ -143,10 +146,13 @@
       <DependentUpon>Service.cs</DependentUpon>
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
-    <Compile Include="2. Boot\StartLogWorkers.cs" />
-    <Compile Include="3. Application\1. Boot\1. Connect.cs" />
-    <Compile Include="3. Application\1. Boot\2. OnReady.cs" />
-    <Compile Include="3. Application\1. Boot\4. RegisterCommands.cs" />
+    <Compile Include="2. Start\StartLogWorkers.cs" />
+    <Compile Include="3. Application\1. Init\1. Connect.cs" />
+    <Compile Include="3. Application\1. Init\2. OnReady.cs" />
+    <Compile Include="3. Application\1. Init\4. RegisterCommands.cs" />
+    <Compile Include="3. Application\2. LinkFactory\2. EndpointAuth.cs" />
+    <Compile Include="3. Application\2. LinkFactory\1. LinkFactory.cs" />
+    <Compile Include="3. Application\3. LinkWorker\LinkWorker.cs" />
     <Compile Include="3. Application\ActiveLinks.cs" />
     <Compile Include="3. Application\Bot\3. AwaitResponse.cs" />
     <Compile Include="3. Application\Bot\4. HandleResponse.cs" />
@@ -158,41 +164,40 @@
     <Compile Include="3. Application\Bot\Commands\Upload.cs" />
     <Compile Include="3. Application\Bot\Commands\_ReponseStrings.cs" />
     <Compile Include="3. Application\Bot\DiscordMessageWrapper.cs" />
-    <Compile Include="3. Application\1. Boot\GatewayConnectionHandler.cs" />
+    <Compile Include="3. Application\1. Init\GatewayConnectionHandler.cs" />
     <Compile Include="3. Application\Bot\2. EnqueueEndpointSend.cs" />
     <Compile Include="Logging\Discord\1. Discord.Net Log Handler.cs" />
     <Compile Include="3. Application\Bot\1. SlashCommandHandler.cs" />
-    <Compile Include="4. Shutdown\1. DisconnectDiscord.cs" />
+    <Compile Include="4. Shutdown\2. DisconnectDiscord.cs" />
     <Compile Include="4. Shutdown\3. StopLogging.cs" />
     <Compile Include="Encrypted_TCP.cs" />
     <Compile Include="Logging\Discord\3. DiscordLogWorker.cs" />
     <Compile Include="Logging\LogConsole\1. LogRecipient.cs" />
+    <Compile Include="Logging\LogMessage-Severity.cs" />
     <Compile Include="xSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="1. WinService\StartStop.cs" />
-    <Compile Include="2. Boot\ConfigLoader\ConfigPattern.cs" />
-    <Compile Include="2. Boot\ConfigLoader\2. Parse.cs" />
-    <Compile Include="2. Boot\ConfigLoader\Template.cs" />
-    <Compile Include="2. Boot\ConfigLoader\3. Verify.cs" />
-    <Compile Include="3. Application\1. Boot\3. PostConnectConfigVerifier.cs" />
-    <Compile Include="4. Shutdown\Shutdown.cs" />
-    <Compile Include="2. Boot\ConfigLoader\1. Load.cs" />
-    <Compile Include="2. Boot\1. Initiator.cs" />
+    <Compile Include="2. Start\ConfigLoader\ConfigPattern.cs" />
+    <Compile Include="2. Start\ConfigLoader\2. Parse.cs" />
+    <Compile Include="2. Start\ConfigLoader\Template.cs" />
+    <Compile Include="2. Start\ConfigLoader\3. Verify.cs" />
+    <Compile Include="3. Application\1. Init\3. PostConnectConfigVerifier.cs" />
+    <Compile Include="4. Shutdown\1. Shutdown.cs" />
+    <Compile Include="2. Start\ConfigLoader\1. Load.cs" />
+    <Compile Include="2. Start\1. Initiator.cs" />
     <Compile Include="Logging\Discord\2. LogRecipient.cs" />
     <Compile Include="Logging\Distributer.cs" />
     <Compile Include="Logging\LogConsole\RequestTypes.cs" />
     <Compile Include="Logging\LogConsole\2. Worker.cs" />
     <Compile Include="Logging\LogConsole\Serializer.cs" />
     <Compile Include="state.cs" />
+    <Compile Include="xVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="3. Application\2. LinkFactory\" />
-    <Folder Include="3. Application\3. LinkWorker\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">
       <Visible>False</Visible>

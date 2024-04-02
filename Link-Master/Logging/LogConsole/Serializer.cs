@@ -10,7 +10,7 @@ namespace Link_Master.Logging
         [DataContract(Name = "ConsoleMessage", Namespace = "")]
         internal readonly struct ConsoleMessage
         {
-            internal ConsoleMessage(String source, String message, LogSeverity severity, DateTime timeStamp)
+            internal ConsoleMessage(String source, String message, xLogSeverity severity, DateTime timeStamp)
             {
                 Source = source;
                 Message = message;
@@ -25,7 +25,7 @@ namespace Link_Master.Logging
             internal readonly String Message;
 
             [DataMember]
-            internal readonly LogSeverity Severity;
+            internal readonly xLogSeverity Severity;
 
             [DataMember]
             internal readonly DateTime TimeStamp;

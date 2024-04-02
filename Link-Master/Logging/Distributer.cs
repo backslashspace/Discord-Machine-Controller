@@ -8,9 +8,9 @@ namespace Link_Master
 {
     internal static partial class Log
     {
-        internal static void FastLog(String category, String message, LogSeverity logSeverity, Boolean bypassIPCLog_Live = false, Boolean bypassDiscord = false, Boolean bypassFile = false)
+        internal static void FastLog(String category, String message, xLogSeverity logSeverity, Boolean bypassIPCLog_Live = false, Boolean bypassDiscord = false, Boolean bypassFile = false)
         {
-            Logging.Log.Commit(new LogMessage(logSeverity, category, message), DateTime.Now, bypassIPCLog_Live, bypassDiscord, bypassFile);
+            Logging.Log.Commit(new xLogMessage(logSeverity, category, message), DateTime.Now, bypassIPCLog_Live, bypassDiscord, bypassFile);
         }
     }
 }
@@ -25,7 +25,7 @@ namespace Link_Master.Logging
 
         //
 
-        internal static async void Commit(LogMessage message, DateTime timeStamp, Boolean bypassIPCLog_Live = false, Boolean bypassDiscord = false, Boolean bypassFile = false)
+        internal static async void Commit(xLogMessage message, DateTime timeStamp, Boolean bypassIPCLog_Live = false, Boolean bypassDiscord = false, Boolean bypassFile = false)
         {
             if (IgnoreNew)
             {
@@ -58,26 +58,26 @@ namespace Link_Master.Logging
 
         //
 
-        private static void NullValueHandler(ref LogMessage message)
+        private static void NullValueHandler(ref xLogMessage message)
         {
             if (message.Message == null)
             {
                 if (message.Source == null)
                 {
-                    message = new(LogSeverity.Error, "Internal", $"It appears that something created a log message that contained 'null' as message & source, this should not happen");
+                    message = new(xLogSeverity.Error, "Internal", $"It appears that something created a log message that contained 'null' as message & source, this should not happen");
                 }
                 else
                 {
-                    message = new(LogSeverity.Warning, message.Source, "{null}");
+                    message = new(xLogSeverity.Warning, message.Source, "{null}");
                 }
             }
             else if (message.Source == null)
             {
-                message = new(LogSeverity.Warning, "{null}", message.Message);
+                message = new(xLogSeverity.Warning, "{null}", message.Message);
             }
         }
 
-        private static void WriteFile(ref LogMessage formattedLogMessage, ref DateTime timeStamp)
+        private static void WriteFile(ref xLogMessage formattedLogMessage, ref DateTime timeStamp)
         {
             try
             {
@@ -93,29 +93,33 @@ namespace Link_Master.Logging
 
                 switch (formattedLogMessage.Severity)
                 {
-                    case LogSeverity.Info:
+                    case xLogSeverity.Info:
                         lineLength += 4;
                         logLine += "Info";
                         break;
-                    case LogSeverity.Debug:
+                    case xLogSeverity.Debug:
                         lineLength += 5;
                         logLine += "Debug";
                         break;
-                    case LogSeverity.Warning:
+                    case xLogSeverity.Warning:
                         lineLength += 7;
                         logLine += "Warning";
                         break;
-                    case LogSeverity.Verbose:
+                    case xLogSeverity.Verbose:
                         lineLength += 7;
                         logLine += "Verbose";
                         break;
-                    case LogSeverity.Error:
+                    case xLogSeverity.Error:
                         lineLength += 5;
                         logLine += "Error";
                         break;
-                    case LogSeverity.Critical:
+                    case xLogSeverity.Critical:
                         lineLength += 8;
                         logLine += "Critical";
+                        break;
+                    case xLogSeverity.Alert:
+                        lineLength += 5;
+                        logLine += "Alert";
                         break;
                 }
 
@@ -142,7 +146,7 @@ namespace Link_Master.Logging
             }
             catch (Exception ex)
             {
-                LogConsole.PushIPC(new(LogSeverity.Critical, "Logging", $"Unable to write to log file, error was:\n\n{ex.Message},\n\nterminating"), DateTime.Now, false).Wait();
+                LogConsole.PushIPC(new(xLogSeverity.Critical, "Logging", $"Unable to write to log file, error was:\n\n{ex.Message},\n\nterminating"), DateTime.Now, false).Wait();
 
                 Control.Shutdown.ServiceComponents();
             }

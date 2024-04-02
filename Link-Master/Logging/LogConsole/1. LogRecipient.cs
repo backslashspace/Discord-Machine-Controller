@@ -8,7 +8,7 @@ namespace Link_Master.Logging
     {
         private static Boolean IPCIgnoreNew = false;
 
-        internal static async Task PushIPC(LogMessage message, DateTime now, Boolean bypassIPCLog_Live)
+        internal static async Task PushIPC(xLogMessage message, DateTime now, Boolean bypassIPCLog_Live)
         {
             lock (logHistory_LOCK)
             {
@@ -26,11 +26,11 @@ namespace Link_Master.Logging
 
                 if (liveQueue.Count > 23)
                 {
-                    Link_Master.Log.FastLog("IPCPush", "Local log queue couldn't keep up, waiting for drain", LogSeverity.Warning, bypassDiscord: true, bypassIPCLog_Live: true);
+                    Link_Master.Log.FastLog("IPCPush", "Local log queue couldn't keep up, waiting for drain", xLogSeverity.Warning, bypassDiscord: true, bypassIPCLog_Live: true);
 
                     lock (liveQueue_LOCK)
                     {
-                        liveQueue.Insert(0, new LogConsole.ConsoleMessage("Console-Server", "To many logs were created in a short time frame, Console-Client couldn't keep up, ignoring new pushes until queue is drained", LogSeverity.Warning, DateTime.Now));
+                        liveQueue.Insert(0, new ConsoleMessage("Console-Server", "To many logs were created in a short time frame, Console-Client couldn't keep up, ignoring new pushes until queue is drained", xLogSeverity.Warning, DateTime.Now));
                     }
 
                     IPCIgnoreNew = true;
@@ -42,14 +42,14 @@ namespace Link_Master.Logging
 
                 if (sendWarn)
                 {
-                    Link_Master.Log.FastLog("IPCPush", "Continuing normal operation", LogSeverity.Info, bypassDiscord: true, bypassIPCLog_Live: true);
+                    Link_Master.Log.FastLog("IPCPush", "Continuing normal operation", xLogSeverity.Info, bypassDiscord: true, bypassIPCLog_Live: true);
                 }
 
                 lock (liveQueue_LOCK)
                 {
                     if (sendWarn)
                     {
-                        liveQueue.Add(new ConsoleMessage("Console-Server", "Continuing normal operation", LogSeverity.Info, DateTime.Now));
+                        liveQueue.Add(new ConsoleMessage("Console-Server", "Continuing normal operation", xLogSeverity.Info, DateTime.Now));
                     }
 
                     liveQueue.Add(new ConsoleMessage(message.Source, message.Message, message.Severity, now));

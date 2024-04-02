@@ -9,12 +9,12 @@ namespace Link_Master
     {
         internal static String assemblyPath;
         internal static String serviceName;
-        internal static String version;
+        internal static xVersion version;
 
         static void Main()
         {
             assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            version = new(Assembly.GetExecutingAssembly().GetName().Version);
             serviceName = $"Discord Link-Master v{version}";
 
             ServiceBase[] service = new[]

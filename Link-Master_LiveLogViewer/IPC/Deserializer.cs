@@ -9,7 +9,7 @@ namespace LogViewer
         [DataContract(Name = "ConsoleMessage", Namespace = "")]
         internal readonly struct ConsoleMessage
         {
-            internal ConsoleMessage(String source, String message, LogSeverity severity, DateTime timeStamp)
+            internal ConsoleMessage(String source, String message, xLogSeverity severity, DateTime timeStamp)
             {
                 Source = source;
                 Message = message;
@@ -24,20 +24,21 @@ namespace LogViewer
             internal readonly String Message;
 
             [DataMember]
-            internal readonly LogSeverity Severity;
+            internal readonly xLogSeverity Severity;
 
             [DataMember]
             internal readonly DateTime TimeStamp;
         }
 
-        internal enum LogSeverity
+        public enum xLogSeverity
         {
             Critical = 0,
             Error = 1,
             Warning = 2,
             Info = 3,
             Verbose = 4,
-            Debug = 5
+            Debug = 5,
+            Alert = 6,
         }
 
         private static Object Deserialize(ref Byte[] data, Type type)

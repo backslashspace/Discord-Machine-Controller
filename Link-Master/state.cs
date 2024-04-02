@@ -10,21 +10,35 @@ namespace Link_Master
     internal struct Client
     {
         internal static DiscordSocketClient Discord;
-        internal static Boolean IsConnected = false;
-        internal static Boolean WasReadyAtLeastOnce = false;
-        internal static Boolean BlockNew = false;
+        internal volatile static Boolean IsConnected = false;
+        internal volatile static Boolean WasReadyAtLeastOnce = false;
+        internal volatile static Boolean BlockNew = false;
     }
 
     internal struct WorkerThreads
     {
-        internal static CancellationTokenSource LocalConsoleLogWorker_TokenSource = new();
+        internal volatile static Boolean LocalConsoleLogWorker_WasCanceled = false;
         internal static Thread LocalConsoleLogWorker = null;
 
-        internal static CancellationTokenSource DiscordLogWorker_TokenSource = new();
+        internal volatile static Boolean DiscordLogWorker_WasCanceled = false;
         internal static Thread DiscordLogWorker = null;
 
-        internal static Thread LinkManager = null;
-        internal static List<Thread> Links = null;
+        internal static Thread LinkFactory = null;
+        internal volatile static Boolean LinkFactory_WasCanceled = false;
+
+        internal static List<Link> Links = null;
+    }
+
+    internal struct Link
+    {
+        internal Link(ref Thread thread, ref CancellationTokenSource tokenSource)
+        {
+            Worker = thread;
+            CancelToken = tokenSource;
+        }
+
+        internal readonly Thread Worker;
+        internal readonly CancellationTokenSource CancelToken;
     }
 
     internal struct CurrentConfig
@@ -64,7 +78,7 @@ namespace Link_Master
         internal readonly String Name;
         internal readonly Guid Guid;
         internal readonly UInt64 ChannelID;
-        internal Boolean IsLocked;
+        internal volatile Boolean IsLocked;
 
         internal readonly Byte[] HMAC_Key;
         internal readonly Byte[] AES_Key;

@@ -23,7 +23,7 @@ namespace Link_Master.Worker
             }
             catch (Exception ex)
             {
-                Log.FastLog("/execute-scripts", $"Failed to parse command parameter (fileName)\n\n{ex.Message}", LogSeverity.Error);
+                Log.FastLog("/execute-scripts", $"Failed to parse command parameter (fileName)\n\n{ex.Message}", xLogSeverity.Error);
                 await FormattedErrorRespondAsync(slashCommand, "Failed to parse command parameter (fileName)");
 
                 return;
