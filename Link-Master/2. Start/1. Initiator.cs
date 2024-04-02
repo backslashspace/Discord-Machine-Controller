@@ -15,6 +15,7 @@ namespace Link_Master.Control
 
             Log.FastLog("Initiator", "Loading config", xLogSeverity.Info);
             ConfigLoader.Load();
+            Log.FastLog("Initiator", "Config loaded", xLogSeverity.Info);
 
             Log.FastLog("Initiator", "Starting machine link factory", xLogSeverity.Info);
             WorkerThreads.LinkFactory = new(() => Worker.LinkFactory.Worker());

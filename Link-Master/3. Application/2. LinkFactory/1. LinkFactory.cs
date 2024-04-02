@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Net;
-using System.Threading.Tasks;
 using System.Threading;
 using BSS.Encryption.Fips;
 using Org.BouncyCastle.Crypto.Fips;
@@ -37,7 +36,7 @@ namespace Link_Master.Worker
                         (Boolean endpointIsValid, ChannelLink channelLink) = GetEndpointInfo();
                         if (endpointIsValid)
                         {
-                            EndConnection(ref random);
+                            CloseConnection(ref random);
 
                             continue;
                         }
@@ -46,21 +45,21 @@ namespace Link_Master.Worker
                         {
                             Log.FastLog("Link-Factory", $"Endpoint with name '{CurrentConfig.MachineChannelLinks[channelLink.ChannelID].Name}' has already connected, new connection came from {(socket.RemoteEndPoint as IPEndPoint).Address}, closing connection", xLogSeverity.Alert);
 
-                            EndConnection(ref random);
+                            CloseConnection(ref random);
 
                             continue;
                         }
 
                         if (!EndpointHasValidGuid(ref channelLink))
                         {
-                            EndConnection(ref random);
+                            CloseConnection(ref random);
 
                             continue;
                         }
 
                         if (!WorkerThreads.LinkFactory_WasCanceled)
                         {
-                            RegisterNewMachineLink(ref channelLink, out Thread newLinkWorker);
+                            RegisterNewMachineLink(channelLink, out Thread newLinkWorker);
                             newLinkWorker.Start();
 
                             Log.FastLog("Link-Factory", $"Successfully registered and started new link worker with name '{CurrentConfig.MachineChannelLinks[channelLink.ChannelID].Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address})", xLogSeverity.Info);
@@ -88,81 +87,28 @@ namespace Link_Master.Worker
 
         // # # # # #
 
-        private static void BindPort()
+        private static void RegisterNewMachineLink(ChannelLink channelLink, out Thread newLinkWorker)
         {
-            IPAddress ipAddress = CurrentConfig.TcpListenerIP;
-            IPEndPoint localEndPoint = new(ipAddress, (Int32)CurrentConfig.TcpListenerPort);
+            Byte[] serverVersion = xVersion.GetBytes(ref Program.version);
+            AES_TCP.Send(ref socket, ref serverVersion, channelLink.AES_Key, channelLink.HMAC_Key);
 
-            listener = new(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            Byte[] rawEndpointXVersion = AES_TCP.Receive(ref socket, channelLink.AES_Key, channelLink.HMAC_Key);
+            xVersion endpointXVersion = xVersion.GetXVersion(ref rawEndpointXVersion);
 
-            try
-            {
-                listener.Bind(localEndPoint);
-            }
-            catch
-            {
-                Log.FastLog("Link-Factory", $"Unable to bind port [{CurrentConfig.TcpListenerPort}] to [{CurrentConfig.TcpListenerIP}], terminating in 5120ms", xLogSeverity.Critical);
+            Log.FastLog("Link-Factory", $"Endpoint version v{endpointXVersion} with name '{CurrentConfig.MachineChannelLinks[channelLink.ChannelID].Name}' successfully authenticated", xLogSeverity.Info);
 
-                Control.Shutdown.ServiceComponents();
-            }
+            //register and start new link
+            Machine machine = new(channelLink.ChannelID, (socket.RemoteEndPoint as IPEndPoint).Address, ref endpointXVersion);
+            ActiveMachineLinks.TryAdd(channelLink.ChannelID, machine);
 
-            Log.FastLog("Link-Factory", $"Successfully bound to [{CurrentConfig.TcpListenerIP}:{CurrentConfig.TcpListenerPort}], entering listening state", xLogSeverity.Info);
-        }
+            CancellationTokenSource tokenSource = new();
 
-        private static Boolean InterruptibleAccept()
-        {
-            Thread accepter = new(() =>
-            {
-                try
-                {
-                    socket = listener.Accept();
+            newLinkWorker = new(() => LinkWorker.Worker(tokenSource.Token, channelLink, socket));
+            newLinkWorker.Name = $"{channelLink.Name} - {(socket.RemoteEndPoint as IPEndPoint).Address}";
 
-                    socket.Blocking = true;
-                    socket.NoDelay = true;
-                    socket.ReceiveTimeout = 5120;
-                    socket.SendTimeout = 5120;
-                }
-                catch { }
-            });
+            Link link = new(ref newLinkWorker, ref tokenSource);
 
-            accepter.Name = "New link connection accepter";
-            accepter.Start();
-
-            while (!WorkerThreads.LinkFactory_WasCanceled && accepter.IsAlive)
-            {
-                Task.Delay(256).Wait();
-            }
-
-            if (WorkerThreads.LinkFactory_WasCanceled)
-            {
-                listener.Close(0);
-
-                for (Byte b = 0; b < 16 && accepter.ThreadState != ThreadState.Stopped; ++b)
-                {
-                    Task.Delay(64).Wait();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private static void EndConnection(ref FipsSecureRandom random)
-        {
-            try
-            {
-                socket.Disconnect(false);
-            }
-            catch { }
-
-            try
-            {
-                socket.Close(0);
-            }
-            catch { }
-
-            Task.Delay(random.Next(5120)).Wait();
+            WorkerThreads.Links.Add(link);
         }
     }
 }

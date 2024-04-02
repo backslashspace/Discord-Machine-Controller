@@ -36,13 +36,15 @@ namespace Link_Master.Worker
         {
             for (UInt16 i = 0; i < 468; ++i)
             {
+                Result result;
+
                 lock (ActiveMachineLinks[channelLink.ChannelID].ResultsQueue_Lock)
                 {
-                    ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.TryPeek(out Result result);
+                    result = ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Peek();
 
                     if (result.ID == remoteCommand.ID)
                     {
-                        ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.TryDequeue(out _);
+                        ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Dequeue();
 
                         return result;
                     }

@@ -29,7 +29,7 @@ namespace Link_Master
         internal static List<Link> Links = null;
     }
 
-    internal struct Link
+    internal readonly struct Link
     {
         internal Link(ref Thread thread, ref CancellationTokenSource tokenSource)
         {
@@ -46,6 +46,8 @@ namespace Link_Master
         internal static String __MESSAGE_no_perm_hint_admin = null;
 
         internal static String TokenPath = null;
+
+        internal static Boolean? AnnounceEndpointConnect = null;
 
         internal static String DiscordAdmin = null;
         internal static UInt64? DiscordAdminID = null;

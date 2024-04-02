@@ -150,9 +150,14 @@
     <Compile Include="3. Application\1. Init\1. Connect.cs" />
     <Compile Include="3. Application\1. Init\2. OnReady.cs" />
     <Compile Include="3. Application\1. Init\4. RegisterCommands.cs" />
-    <Compile Include="3. Application\2. LinkFactory\2. EndpointAuth.cs" />
+    <Compile Include="3. Application\2. LinkFactory\2. Connection.cs" />
+    <Compile Include="3. Application\2. LinkFactory\3. EndpointAuth.cs" />
     <Compile Include="3. Application\2. LinkFactory\1. LinkFactory.cs" />
-    <Compile Include="3. Application\3. LinkWorker\LinkWorker.cs" />
+    <Compile Include="3. Application\3. LinkWorker\DiscordConStateAnnouncer.cs" />
+    <Compile Include="3. Application\3. LinkWorker\Dispose.cs" />
+    <Compile Include="3. Application\3. LinkWorker\1. LinkWorker.cs" />
+    <Compile Include="3. Application\3. LinkWorker\3. Send - Receive.cs" />
+    <Compile Include="3. Application\3. LinkWorker\2. AliveProbe.cs" />
     <Compile Include="3. Application\ActiveLinks.cs" />
     <Compile Include="3. Application\Bot\3. AwaitResponse.cs" />
     <Compile Include="3. Application\Bot\4. HandleResponse.cs" />

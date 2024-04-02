@@ -17,6 +17,7 @@ namespace Link_Master.Control
             streamWriter.WriteLine("");
             streamWriter.WriteLine("guildID: \"344564656\"");
             streamWriter.WriteLine("logChannelID: \"65675677\"");
+            streamWriter.WriteLine("discordAnnounceEndpointConnect: \"true\"");
             streamWriter.WriteLine("");
             streamWriter.WriteLine("vmChannelLink: \"VM1Name:Guid:ChannelID:EncryptionKeys\"");
             streamWriter.WriteLine("vmChannelLink: \"VM2Name:Guid:ChannelID:EncryptionKeys\"");

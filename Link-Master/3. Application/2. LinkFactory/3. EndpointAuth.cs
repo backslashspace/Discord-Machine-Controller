@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using System.Threading;
-//
-using static Link_Master.Worker.Bot;
 
 namespace Link_Master.Worker
 {
@@ -124,32 +121,6 @@ namespace Link_Master.Worker
             }
 
             return true;
-        }
-
-        //
-
-        private static void RegisterNewMachineLink(ref ChannelLink channelLink, out Thread newLinkWorker)
-        {
-            Byte[] serverVersion = xVersion.GetBytes(ref Program.version);
-            AES_TCP.Send(ref socket, ref serverVersion, channelLink.AES_Key, channelLink.HMAC_Key);
-
-            Byte[] rawEndpointXVersion = AES_TCP.Receive(ref socket, channelLink.AES_Key, channelLink.HMAC_Key);
-            xVersion endpointXVersion = xVersion.GetXVersion(ref rawEndpointXVersion);
-
-            Log.FastLog("Link-Factory", $"Endpoint version v{endpointXVersion} with name '{CurrentConfig.MachineChannelLinks[channelLink.ChannelID].Name}' successfully authenticated", xLogSeverity.Info);
-
-            //register and start new link
-            Machine machine = new(channelLink.ChannelID, (socket.RemoteEndPoint as IPEndPoint).Address, ref endpointXVersion);
-            ActiveMachineLinks.TryAdd(channelLink.ChannelID, machine);
-
-            CancellationTokenSource tokenSource = new();
-
-            newLinkWorker = new(() => LinkWorker(tokenSource.Token));
-            newLinkWorker.Name = $"{channelLink.Name} - {(socket.RemoteEndPoint as IPEndPoint).Address}";
-
-            Link link = new(ref newLinkWorker, ref tokenSource);
-
-            WorkerThreads.Links.Add(link);
         }
     }
 }

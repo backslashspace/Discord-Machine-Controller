@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Link_Master.Worker
@@ -24,16 +25,16 @@ namespace Link_Master.Worker
             internal readonly IPAddress Address;
             internal readonly xVersion Version;
 
-            internal readonly ConcurrentQueue<Command> CommandQueue;
+            internal readonly Queue<Command> CommandQueue;
             internal readonly Object CommandQueue_Lock = new();
 
-            internal readonly ConcurrentQueue<Result> ResultsQueue;
+            internal readonly Queue<Result> ResultsQueue;
             internal readonly Object ResultsQueue_Lock = new();
         }
 
         internal struct Result
         {
-            internal Result(Byte id, Byte[] result)
+            internal Result(Byte id, ref Byte[] result)
             {
                 ID = id;
                 ResultData = result;

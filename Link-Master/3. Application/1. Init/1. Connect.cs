@@ -40,7 +40,7 @@ namespace Link_Master.Worker
             }
             catch (Exception ex)
             {
-                Log.FastLog("Initiator", $"Failed to connect to discord more info:\n\n{ex.Message}\n=> terminating", xLogSeverity.Critical);
+                Log.FastLog("Initiator", $"Failed to connect to discord more info:\n\n{ex.Message}\n\n\t=> terminating", xLogSeverity.Critical);
 
                 Control.Shutdown.ServiceComponents();
             }

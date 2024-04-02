@@ -28,6 +28,9 @@
             {
                 Error("Unable to find tcpListenIP in config, terminating");
             }
+
+            //defaults
+            CurrentConfig.AnnounceEndpointConnect??= true;
         }
     }
 }

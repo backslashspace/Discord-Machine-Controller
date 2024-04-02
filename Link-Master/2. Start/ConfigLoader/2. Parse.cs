@@ -132,6 +132,23 @@ namespace Link_Master.Control
                         }
                     }
                 }
+
+                if (CurrentConfig.CmdRegisterOnBoot == null)
+                {
+                    Match match = Regex.Match(configLines[b], Pattern.discordAnnounceEndpointConnect, RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        try
+                        {
+                            CurrentConfig.AnnounceEndpointConnect = Boolean.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Invalid discordAnnounceEndpointConnect value, terminating");
+                        }
+                    }
+                }
             }
         }
 

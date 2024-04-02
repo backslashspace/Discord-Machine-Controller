@@ -15,6 +15,7 @@ namespace Link_Master.Control
             internal const String tcpListenerPort = "tcpListenerPort:\\s*\"(.+?)\"";
 
             internal const String tcpListenerIP = "tcpListenerIP:\\s*\"(.+?)\"";
+            internal const String discordAnnounceEndpointConnect = "discordAnnounceEndpointConnect:\\s*\"(.+?)\"";
 
             internal const String guildID = "guildID:\\s*\"(.+?)\"";
 

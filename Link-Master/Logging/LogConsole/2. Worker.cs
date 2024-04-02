@@ -1,5 +1,4 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -25,7 +24,7 @@ namespace Link_Master.Logging
 
         internal static void ConsoleServer()
         {
-            Byte restartAttempts = 0;
+            Byte restartAttempts = 0; // todo: use for loop
             
             while (true)
             {

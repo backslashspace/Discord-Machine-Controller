@@ -1,5 +1,4 @@
-﻿using Discord;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Link_Master.Worker
 {
@@ -16,7 +15,7 @@ namespace Link_Master.Worker
 
             VerifyConfig();
 
-            Log.FastLog("Initiator", "Successfully loaded config", xLogSeverity.Info);
+            Log.FastLog("Initiator", "Successfully verified config", xLogSeverity.Info);
 
             if (CurrentConfig.CmdRegisterOnBoot == true)
             {
