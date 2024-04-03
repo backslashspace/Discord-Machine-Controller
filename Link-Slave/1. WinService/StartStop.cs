@@ -10,7 +10,7 @@ namespace Link_Slave
 
         internal static void Start(String[] args)
         {
-            Task.Delay(10000).Wait();
+            //Task.Delay(10000).Wait();
 
             TryCreateNewLine();     //create new line in log for better readability
 

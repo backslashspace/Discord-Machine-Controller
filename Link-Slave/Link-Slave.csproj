@@ -59,11 +59,17 @@
     </Compile>
     <Compile Include="1. WinService\Main.cs" />
     <Compile Include="1. WinService\StartStop.cs" />
-    <Compile Include="2. Start\1. Initiator.cs" />
+    <Compile Include="2. Start\Initiator.cs" />
     <Compile Include="2. Start\ConfigLoader\1. Load.cs" />
     <Compile Include="2. Start\ConfigLoader\2. Parse.cs" />
     <Compile Include="2. Start\ConfigLoader\3. Verify.cs" />
     <Compile Include="2. Start\ConfigLoader\ConfigPattern.cs" />
+    <Compile Include="3. Application\1. Connection\1. CreateSocket.cs" />
+    <Compile Include="3. Application\1. Connection\2. Connect.cs" />
+    <Compile Include="3. Application\1. Connection\3. Authenticate.cs" />
+    <Compile Include="3. Application\1. Connection\4. DisposeSocket.cs" />
+    <Compile Include="3. Application\2. RequestHandling\RequestLoop.cs" />
+    <Compile Include="3. Application\Working-Loop.cs" />
     <Compile Include="4. Shutdown\Shutdown.cs" />
     <Compile Include="Encrypted_TCP.cs" />
     <Compile Include="Logging\FileLog.cs" />
@@ -79,5 +85,6 @@
   <ItemGroup>
     <Content Include="imageres_5380.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

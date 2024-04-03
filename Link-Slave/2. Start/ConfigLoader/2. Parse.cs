@@ -117,6 +117,30 @@ namespace Link_Slave.Control
                     }
                 }
 
+                if (CurrentConfig.Name == null)
+                {
+                    Match match = Regex.Match(configLines[b], Pattern.name, RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        try
+                        {
+                            CurrentConfig.Name = match.Groups[1].Value;
+
+                            if (CurrentConfig.Name.Length > 255)
+                            {
+                                Error("name variable is too long, terminating");
+                            }
+
+                            continue;
+                        }
+                        catch
+                        {
+                            Error("Unable to parse name length, terminating");
+                        }
+                    }
+                }
+
                 if (!gotKeys)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.keys, RegexOptions.IgnoreCase);

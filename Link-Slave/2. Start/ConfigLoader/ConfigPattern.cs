@@ -16,6 +16,8 @@ namespace Link_Slave.Control
 
             internal const String guid = "guid:\\s*\"(.+?)\"";
 
+            internal const String name = "name:\\s*\"(.+?)\"";
+
             internal const String keys = "keys:\\s*\"(.+?)\"";
         }
     }

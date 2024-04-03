@@ -4,16 +4,10 @@ using System.Threading;
 
 namespace Link_Slave
 {
-    internal struct WorkerThreads
+    internal struct WorkerThread
     {
-        internal volatile static Boolean LocalConsoleLogWorker_WasCanceled = false;
-        internal static Thread LocalConsoleLogWorker = null;
-
-        internal volatile static Boolean DiscordLogWorker_WasCanceled = false;
-        internal static Thread DiscordLogWorker = null;
-
-        internal static Thread LinkFactory = null;
-        internal volatile static Boolean LinkFactory_WasCanceled = false;
+        internal volatile static Boolean Worker_WasCanceled = false;
+        internal static Thread Worker = null;
     }
 
     internal struct CurrentConfig
@@ -26,6 +20,8 @@ namespace Link_Slave
 
         internal static UInt64 ChannelID = 0;
         internal static Guid Guid = Guid.Empty;
+
+        internal static String Name = null;
 
         internal static String ScriptDirectory = null;
     }

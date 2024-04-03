@@ -16,7 +16,12 @@ namespace Link_Slave.Control
                 Log.FastLog("Win32", "Service shutdown initiated", xLogSeverity.Info);
             }
 
-            //
+            WorkerThread.Worker_WasCanceled = true;
+            while (WorkerThread.Worker != null && WorkerThread.Worker.IsAlive)
+            {
+                Task.Delay(64).Wait();
+            }
+            Log.FastLog("Shutdown", "Stopped main worker thread", xLogSeverity.Info);
 
             if (unsafeShutdown)
             {

@@ -66,9 +66,7 @@ namespace Link_Master.Worker
                         }
                     }
 
-                    Log.FastLog("Link-Factory", "Received shutdown signal", xLogSeverity.Info);
-
-                    return;
+                    return;     //canceled
                 }
                 catch (Exception ex)
                 {

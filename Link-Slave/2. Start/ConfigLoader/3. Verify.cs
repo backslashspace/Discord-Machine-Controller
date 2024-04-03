@@ -30,6 +30,11 @@ namespace Link_Slave.Control
             {
                 Error("Unable to find client guid in config, terminating");
             }
+
+            if (CurrentConfig.Name == null)
+            {
+                Error("Unable to find client name in config, terminating");
+            }
         }
     }
 }
