@@ -1,5 +1,4 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,19 +18,12 @@ namespace Link_Master.Logging
 {
     internal static partial class Log
     {
-        internal static Boolean IgnoreNew = false;
-
         private static readonly Object Commit_LOCK = new();
 
         //
 
         internal static async void Commit(xLogMessage message, DateTime timeStamp, Boolean bypassIPCLog_Live = false, Boolean bypassDiscord = false, Boolean bypassFile = false)
         {
-            if (IgnoreNew)
-            {
-                return;
-            }
-
             Task ipcDrain;
             Task discordDrain = Task.CompletedTask;
 

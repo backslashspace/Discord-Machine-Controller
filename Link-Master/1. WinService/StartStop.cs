@@ -1,9 +1,6 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.IO;
-using System.Reactive;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Link_Master
 {
@@ -14,10 +11,7 @@ namespace Link_Master
         {
             //Task.Delay(10000).Wait();
 
-            using (StreamWriter streamWriter = new($"{Program.assemblyPath}\\logs\\{DateTime.Now:dd.MM.yyyy}.txt", true, Encoding.UTF8))
-            {
-                streamWriter.WriteLine();   //create new line in log for better readability
-            }
+            TryCreateNewLine();     //create new line in log for better readability
 
             Log.FastLog("Win32", $"Service [v{version}] start initiated", xLogSeverity.Info);
 
@@ -27,6 +21,20 @@ namespace Link_Master
         internal static void Stop()
         {
             Control.Shutdown.ServiceComponents(false);
+        }
+
+        // # # # # # # # # # # # # # # # # # #
+
+        private static void TryCreateNewLine()
+        {
+            try
+            {
+                using (StreamWriter streamWriter = new($"{Program.assemblyPath}\\logs\\{DateTime.Now:dd.MM.yyyy}.txt", true, Encoding.UTF8))
+                {
+                    streamWriter.WriteLine();   
+                }
+            }
+            catch { }
         }
     }
 }

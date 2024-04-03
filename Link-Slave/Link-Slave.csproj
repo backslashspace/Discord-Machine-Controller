@@ -7,7 +7,7 @@
     <ProjectGuid>{C73668D0-8557-4208-A96C-91F53C8063B5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Link_Slave</RootNamespace>
-    <AssemblyName>Link-Slave</AssemblyName>
+    <AssemblyName>Discord Link-Slave</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <LangVersion>10.0</LangVersion>
     <FileAlignment>512</FileAlignment>
@@ -36,23 +36,48 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>imageres_5380.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="bc-fips-1.0.2">
+      <HintPath>..\libs\bc-fips-1.0.2.dll</HintPath>
+    </Reference>
+    <Reference Include="BSS.Encryption">
+      <HintPath>..\libs\BSS.Encryption.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service1.cs">
+    <Compile Include="1. WinService\Service.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Service1.Designer.cs">
-      <DependentUpon>Service1.cs</DependentUpon>
+    <Compile Include="1. WinService\Service.Designer.cs">
+      <DependentUpon>Service.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="1. WinService\Main.cs" />
+    <Compile Include="1. WinService\StartStop.cs" />
+    <Compile Include="2. Start\1. Initiator.cs" />
+    <Compile Include="2. Start\ConfigLoader\1. Load.cs" />
+    <Compile Include="2. Start\ConfigLoader\2. Parse.cs" />
+    <Compile Include="2. Start\ConfigLoader\3. Verify.cs" />
+    <Compile Include="2. Start\ConfigLoader\ConfigPattern.cs" />
+    <Compile Include="4. Shutdown\Shutdown.cs" />
+    <Compile Include="Encrypted_TCP.cs" />
+    <Compile Include="Logging\FileLog.cs" />
+    <Compile Include="Logging\xLogSeverity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="state.cs" />
+    <Compile Include="xSocket.cs" />
+    <Compile Include="xVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="imageres_5380.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

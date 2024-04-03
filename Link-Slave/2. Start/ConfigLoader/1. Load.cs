@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Link_Master.Control
+namespace Link_Slave.Control
 {
     internal static partial class ConfigLoader
     {
@@ -43,11 +43,9 @@ namespace Link_Master.Control
             {
                 if (!File.Exists($"{Program.assemblyPath}\\config.txt"))
                 {
-                    CreateConfigTemplate();
+                    Log.FastLog("Initiator", "Missing config file, ask your administrator to reconfigure the service, terminating", xLogSeverity.Critical);
 
-                    Log.FastLog("Initiator", "Missing config file, created a template in assembly file location, terminating", xLogSeverity.Info);
-
-                    Shutdown.ServiceComponents(false);
+                    Shutdown.ServiceComponents();
                 }
 
                 using StreamReader streamReader = new($"{Program.assemblyPath}\\config.txt", Encoding.UTF8);

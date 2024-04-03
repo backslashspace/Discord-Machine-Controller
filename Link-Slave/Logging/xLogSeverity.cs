@@ -1,25 +1,5 @@
-﻿using System;
-
-namespace Link_Master
+﻿namespace Link_Slave
 {
-    internal struct xLogMessage
-    {
-        internal xLogMessage(xLogSeverity severity, String source, String message, Exception exception = null)
-        {
-            Severity = severity;
-            Source = source;
-            Message = message;
-            Exception = exception;
-        }
-
-        internal xLogSeverity Severity;
-
-        internal String Source;
-        internal String Message;
-
-        internal Exception Exception;
-    }
-
     public enum xLogSeverity
     {
         ///<summary>Logs that contain the most severe level of error. This type of error indicates that immediate attention may be required.</summary>

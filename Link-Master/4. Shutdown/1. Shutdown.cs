@@ -14,6 +14,9 @@ namespace Link_Master.Control
             {
                 Task.Delay(5120).Wait();
 
+            }
+            else
+            {
                 Log.FastLog("Win32", "Service shutdown initiated", xLogSeverity.Info);
             }
 
