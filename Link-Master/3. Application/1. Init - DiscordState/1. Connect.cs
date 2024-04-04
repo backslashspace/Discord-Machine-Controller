@@ -67,8 +67,14 @@ namespace Link_Master.Worker
             }
             catch (Exception ex)
             {
-                Log.FastLog("Initiator", "Failed to load token from disk, terminating", xLogSeverity.Critical);
-                Log.FastLog("Initiator", ex.Message, xLogSeverity.Verbose);
+                if (ex is FormatException)
+                {
+                    Log.FastLog("Initiator", "Failed to decode token", xLogSeverity.Error);
+                }
+                else
+                {
+                    Log.FastLog("Initiator", $"Failed to load token from disk with the following error: {ex.Message},\nterminating", xLogSeverity.Critical);
+                }
 
                 Control.Shutdown.ServiceComponents();
 
