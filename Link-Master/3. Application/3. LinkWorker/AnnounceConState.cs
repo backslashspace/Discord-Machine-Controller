@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.WebSocket;
 using System;
 //
 using static Link_Master.Worker.Bot;
@@ -18,9 +19,13 @@ namespace Link_Master.Worker
                         Color = Color.Green,
                         Description = "Endpoint connected",
                     };
-                    formattedResponse.WithFooter($"Endpoint version: {ActiveMachineLinks[channelLink.ChannelID].Version}");
+                    formattedResponse.WithFooter($"Client version: {ActiveMachineLinks[channelLink.ChannelID].Version}");
 
-                    Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel(channelLink.ChannelID).SendMessageAsync(embed: formattedResponse.Build());
+                    SocketGuild socketGuild = Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID);
+
+                    SocketTextChannel socketTextChannel = socketGuild.GetTextChannel(channelLink.ChannelID);
+
+                    socketTextChannel.SendMessageAsync(embed: formattedResponse.Build());
                 }
                 catch { }
             }

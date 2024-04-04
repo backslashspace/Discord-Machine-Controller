@@ -41,14 +41,14 @@ namespace Link_Slave.Control
         {
             try
             {
-                if (!File.Exists($"{Program.assemblyPath}\\config.txt"))
+                if (!File.Exists($"{Program.AssemblyPath}\\config.txt"))
                 {
                     Log.FastLog("Initiator", "Missing config file, ask your administrator to reconfigure the service, terminating", xLogSeverity.Critical);
 
                     Shutdown.ServiceComponents();
                 }
 
-                using StreamReader streamReader = new($"{Program.assemblyPath}\\config.txt", Encoding.UTF8);
+                using StreamReader streamReader = new($"{Program.AssemblyPath}\\config.txt", Encoding.UTF8);
 
                 String item;
 

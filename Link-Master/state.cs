@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 
 namespace Link_Master
@@ -26,19 +27,21 @@ namespace Link_Master
         internal static Thread LinkFactory = null;
         internal volatile static Boolean LinkFactory_WasCanceled = false;
 
-        internal static List<Link> Links = null;
+        internal readonly static ConcurrentDictionary<UInt64 ,Link> Links = new();
     }
 
     internal readonly struct Link
     {
-        internal Link(ref Thread thread, ref CancellationTokenSource tokenSource)
+        internal Link(ref Thread thread, ref CancellationTokenSource tokenSource, ref Socket socket)
         {
             Worker = thread;
             CancelToken = tokenSource;
+            Socket = socket;
         }
 
         internal readonly Thread Worker;
         internal readonly CancellationTokenSource CancelToken;
+        internal readonly Socket Socket;
     }
 
     internal struct CurrentConfig
@@ -66,15 +69,15 @@ namespace Link_Master
 
     internal struct ChannelLink
     {
-        internal ChannelLink(ref String name, ref Guid guid, ref UInt64 channelID, ref Span<Byte> keys)
+        internal ChannelLink(ref String name, ref Guid guid, ref UInt64 channelID, ref Byte[] aesKey, ref Byte[] hmacKey)
         {
             Name = name;
             Guid = guid;
             ChannelID = channelID;
             IsLocked = false;
 
-            HMAC_Key = keys.Slice(0, 64).ToArray();
-            AES_Key = keys.Slice(64, 32).ToArray();
+            AES_Key = aesKey;
+            HMAC_Key = hmacKey;
         }
 
         internal readonly String Name;

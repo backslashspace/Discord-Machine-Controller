@@ -151,8 +151,11 @@ namespace Link_Slave.Control
                         {
                             Byte[] keys = Convert.FromBase64String(match.Groups[1].Value);
 
-                            Buffer.BlockCopy(keys, 0, CurrentConfig.HMAC_Key, 0, 64);
-                            Buffer.BlockCopy(keys, 63, CurrentConfig.AES_Key, 0, 32);
+                            Byte[] aesKeys = new Byte[32];
+                            Byte[] hmacKeys = new Byte[64];
+
+                            Buffer.BlockCopy(keys, 0, CurrentConfig.AES_Key, 0, 32);
+                            Buffer.BlockCopy(keys, 32, CurrentConfig.HMAC_Key, 0, 64);
 
                             gotKeys = true;
 

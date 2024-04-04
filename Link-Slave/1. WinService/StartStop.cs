@@ -14,7 +14,7 @@ namespace Link_Slave
 
             TryCreateNewLine();     //create new line in log for better readability
 
-            Log.FastLog("Win32", $"Service [v{version}] start initiated", xLogSeverity.Info);
+            Log.FastLog("Win32", $"Service [v{Version}] start initiated", xLogSeverity.Info);
 
             Control.Start.Initiate();
         }
@@ -30,7 +30,7 @@ namespace Link_Slave
         {
             try
             {
-                using (StreamWriter streamWriter = new($"{Program.assemblyPath}\\logs\\{DateTime.Now:dd.MM.yyyy}.txt", true, Encoding.UTF8))
+                using (StreamWriter streamWriter = new($"{Program.AssemblyPath}\\logs\\{DateTime.Now:dd.MM.yyyy}.txt", true, Encoding.UTF8))
                 {
                     streamWriter.WriteLine();
                 }

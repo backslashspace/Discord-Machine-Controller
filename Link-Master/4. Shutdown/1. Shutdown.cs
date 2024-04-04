@@ -8,12 +8,15 @@ namespace Link_Master.Control
     {
         internal static void ServiceComponents(Boolean unsafeShutdown = true)
         {
-            Client.BlockNew = true;
-
             if (unsafeShutdown)
             {
                 Task.Delay(5120).Wait();
 
+                Client.BlockNew = true;
+
+                DisconnectDiscord(ref unsafeShutdown);
+
+                Environment.Exit(1);
             }
             else
             {
@@ -22,14 +25,11 @@ namespace Link_Master.Control
 
             StopLinkWorker();
 
+            Client.BlockNew = true;
+
             DisconnectDiscord(ref unsafeShutdown);
 
             StopLogFacility();
-
-            if (unsafeShutdown)
-            {
-                Environment.Exit(1);
-            }
         }
 
         private static void StopLinkWorker()
@@ -41,18 +41,49 @@ namespace Link_Master.Control
             }
             Log.FastLog("Shutdown", "Stopped new link factory", xLogSeverity.Info);
 
-            if (WorkerThreads.Links != null)
-            {
-                for (UInt16 i = 0; i < WorkerThreads.Links.Count; ++i)
-                {
-                    WorkerThreads.Links[i].CancelToken.Cancel();
+            Log.FastLog("Shutdown", "Stopping link workers", xLogSeverity.Info);
 
-                    while (WorkerThreads.Links[i].Worker != null && WorkerThreads.Links[i].Worker.IsAlive)
+            foreach (Link link in WorkerThreads.Links.Values)
+            {
+                link.CancelToken.Cancel();
+            }
+
+            Boolean noLoop = false;
+
+            do
+            {
+                for (Byte timeout = 0; WorkerThreads.Links.Count != 0 && timeout < 50; ++timeout)
+                {
+                    Task.Delay(64).Wait();
+                }
+
+                if (WorkerThreads.Links.Count == 0)
+                {
+                    break;
+                }
+
+                if (noLoop)
+                {
+                    Log.FastLog("Shutdown", "Second timeout reached - force exiting service..", xLogSeverity.Info);
+
+                    Environment.Exit(1);
+                }
+
+                Log.FastLog("Shutdown", "Timeout reached - force closing sockets", xLogSeverity.Info);
+
+                noLoop = true;
+
+                foreach (Link link in WorkerThreads.Links.Values)
+                {
+                    try
                     {
-                        Task.Delay(64).Wait();
+                        link.Socket.Close(0);
                     }
+                    catch { }
                 }
             }
+            while (WorkerThreads.Links.Count != 0);
+            
             Log.FastLog("Shutdown", "Stopped all link workers", xLogSeverity.Info);
         }
     }

@@ -22,6 +22,7 @@ namespace Link_Slave
         internal static Guid Guid = Guid.Empty;
 
         internal static String Name = null;
+        internal static xVersion ServerVersion;
 
         internal static String ScriptDirectory = null;
     }

@@ -26,7 +26,7 @@ namespace Link_Master.Logging
         {
             Byte restartAttempts = 0; // todo: use for loop
             
-            while (true)
+            for (Byte retries = 0; retries < 5; ++retries)
             {
                 try
                 {
@@ -77,20 +77,16 @@ namespace Link_Master.Logging
                 }
                 catch (Exception ex)
                 {
-                    ++restartAttempts;
-
-                    if (restartAttempts < 5)
+                    if (retries == 4)
                     {
-                        Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempting to restart the worker.", xLogSeverity.Critical);
+                        Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({restartAttempts}), stopping worker", xLogSeverity.Critical);
 
-                        continue;
+                        ResetWorker();
+
+                        return;
                     }
 
-                    Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({restartAttempts}), terminating", xLogSeverity.Critical);
-
-                    ResetWorker();
-
-                    Control.Shutdown.ServiceComponents();
+                    Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempts to reset the worker.", xLogSeverity.Critical);
                 }
             }
         }
@@ -207,7 +203,7 @@ namespace Link_Master.Logging
 
         private static void SendGoodbye()
         {
-            Byte[] buffer = Serialize(new ConsoleMessage("Console-Server", "Server shutting down, disconnecting console", xLogSeverity.Info, DateTime.Now));
+            Byte[] buffer = Serialize(new ConsoleMessage("Console-Server", "Service shutting down, disconnecting console", xLogSeverity.Info, DateTime.Now));
 
             xSocket.TCP_Send(ref socket, ref buffer);
         }

@@ -40,13 +40,16 @@ namespace Link_Master.Worker
 
                 lock (ActiveMachineLinks[channelLink.ChannelID].ResultsQueue_Lock)
                 {
-                    result = ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Peek();
-
-                    if (result.ID == remoteCommand.ID)
+                    if (ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Count != 0)
                     {
-                        ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Dequeue();
+                        result = ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Peek();
 
-                        return result;
+                        if (result.ID == remoteCommand.ID)
+                        {
+                            ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Dequeue();
+
+                            return result;
+                        }
                     }
                 }
 

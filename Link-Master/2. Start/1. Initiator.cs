@@ -1,5 +1,4 @@
-﻿using Discord;
-using RandomDataGenerator.FieldOptions;
+﻿using RandomDataGenerator.FieldOptions;
 using RandomDataGenerator.Randomizers;
 using System;
 using System.Threading;
@@ -19,10 +18,19 @@ namespace Link_Master.Control
 
             Log.FastLog("Initiator", "Starting machine link factory", xLogSeverity.Info);
             WorkerThreads.LinkFactory = new(() => Worker.LinkFactory.Worker());
+            WorkerThreads.LinkFactory.Name = "Link Factory";
             WorkerThreads.LinkFactory.Start();
 
             Log.FastLog("Initiator", "Attempting to connect to discord", xLogSeverity.Info);
             await Worker.Bot.Connect();
+
+
+
+
+
+
+
+
 
             //## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -38,7 +46,7 @@ namespace Link_Master.Control
                 }
             });
             test3.Name = "test";
-            test3.Start();
+            //test3.Start();
         }
 
         private static String GenText()

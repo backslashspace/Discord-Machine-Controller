@@ -166,12 +166,17 @@ namespace Link_Master.Control
                     Guid guid = Guid.Parse(match.Groups[2].Value);
                     UInt64 channelID = UInt64.Parse(match.Groups[3].Value);
 
-                    Span<Byte> keys = stackalloc Byte[96];
-                    keys = Convert.FromBase64String(match.Groups[4].Value);
+                    Byte[] keys = Convert.FromBase64String(match.Groups[4].Value);
+
+                    Byte[] aesKeys = new Byte[32];
+                    Byte[] hmacKeys = new Byte[64];
+
+                    Buffer.BlockCopy(keys, 0, aesKeys, 0, 32);
+                    Buffer.BlockCopy(keys, 32, hmacKeys, 0, 64);
 
                     try
                     {
-                        CurrentConfig.MachineChannelLinks.TryAdd(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref keys));
+                        CurrentConfig.MachineChannelLinks.TryAdd(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref aesKeys, ref hmacKeys));
                     }
                     catch
                     {

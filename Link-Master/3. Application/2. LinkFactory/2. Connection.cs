@@ -22,7 +22,7 @@ namespace Link_Master.Worker
             }
             catch
             {
-                Log.FastLog("Link-Factory", $"Unable to bind port [{CurrentConfig.TcpListenerPort}] to [{CurrentConfig.TcpListenerIP}], terminating in 5120ms", xLogSeverity.Critical);
+                Log.FastLog("Link-Factory", $"Unable to bind port [{CurrentConfig.TcpListenerPort}] to [{CurrentConfig.TcpListenerIP}], terminating", xLogSeverity.Critical);
 
                 Control.Shutdown.ServiceComponents();
             }
@@ -65,6 +65,8 @@ namespace Link_Master.Worker
 
                 return true;
             }
+
+            Log.FastLog("Link-Factory", $"{(socket.RemoteEndPoint as IPEndPoint).Address} established a connection", xLogSeverity.Info);
 
             return false;
         }

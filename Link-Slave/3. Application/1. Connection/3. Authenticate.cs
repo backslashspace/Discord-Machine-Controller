@@ -9,32 +9,30 @@ namespace Link_Slave.Worker
     {
         private static Boolean Authenticate()
         {
-            //send name length in plain
-            //send id and name encrypted
-
             Byte[] buffer = new Byte[] { (Byte)CurrentConfig.Name.Length };
+
+            //socket.SendTimeout = 0;
+            //socket.ReceiveTimeout = 0;
 
             try
             {
-                //send name length
-                Int32 sendBytes = socket.Receive(buffer, 0, 1, SocketFlags.None);
-
-                if (sendBytes != 1)
+                if (!SendNameLength(ref buffer))
                 {
-                    Log.FastLog("Connection", $"Failed to send name length during authentication", xLogSeverity.Error);
-
                     return false;
                 }
 
-                //send id + name
-                buffer = new Byte[308];
-                Buffer.BlockCopy(BitConverter.GetBytes(CurrentConfig.ChannelID), 0, buffer, 0, 4);
-                Buffer.BlockCopy(Encoding.UTF8.GetBytes(CurrentConfig.Name), 0, buffer, 4, 304);
-
-                if (socket.Receive(buffer, 0, 308, SocketFlags.None) != 308)
+                if (!SendID_Name(ref buffer))
                 {
-                    Log.FastLog("Connection", $"Failed to send id and name during authentication, not all bytes were send", xLogSeverity.Error);
+                    return false;
+                }
 
+                if (!SendGuid(ref buffer))
+                {
+                    return false;
+                }
+
+                if (!VersionExchange(ref buffer))
+                {
                     return false;
                 }
 
@@ -57,6 +55,90 @@ namespace Link_Slave.Worker
 
                 return false;
             }
+        }
+
+        //
+
+        private static Boolean SendNameLength(ref Byte[] buffer)
+        {
+            if (socket.Send(buffer, 0, 1, SocketFlags.None) != 1)
+            {
+                Log.FastLog("Connection", $"Failed to send name length during authentication", xLogSeverity.Error);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private static Boolean SendID_Name(ref Byte[] buffer)
+        {
+            buffer = new Byte[312];
+            Buffer.BlockCopy(BitConverter.GetBytes(CurrentConfig.ChannelID), 0, buffer, 0, 8);
+            Buffer.BlockCopy(Encoding.UTF8.GetBytes(CurrentConfig.Name), 0, buffer, 8, CurrentConfig.Name.Length);
+
+            try
+            {
+                AES_TCP.Send(ref socket, ref buffer, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+            }
+            catch (Exception ex)
+            {
+                Log.FastLog("Connection", $"Failed to send id and name during authentication, {ex.Message}", xLogSeverity.Error);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private static Boolean SendGuid(ref Byte[] buffer)
+        {
+            buffer = CurrentConfig.Guid.ToByteArray();
+
+            try
+            {
+                AES_TCP.Send(ref socket, ref buffer, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+            }
+            catch (Exception ex)
+            {
+                Log.FastLog("Connection", $"Failed to send guid during authentication, {ex.Message}", xLogSeverity.Error);
+
+                return false;
+            }
+
+            return true;
+        }
+
+        private static Boolean VersionExchange(ref Byte[] buffer)
+        {
+            try
+            {
+                buffer = AES_TCP.Receive(ref socket, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+            }
+            catch (Exception ex)
+            {
+                Log.FastLog("Connection", $"Failed to receive server version during authentication, {ex.Message}", xLogSeverity.Error);
+
+                return false;
+            }
+
+            CurrentConfig.ServerVersion = xVersion.GetXVersion(ref buffer);
+            Log.FastLog("Connection", $"Server version: {CurrentConfig.ServerVersion}", xLogSeverity.Info);
+
+            buffer = xVersion.GetBytes(ref Program.Version);
+
+            try
+            {
+                AES_TCP.Send(ref socket, ref buffer, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+            }
+            catch (Exception ex)
+            {
+                Log.FastLog("Connection", $"Failed to send version during authentication, {ex.Message}", xLogSeverity.Error);
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

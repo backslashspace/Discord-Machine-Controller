@@ -7,15 +7,15 @@ namespace Link_Slave
 {
     internal static partial class Program
     {
-        internal static String assemblyPath;
-        internal static String serviceName;
-        internal static xVersion version;
+        internal static String AssemblyPath;
+        internal static String ServiceName;
+        internal static xVersion Version;
 
         static void Main()
         {
-            assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            version = new(Assembly.GetExecutingAssembly().GetName().Version);
-            serviceName = $"Discord Link-Slaver v{version}";
+            AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            Version = new(Assembly.GetExecutingAssembly().GetName().Version);
+            ServiceName = $"Discord Link-Slaver v{Version}";
 
             ServiceBase[] service = new[]
             {

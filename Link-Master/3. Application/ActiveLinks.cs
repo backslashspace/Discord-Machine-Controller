@@ -58,7 +58,7 @@ namespace Link_Master.Worker
             internal readonly Byte[] Data;
         }
 
-        internal enum CommandAction
+        internal enum CommandAction : Byte
         {
             UAliveQuestionMark = 0x01,
             YuesAmIAlive = 0x02,

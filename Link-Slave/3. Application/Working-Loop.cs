@@ -6,7 +6,7 @@ namespace Link_Slave.Worker
 {
     internal static partial class Client
     {
-        private static Socket socket;
+        internal static Socket socket;
 
         internal static void WorkingLoop()
         {
@@ -23,7 +23,7 @@ namespace Link_Slave.Worker
                             continue;
                         }
                         
-                        if (Authenticate())
+                        if (!Authenticate())
                         {
                             //unsuccessful
 

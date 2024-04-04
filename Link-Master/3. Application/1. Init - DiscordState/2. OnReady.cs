@@ -11,7 +11,7 @@ namespace Link_Master.Worker
                 return;
             }
 
-            Log.FastLog("Initiator", "Attempting verify discord related configs", xLogSeverity.Info);
+            Log.FastLog("Initiator", "Attempting to verify discord related configs", xLogSeverity.Info);
 
             VerifyConfig();
 

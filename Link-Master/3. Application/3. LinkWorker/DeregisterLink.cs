@@ -20,21 +20,18 @@ namespace Link_Master.Worker
             {
                 Log.FastLog("Machine-Link", $"Unable to remove endpoint '{channelLink.Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address}) from ConcurrentDictionary (not in dictionary)", xLogSeverity.Error);
             }
-        }
 
-        private static void Disconnect(ref Socket socket)
-        {
-            try
+            if (WorkerThreads.Links == null)
             {
-                socket.Disconnect(false);
-            }
-            catch { }
+                Log.FastLog("Machine-Link", $"ConcurrentDictionary 'WorkerThreads.Links' was 'null', this should not happen, terminating service", xLogSeverity.Critical);
 
-            try
-            {
-                socket.Close(0);
+                Control.Shutdown.ServiceComponents();
             }
-            catch { }
+
+            if (!WorkerThreads.Links.TryRemove(channelLink.ChannelID, out _))
+            {
+                Log.FastLog("Machine-Link", $"Unable to remove endpoint '{channelLink.Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address}) from ConcurrentDictionary (not in dictionary)", xLogSeverity.Error);
+            }
         }
     }
 }

@@ -18,18 +18,23 @@ namespace Link_Master.Worker
 
             try
             {
+            OUTER:
+
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     while (ActiveMachineLinks[channelLink.ChannelID].CommandQueue.Count == 0)
                     {
-                        Task.Delay(4096).Wait();
+                        Task.Delay(2048).Wait();
+
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            goto OUTER;
+                        }
 
                         if (!EndpointIsAlive(ref socket, ref channelLink))
                         {
                             AnnounceDisconnect(ref channelLink, false);
-
                             DeregisterLink(ref socket, ref channelLink);
-
                             Disconnect(ref socket);
 
                             return;
@@ -65,11 +70,15 @@ namespace Link_Master.Worker
                 }
 
                 AnnounceDisconnect(ref channelLink, true);
-
                 DeregisterLink(ref socket, ref channelLink);
-
                 Disconnect(ref socket);
+
+                return;
             }
+
+            AnnounceDisconnect(ref channelLink, false);
+            DeregisterLink(ref socket, ref channelLink);
+            Disconnect(ref socket);
         }
     }
 }
