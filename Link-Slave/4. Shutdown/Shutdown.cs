@@ -1,6 +1,5 @@
 ﻿using Link_Slave.Worker;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Link_Slave.Control
@@ -30,7 +29,7 @@ namespace Link_Slave.Control
             }
             else
             {
-                Log.FastLog("Shutdown", "Stopped main worker thread", xLogSeverity.Info);
+                Log.FastLog("Shutdown", "Stopped main worker thread, exiting", xLogSeverity.Info);
             }
         }
 

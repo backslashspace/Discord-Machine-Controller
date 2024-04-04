@@ -67,7 +67,8 @@
     <Compile Include="3. Application\1. Connection\1. CreateSocket.cs" />
     <Compile Include="3. Application\1. Connection\2. Connect.cs" />
     <Compile Include="3. Application\1. Connection\3. Authenticate.cs" />
-    <Compile Include="3. Application\1. Connection\4. DisposeSocket.cs" />
+    <Compile Include="3. Application\1. Connection\5. DisposeSocket.cs" />
+    <Compile Include="3. Application\1. Connection\4. WaitForServerReady.cs" />
     <Compile Include="3. Application\2. RequestHandling\1. RequestLoop.cs" />
     <Compile Include="3. Application\2. RequestHandling\2. ResponseBuilder.cs" />
     <Compile Include="3. Application\2. RequestHandling\Handler\2. EnumScripts.cs" />

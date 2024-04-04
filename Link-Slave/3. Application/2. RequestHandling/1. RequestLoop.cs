@@ -14,24 +14,29 @@ namespace Link_Slave.Worker
             RemoteDownload = 0x05
         }
 
-        private static void RequestHandlerLoop()
+        private static Byte RequestHandlerLoop()
         {
             Log.FastLog("Main-Worker", $"Successfully connected and authenticated on [{CurrentConfig.ServerIP}:{CurrentConfig.TcpPort}], ready to process requests", xLogSeverity.Info);
 
             Byte[] buffer;
-
+            Byte errorCode = 0;
+            
             while (!WorkerThread.Worker_WasCanceled)
             {
-                buffer = AES_TCP.Receive(ref socket, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+                try
+                {
+                    buffer = AES_TCP.Receive(ref socket, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+                }
+                catch { return 1; }
 
                 switch ((RequestTypes)buffer[0])
                 {
                     case RequestTypes.UAliveQuestionMark:
-                        KeepAlive(ref buffer);
+                        KeepAlive(ref buffer, ref errorCode);                            
                         break;
 
                     case RequestTypes.EnumScripts:
-                        EnumScripts();
+                        EnumScripts(ref errorCode);
                         break;
 
                     case RequestTypes.ExecuteScript:
@@ -44,7 +49,14 @@ namespace Link_Slave.Worker
                         NotImplemented(ref buffer[0]);
                         break;
                 }
+
+                if (errorCode != 0)
+                {
+                    return errorCode;
+                }
             }
+
+            return 0;
         }
     }
 }

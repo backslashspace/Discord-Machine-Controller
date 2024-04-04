@@ -9,7 +9,46 @@ namespace Link_Slave
 {
     internal static class AES_TCP
     {
+        internal static Byte RefSend(ref Byte errorCode, ref Socket socket, ref Byte[] data, Byte[] key, Byte[] hmac_key)
+        {
+            try
+            {
+                Send(ref socket, ref data, ref key, ref hmac_key);
+            }
+            catch
+            {
+                errorCode = 1;
+            }
+
+            return errorCode;
+        }
+
+        internal static Byte[] RefReceive(ref Byte errorCode, ref Socket socket, Byte[] key, Byte[] hmac_key)
+        {
+            try
+            {
+                Receive(ref socket, ref key, ref hmac_key, out Byte[] output);
+
+                return output;
+            }
+            catch
+            {
+                errorCode = 1;
+
+                return null;
+            }
+        }
+
+        //# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
         internal static void Send(ref Socket socket, ref Byte[] data, Byte[] key, Byte[] hmac_key)
+        {
+            Byte[] cipherData = Pack(ref data, ref key, ref hmac_key);
+
+            xSocket.TCP_Send(ref socket, ref cipherData);
+        }
+
+        private static void Send(ref Socket socket, ref Byte[] data, ref Byte[] key, ref Byte[] hmac_key)
         {
             Byte[] cipherData = Pack(ref data, ref key, ref hmac_key);
 
@@ -21,6 +60,13 @@ namespace Link_Slave
             xSocket.TCP_Receive(ref socket, out Byte[] cipherData);
 
             return UnPack(ref cipherData, ref key, ref hmac_key);
+        }
+
+        private static void Receive(ref Socket socket, ref Byte[] key, ref Byte[] hmac_key, out Byte[] outBytes)
+        {
+            xSocket.TCP_Receive(ref socket, out Byte[] cipherData);
+
+            outBytes = UnPack(ref cipherData, ref key, ref hmac_key);
         }
 
         //# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

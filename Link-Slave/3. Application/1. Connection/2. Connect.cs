@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Link_Slave.Worker
@@ -10,7 +11,7 @@ namespace Link_Slave.Worker
         {
             IPEndPoint remoteEndpoint = new(CurrentConfig.ServerIP, CurrentConfig.TcpPort);
 
-            Log.FastLog("Connection", $"Attempting to connect to master", xLogSeverity.Info);
+            Log.FastLog("Connection", $"Attempting to connect to [{CurrentConfig.ServerIP}:{CurrentConfig.TcpPort}]", xLogSeverity.Info);
 
             while (!WorkerThread.Worker_WasCanceled)
             {
@@ -18,11 +19,11 @@ namespace Link_Slave.Worker
                 {
                     socket.Connect(remoteEndpoint);
 
-                    Log.FastLog("Connection", $"Connected to [{CurrentConfig.ServerIP}:{CurrentConfig.TcpPort}]", xLogSeverity.Info);
+                    Log.FastLog("Connection", $"Established a connection [{CurrentConfig.ServerIP}:{CurrentConfig.TcpPort}]", xLogSeverity.Info);
 
                     return true;
                 }
-                catch
+                catch (SocketException)
                 {
                     Task.Delay(1024).Wait();
                 }

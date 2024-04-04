@@ -34,10 +34,20 @@ namespace Link_Slave.Worker
 
                             continue;   
                         }
-                        
-                        RequestHandlerLoop();
 
-                        // -> lost connection
+                        if (!WaitForReady())
+                        {
+                            Task.Delay(8192).Wait();
+
+                            continue;
+                        }
+
+                        Byte exitCode = RequestHandlerLoop();
+
+                        if (exitCode != 0)
+                        {
+                            HandleErrorCode(ref exitCode);
+                        }
 
                         DisposeSocket();
                     }
@@ -54,8 +64,21 @@ namespace Link_Slave.Worker
                     }
 
                     Log.FastLog("Main-Worker", $"An error occurred in the main worker thread, this was the {retries + 1} out of 5 allowed errors, the error message was:\n" +
-                        $"{ex.Message}\n\nSource: {ex.Source}\n\nStackTrace: {ex.StackTrace}\n\n\t=> continuing", xLogSeverity.Error);
+                        $"{ex.Message}\n\n\t=> continuing", xLogSeverity.Error);
                 }
+            }
+        }
+
+        private static void HandleErrorCode(ref Byte exitCode)
+        {
+            switch (exitCode)
+            {
+                case 1:
+                    Log.FastLog("Main-Worker", "Lost connection", xLogSeverity.Info);
+                    return;
+
+                default:
+                    throw new InvalidOperationException("unknown error code");
             }
         }
     }

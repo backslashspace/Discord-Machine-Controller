@@ -5,7 +5,7 @@ namespace Link_Slave.Worker
 {
     internal static partial class Client
     {
-        private static void EnumScripts()
+        private static void EnumScripts(ref Byte errorCode)
         {
             String[] directories = Directory.GetFiles(CurrentConfig.ScriptDirectory);  // todo: test
 
@@ -39,7 +39,10 @@ namespace Link_Slave.Worker
 
             Byte[] rawResponse = ServerResponseBuilder(ref formattedResult, ref responseColor);
 
-            AES_TCP.Send(ref socket, ref rawResponse, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+            if (AES_TCP.RefSend(ref errorCode, ref socket, ref rawResponse, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key) != 0)
+            {
+                return;
+            }
 
             Log.FastLog("Main-Worker", "Successfully send script folder content to server", xLogSeverity.Info);
         }

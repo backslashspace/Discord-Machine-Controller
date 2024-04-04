@@ -14,10 +14,13 @@ namespace Link_Master.Worker
             AnnounceConnect(ref channelLink);
 
             Command request;
-            Byte[] response;
+            Byte[] response = new Byte[] { 0b1010_1010 , 0b0101_0101 };
 
             try
             {
+                AES_TCP.Send(ref socket, ref response, channelLink.AES_Key, channelLink.HMAC_Key);
+                Log.FastLog("Machine-Link", $"({channelLink.Name}) ready", xLogSeverity.Info);
+
             OUTER:
 
                 while (!cancellationToken.IsCancellationRequested)
