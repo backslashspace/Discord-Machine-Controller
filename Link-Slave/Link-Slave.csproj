@@ -76,7 +76,7 @@
     <Compile Include="3. Application\2. RequestHandling\Handler\1. KeepAlive.cs" />
     <Compile Include="3. Application\Working-Loop.cs" />
     <Compile Include="4. Shutdown\Shutdown.cs" />
-    <Compile Include="3. Application\2. RequestHandling\DiscordEmbedColor.cs" />
+    <Compile Include="DiscordEmbedColor.cs" />
     <Compile Include="Encrypted_TCP.cs" />
     <Compile Include="Logging\FileLog.cs" />
     <Compile Include="Logging\xLogSeverity.cs" />

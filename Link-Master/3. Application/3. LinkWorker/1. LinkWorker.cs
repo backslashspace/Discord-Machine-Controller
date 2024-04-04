@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 //
@@ -65,6 +66,10 @@ namespace Link_Master.Worker
                 {
                     Log.FastLog("Machine-Link", $"A network error caused an exception in link worker '{Thread.CurrentThread.Name}', the error message was:\n" +
                     $"{e.Message} ({e.SocketErrorCode})\n\t=> Destroying link and freeing machine", xLogSeverity.Error);
+                }
+                else if (ex is SecurityException)
+                {
+                    Log.FastLog("Machine-Link", $"[{Thread.CurrentThread.Name}] security violation, destroying link and freeing machine", xLogSeverity.Alert);
                 }
                 else
                 {

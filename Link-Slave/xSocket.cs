@@ -36,7 +36,7 @@ namespace Link_Slave
                 Byte[] bufferSize = new Byte[4];
                 if (socket.Receive(bufferSize) != 4)
                 {
-                    throw new InvalidDataException($"Not all bytes were received (receive buffer size (4 bytes))\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}");
+                    throw new InvalidDataException($"Not all bytes were received (receive payload buffer size buffer (4 bytes))\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}");
                 }
 
                 Int32 remainingBuffer = BitConverter.ToInt32(bufferSize, 0);

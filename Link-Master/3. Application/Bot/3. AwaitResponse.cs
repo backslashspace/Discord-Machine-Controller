@@ -7,32 +7,34 @@ namespace Link_Master.Worker
 {
     internal static partial class Bot
     {
-        private static async void AwaitCommandProcessing(ChannelLink channelLink, Command remoteCommand, SocketSlashCommand slashCommand)
+        private static void AwaitCommandProcessing(ChannelLink channelLink, Command remoteCommand, SocketSlashCommand slashCommand)
         {
-            Task<Result> endpointResult = WaitForResult(channelLink, remoteCommand);
+            Result result;
 
-            await endpointResult;
-
-            if (endpointResult.Exception != null)
+            try
             {
-                if (endpointResult.Exception.InnerException is TimeoutException ex)
+                result = WaitForResult(channelLink, remoteCommand);
+            }
+            catch (Exception ex)
+            {
+                if (ex is TimeoutException ea)
                 {
-                    await FormattedMessageAsync(slashCommand, ex.Message, Color.Red);
+                    FormattedMessageAsync(slashCommand, ea.Message, Color.Red).Wait();
                 }
                 else
                 {
-                    await FormattedMessageAsync(slashCommand, "Link error, endpoint disconnected", Color.Red);
+                    FormattedMessageAsync(slashCommand, "Link error, endpoint disconnected", Color.Red).Wait();
                 }
 
                 return;
             }
 
-            DisplayResultDiscord(channelLink, slashCommand, endpointResult.Result);
+            DisplayResultDiscord(channelLink, slashCommand, result);
         }
 
         //
 
-        private static async Task<Result> WaitForResult(ChannelLink channelLink, Command remoteCommand)
+        private static Result WaitForResult(ChannelLink channelLink, Command remoteCommand)
         {
             for (UInt16 i = 0; i < 468; ++i)
             {
@@ -53,7 +55,7 @@ namespace Link_Master.Worker
                     }
                 }
 
-                await Task.Delay(512).ConfigureAwait(false);
+                Task.Delay(512).Wait();
             }
 
             throw new TimeoutException("Error: did not receive result within 4 minutes");

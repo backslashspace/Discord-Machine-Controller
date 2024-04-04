@@ -45,7 +45,7 @@ namespace Link_Master.Worker
                 rawRequest = new Byte[] { (Byte)command.CommandAction };
             }
 
-            AES_TCP.Send(ref socket, ref rawRequest, channelLink.AES_Key, channelLink.AES_Key);
+            AES_TCP.Send(ref socket, ref rawRequest, channelLink.AES_Key, channelLink.HMAC_Key);
         }
     }
 }

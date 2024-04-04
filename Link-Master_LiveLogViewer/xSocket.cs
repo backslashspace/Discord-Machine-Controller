@@ -15,11 +15,9 @@ namespace LogViewer
 
                 Int32 pushedBytes = socket.Send(data);
 
-                xConsole.UpdateConsoleHead(0, pushedBytes);
-
                 if (pushedBytes != data.Length)
                 {
-                    throw new InvalidDataException($"Not all bytes were transmitted ({pushedBytes}/{data.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}\n");
+                    throw new InvalidDataException($"Not all bytes were transmitted ({pushedBytes}/{data.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}");
                 }
             }
             catch
@@ -36,12 +34,13 @@ namespace LogViewer
             try
             {
                 Byte[] bufferSize = new Byte[4];
-                socket.Receive(bufferSize);
+                if (socket.Receive(bufferSize) != 4)
+                {
+                    throw new InvalidDataException($"Not all bytes were received (receive payload buffer size buffer (4 bytes))\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}");
+                }
 
                 Int32 remainingBuffer = BitConverter.ToInt32(bufferSize, 0);
                 buffer = new Byte[remainingBuffer];
-
-                xConsole.UpdateConsoleHead(remainingBuffer, 0);
 
                 //
 
@@ -76,11 +75,11 @@ namespace LogViewer
                 {
                     if (buffer.Length > 1073741796)
                     {
-                        throw new InvalidDataException($"Not all bytes were received ({remainingBuffer - buffer.Length}/{buffer.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}\nNot enough RAM?\n\n");
+                        throw new InvalidDataException($"Not all bytes were received ({remainingBuffer - buffer.Length}/{buffer.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}\nNot enough RAM?");
                     }
                     else
                     {
-                        throw new InvalidDataException($"Not all bytes were received ({remainingBuffer - buffer.Length}/{buffer.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}\n\n");
+                        throw new InvalidDataException($"Not all bytes were received ({remainingBuffer - buffer.Length}/{buffer.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}");
                     }
                 }
             }

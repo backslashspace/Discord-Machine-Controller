@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.IO;
 //
 using BSS.Encryption.Fips;
 using Org.BouncyCastle.Crypto.Fips;
+using System.Security;
 
 namespace Link_Master.Worker
 {
@@ -20,7 +20,16 @@ namespace Link_Master.Worker
         {
             xSocket.TCP_Receive(ref socket, out Byte[] cipherData);
 
-            return UnPack(ref cipherData, ref key, ref hmac_key);
+            try
+            {
+                return UnPack(ref cipherData, ref key, ref hmac_key);
+            }
+            catch (SecurityException ex)
+            {
+                Log.FastLog("TCP-AES", "Security violation! failed to verify data integrity / authenticity, Error was: " + ex.Message, xLogSeverity.Alert);
+
+                throw;
+            }
         }
 
         //# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -60,7 +69,7 @@ namespace Link_Master.Worker
             {
                 if (packedHMAC[b] != cipherTextHMAC[b])
                 {
-                    throw new InvalidDataException($"Received data HMAC did not match! Mismatch at position: {b}\n\n");
+                    throw new SecurityException($"Received data HMAC did not match! Mismatch at position: {b}\n\n");
                 }
             }
 
