@@ -15,6 +15,8 @@ namespace LogViewer
 
                 Int32 pushedBytes = socket.Send(data);
 
+                xConsole.UpdateConsoleHead(0, pushedBytes);
+
                 if (pushedBytes != data.Length)
                 {
                     throw new InvalidDataException($"Not all bytes were transmitted ({pushedBytes}/{data.Length})\nSocket.SendTimeout was: {socket.SendTimeout}\nSocket.ReceiveTimeout was: {socket.ReceiveTimeout}");
@@ -41,6 +43,8 @@ namespace LogViewer
 
                 Int32 remainingBuffer = BitConverter.ToInt32(bufferSize, 0);
                 buffer = new Byte[remainingBuffer];
+
+                xConsole.UpdateConsoleHead(remainingBuffer, 0);
 
                 //
 
