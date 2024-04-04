@@ -110,7 +110,6 @@ namespace Link_Slave
 
         internal static Byte[] UnPack(ref Byte[] cipherData, ref Byte[] key, ref Byte[] hmac_key)
         {
-            
             xFips.SetApprovedOnlyMode(true);
 
             Byte[] packedHMAC = new Byte[64];
@@ -125,7 +124,7 @@ namespace Link_Slave
             {
                 if (packedHMAC[b] != cipherTextHMAC[b])
                 {
-                    throw new SecurityException($"Received data HMAC did not match! Mismatch at position: {b}\n\n");
+                    throw new SecurityException($"Received data HMAC did not match! Mismatch at position: {b}");
                 }
             }
 

@@ -11,9 +11,6 @@ namespace Link_Slave.Worker
         {
             Byte[] buffer = new Byte[] { (Byte)CurrentConfig.Name.Length };
 
-            //socket.SendTimeout = 0;
-            //socket.ReceiveTimeout = 0;
-
             try
             {
                 if (!SendNameLength(ref buffer))
@@ -114,6 +111,8 @@ namespace Link_Slave.Worker
             try
             {
                 buffer = AES_TCP.Receive(ref socket, CurrentConfig.AES_Key, CurrentConfig.HMAC_Key);
+
+                CurrentConfig.ServerVersion = xVersion.GetXVersion(ref buffer);
             }
             catch (Exception ex)
             {
@@ -121,8 +120,7 @@ namespace Link_Slave.Worker
 
                 return false;
             }
-
-            CurrentConfig.ServerVersion = xVersion.GetXVersion(ref buffer);
+            
             Log.FastLog("Connection", $"Server version: {CurrentConfig.ServerVersion}", xLogSeverity.Info);
 
             buffer = xVersion.GetBytes(ref Program.Version);

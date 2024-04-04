@@ -69,7 +69,7 @@ namespace Link_Master.Worker
             {
                 if (packedHMAC[b] != cipherTextHMAC[b])
                 {
-                    throw new SecurityException($"Received data HMAC did not match! Mismatch at position: {b}\n\n");
+                    throw new SecurityException($"Received data HMAC did not match! Mismatch at position: {b}");
                 }
             }
 

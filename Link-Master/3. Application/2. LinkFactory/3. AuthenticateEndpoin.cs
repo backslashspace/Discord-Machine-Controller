@@ -50,7 +50,7 @@ namespace Link_Master.Worker
                     catch { }
                 }
 
-                Log.FastLog("Link-Factory", $"An endpoint attempted to authenticate, but failed with the following error message: {ex}", xLogSeverity.Error);
+                Log.FastLog("Link-Factory", $"An endpoint attempted to authenticate, but failed with the following error message: {ex.Message}", xLogSeverity.Error);
 
                 return (false, new(), new());
             }
@@ -155,25 +155,28 @@ namespace Link_Master.Worker
             }
             catch (Exception ex)
             {
-                Log.FastLog("Link-Factory", $"Authenticating endpoint '{channelLink.Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address}), failed to receive server version info with the following error message: {ex}, closing connection", xLogSeverity.Warning);
+                Log.FastLog("Link-Factory", $"Authenticating endpoint '{channelLink.Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address}), failed to receive server version info with the following error message: {ex.Message}, closing connection", xLogSeverity.Warning);
 
                 throw new AccessViolationException();
             }
 
             Byte[] rawEndpointXVersion;
+            xVersion version;
 
             try
             {
                 rawEndpointXVersion = AES_TCP.Receive(ref socket, channelLink.AES_Key, channelLink.HMAC_Key);
+
+                version = xVersion.GetXVersion(ref rawEndpointXVersion);
             }
             catch (Exception ex)
             {
-                Log.FastLog("Link-Factory", $"Authenticating endpoint '{channelLink.Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address}), failed to send version info with the following error message: {ex}, closing connection", xLogSeverity.Warning);
+                Log.FastLog("Link-Factory", $"Authenticating endpoint '{channelLink.Name}' ({(socket.RemoteEndPoint as IPEndPoint).Address}), failed to send version info with the following error message: {ex.Message}, closing connection", xLogSeverity.Error);
 
                 throw new AccessViolationException();
             }
 
-            return xVersion.GetXVersion(ref rawEndpointXVersion);
+            return version;
         }
     }
 }
