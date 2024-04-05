@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text;
 
-
 namespace Link_Master.Worker
 {
     internal static partial class Bot
@@ -14,13 +13,15 @@ namespace Link_Master.Worker
         {
             try
             {
-                DiscordSocketConfig config = new()
+                DiscordSocketConfig config = new();
+                config.GatewayIntents = GatewayIntents.Guilds;
+                //config.GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.Guilds | GatewayIntents.GuildMessages, //| GatewayIntents.GuildMembers
+
+                if ((Boolean)CurrentConfig.GatewayDebug)
                 {
-                    GatewayIntents = GatewayIntents.Guilds,
-                    //LogGatewayIntentWarnings = true,
-                    //GatewayIntents = GatewayIntents.MessageContent | GatewayIntents.Guilds | GatewayIntents.GuildMessages, //| GatewayIntents.GuildMembers
-                    //LogLevel = xLogSeverity.Debug
-                };
+                    config.LogLevel = LogSeverity.Debug;
+                    config.LogGatewayIntentWarnings = true;
+                }
 
                 Client.Discord = new DiscordSocketClient(config);
 
@@ -33,7 +34,7 @@ namespace Link_Master.Worker
                 
                 Client.Discord.SlashCommandExecuted += SlashCommandHandler;
 
-                await Client.Discord.SetGameAsync("your government files", null, ActivityType.Watching);
+                Client.Discord.SetGameAsync($"Me is v{Program.Version}", null, ActivityType.CustomStatus).Wait();
 
                 await Client.Discord.LoginAsync(TokenType.Bot, GetToken(), true);
                 await Client.Discord.StartAsync();

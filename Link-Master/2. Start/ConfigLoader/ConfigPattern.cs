@@ -6,22 +6,23 @@ namespace Link_Master.Control
     {
         internal struct Pattern
         {
-            internal const String tokenPath = "tokenPath:\\s*\"(.+?)\"";
+            internal const String TokenPath = "tokenPath:\\s*\"(.+?)\"";
 
-            internal const String discordAdminUserID = "discordAdminUserID:\\s*\"(.+?)\"";
+            internal const String DiscordAdminUserID = "discordAdminUserID:\\s*\"(.+?)\"";
 
-            internal const String cmdRegisterOnBoot = "cmdRegisterOnBoot:\\s*\"(.+?)\"";
+            internal const String CmdRegisterOnBoot = "cmdRegisterOnBoot:\\s*\"(.+?)\"";
 
-            internal const String tcpListenerPort = "tcpListenerPort:\\s*\"(.+?)\"";
+            internal const String TcpListenerPort = "tcpListenerPort:\\s*\"(.+?)\"";
 
-            internal const String tcpListenerIP = "tcpListenerIP:\\s*\"(.+?)\"";
-            internal const String discordAnnounceEndpointConnect = "discordAnnounceEndpointConnect:\\s*\"(.+?)\"";
+            internal const String TcpListenerIP = "tcpListenerIP:\\s*\"(.+?)\"";
+            internal const String DiscordAnnounceEndpointConnect = "discordAnnounceEndpointConnect:\\s*\"(.+?)\"";
 
-            internal const String guildID = "guildID:\\s*\"(.+?)\"";
+            internal const String GuildID = "guildID:\\s*\"(.+?)\"";
+            internal const String DiscordGatewayDebugMode = "discordGatewayDebugMode:\\s*\"(.+?)\"";
 
-            internal const String logChannelID = "logChannelID:\\s*\"(.+?)\"";
+            internal const String LogChannelID = "logChannelID:\\s*\"(.+?)\"";
 
-            internal const String vmChannelLink = "vmChannelLink:\\s*\"(.+?):(.+?):(.+?):(.+?)\"";
+            internal const String VMChannelLink = "vmChannelLink:\\s*\"(.+?):(.+?):(.+?):(.+?)\"";
         }
     }
 }

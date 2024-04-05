@@ -16,6 +16,8 @@ namespace Link_Master.Control
             streamWriter.WriteLine("tcpListenerPort: \"9001\"");
             streamWriter.WriteLine("");
             streamWriter.WriteLine("guildID: \"344564656\"");
+            streamWriter.WriteLine("discordGatewayDebugMode: \"344564656\"");
+            streamWriter.WriteLine("");
             streamWriter.WriteLine("logChannelID: \"65675677\"");
             streamWriter.WriteLine("discordAnnounceEndpointConnect: \"true\"");
             streamWriter.WriteLine("");

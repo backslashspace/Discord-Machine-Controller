@@ -21,7 +21,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.TokenPath == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.tokenPath, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.TokenPath, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -31,7 +31,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.CmdRegisterOnBoot == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.cmdRegisterOnBoot, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.CmdRegisterOnBoot, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -48,7 +48,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.TcpListenerPort == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.tcpListenerPort, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.TcpListenerPort, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -65,7 +65,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.TcpListenerIP == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.tcpListenerIP, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.TcpListenerIP, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -84,7 +84,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.DiscordAdmin == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.discordAdminUserID, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.DiscordAdminUserID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -101,7 +101,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.GuildID == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.guildID, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.GuildID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -116,9 +116,26 @@ namespace Link_Master.Control
                     }
                 }
 
+                if (CurrentConfig.GatewayDebug == null)
+                {
+                    Match match = Regex.Match(configLines[b], Pattern.DiscordGatewayDebugMode, RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        try
+                        {
+                            CurrentConfig.GatewayDebug = Boolean.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Invalid discordGatewayDebugMode value must be \"true\" or \"false\", default false, terminating");
+                        }
+                    }
+                }
+
                 if (Worker.Bot.LogChannelID == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.logChannelID, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.LogChannelID, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -135,7 +152,7 @@ namespace Link_Master.Control
 
                 if (CurrentConfig.CmdRegisterOnBoot == null)
                 {
-                    Match match = Regex.Match(configLines[b], Pattern.discordAnnounceEndpointConnect, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(configLines[b], Pattern.DiscordAnnounceEndpointConnect, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
@@ -156,7 +173,7 @@ namespace Link_Master.Control
 
         private static void TryGetChannelPerm(ref List<String> configLines, ref Byte b)
         {
-            Match match = Regex.Match(configLines[b], Pattern.vmChannelLink, RegexOptions.IgnoreCase);
+            Match match = Regex.Match(configLines[b], Pattern.VMChannelLink, RegexOptions.IgnoreCase);
 
             if (match.Success)
             {

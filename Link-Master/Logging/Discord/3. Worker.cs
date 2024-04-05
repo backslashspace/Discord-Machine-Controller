@@ -49,6 +49,10 @@ namespace Link_Master.Logging
                         log += "Warning";
                         break;
                     case xLogSeverity.Verbose:
+                        if ((Boolean)CurrentConfig.GatewayDebug)
+                        {
+                            continue;   //will mess up logging to discord (log gets logged)
+                        }
                         log += "Verbose";
                         break;
                     case xLogSeverity.Error:

@@ -58,6 +58,7 @@ namespace Link_Master
         internal static IPAddress TcpListenerIP = null;
 
         internal static UInt64? GuildID = null;
+        internal static Boolean? GatewayDebug = null;
 
         internal static Boolean? CmdRegisterOnBoot = null;
 

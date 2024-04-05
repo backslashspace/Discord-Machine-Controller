@@ -31,6 +31,7 @@
 
             //defaults
             CurrentConfig.AnnounceEndpointConnect??= true;
+            CurrentConfig.GatewayDebug ??= false;
 
             //notify
             if (Worker.Bot.LogChannelID == null)
