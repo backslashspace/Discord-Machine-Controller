@@ -23,7 +23,12 @@ namespace Link_Master.Worker
 
                 while (!Client.IsConnected)
                 {
-                    Task.Delay(512).Wait();
+                    Task.Delay(256).Wait();
+
+                    if (WorkerThreads.LinkFactory_WasCanceled)
+                    {
+                        return;
+                    }
                 }
             }
 

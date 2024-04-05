@@ -31,6 +31,7 @@ namespace Link_Master.Control
             {
                 Client.Discord.LogoutAsync().Wait();
                 Client.Discord.StopAsync().Wait();
+
                 Client.Discord.Dispose();
             }
             catch { }
