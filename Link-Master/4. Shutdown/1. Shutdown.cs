@@ -1,5 +1,4 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Link_Master.Control
@@ -16,6 +15,8 @@ namespace Link_Master.Control
 
                 DisconnectDiscord(ref unsafeShutdown);
 
+                StopLogFacility();
+
                 Environment.Exit(1);
             }
             else
@@ -24,8 +25,6 @@ namespace Link_Master.Control
             }
 
             StopLinkWorker();
-
-            Client.BlockNew = true;
 
             DisconnectDiscord(ref unsafeShutdown);
 

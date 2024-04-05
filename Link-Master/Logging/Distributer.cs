@@ -73,9 +73,9 @@ namespace Link_Master.Logging
         {
             try
             {
-                if (!Directory.Exists($"{Program.assemblyPath}\\logs"))
+                if (!Directory.Exists($"{Program.AssemblyPath}\\logs"))
                 {
-                    Directory.CreateDirectory($"{Program.assemblyPath}\\logs");
+                    Directory.CreateDirectory($"{Program.AssemblyPath}\\logs");
                 }
 
                 String logLine = "";
@@ -133,7 +133,7 @@ namespace Link_Master.Logging
 
                 logLine += formattedLogMessage.Message;
 
-                using StreamWriter streamWriter = new($"{Program.assemblyPath}\\logs\\{timeStamp:dd.MM.yyyy}.txt", true, Encoding.UTF8);
+                using StreamWriter streamWriter = new($"{Program.AssemblyPath}\\logs\\{timeStamp:dd.MM.yyyy}.txt", true, Encoding.UTF8);
                 streamWriter.WriteLine(logLine);
             }
             catch (Exception ex)

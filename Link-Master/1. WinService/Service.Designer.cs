@@ -18,7 +18,7 @@ namespace Link_Master
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = Program.serviceName;
+            this.ServiceName = Program.ServiceName;
         }
     }
 }

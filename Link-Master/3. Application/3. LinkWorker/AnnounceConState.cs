@@ -25,7 +25,10 @@ namespace Link_Master.Worker
 
                     SocketTextChannel socketTextChannel = socketGuild.GetTextChannel(channelLink.ChannelID);
 
-                    socketTextChannel.SendMessageAsync(embed: formattedResponse.Build());
+                    if (!Client.BlockNew)
+                    {
+                        socketTextChannel.SendMessageAsync(embed: formattedResponse.Build());
+                    }
                 }
                 catch { }
             }
@@ -54,7 +57,10 @@ namespace Link_Master.Worker
                         Description = "Endpoint disconnected",
                     };
 
-                    Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel(channelLink.ChannelID).SendMessageAsync(embed: formattedResponse.Build());
+                    if (!Client.BlockNew)
+                    {
+                        Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel(channelLink.ChannelID).SendMessageAsync(embed: formattedResponse.Build());
+                    }
                 }
                 catch { }
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
@@ -7,15 +8,19 @@ namespace Link_Master
 {
     internal static partial class Program
     {
-        internal static String assemblyPath;
-        internal static String serviceName;
-        internal static xVersion version;
+        internal static String AssemblyPath;
+        internal static String ServiceName;
+        internal static xVersion Version;
+
+        internal static Stopwatch LoadTime = new();
 
         static void Main()
         {
-            assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            version = new(Assembly.GetExecutingAssembly().GetName().Version);
-            serviceName = $"Discord Link-Master v{version}";
+            LoadTime.Start();
+
+            AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            Version = new(Assembly.GetExecutingAssembly().GetName().Version);
+            ServiceName = $"Discord Link-Master v{Version}";
 
             ServiceBase[] service = new[]
             {

@@ -1,5 +1,4 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Link_Master.Logging
@@ -14,7 +13,7 @@ namespace Link_Master.Logging
             {
                 Boolean sendWarn = false;
 
-                if (DiscordLogQueue.Count > 11)
+                if (DiscordLogQueue.Count > 16)
                 {
                     Link_Master.Log.FastLog("PushDiscord", "Discord queue was full (rate limit?), waiting for drain", xLogSeverity.Warning, bypassDiscord: true);
 

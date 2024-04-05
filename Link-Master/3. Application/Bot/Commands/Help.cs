@@ -15,7 +15,10 @@ namespace Link_Master.Worker
             };
             formattedResponse.WithFooter("no");
 
-            await command.RespondAsync(embed: formattedResponse.Build());
+            if (!Client.BlockNew)
+            {
+                await command.RespondAsync(embed: formattedResponse.Build());
+            }
         }
     }
 }

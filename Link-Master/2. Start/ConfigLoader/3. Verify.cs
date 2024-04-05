@@ -31,6 +31,13 @@
 
             //defaults
             CurrentConfig.AnnounceEndpointConnect??= true;
+
+            //notify
+            if (Worker.Bot.LogChannelID == null)
+            {
+                Log.FastLog("Initiator", "Discord log channel not specified, stopping worker", xLogSeverity.Info);
+                WorkerThreads.DiscordLogWorker_WasCanceled = true;
+            }
         }
     }
 }

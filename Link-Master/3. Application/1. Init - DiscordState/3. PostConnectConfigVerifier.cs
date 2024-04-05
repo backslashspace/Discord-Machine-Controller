@@ -61,7 +61,10 @@ namespace Link_Master.Worker
                         Description = "Service connected"
                     };
 
-                    CurrentConfig.LogChannel.SendMessageAsync(embed: sendHello.Build()).Wait();
+                    if (!Client.BlockNew)
+                    { 
+                        CurrentConfig.LogChannel.SendMessageAsync(embed: sendHello.Build()).Wait();
+                    }
                 }
                 catch
                 {

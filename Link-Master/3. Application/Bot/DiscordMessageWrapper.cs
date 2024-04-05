@@ -19,7 +19,10 @@ namespace Link_Master.Worker
                 Description = message
             };
 
-            await command.RespondAsync(embed: formattedResponse.Build());
+            if (!Client.BlockNew)
+            {
+                await command.RespondAsync(embed: formattedResponse.Build());
+            }
         }
 
         private static async Task FormattedErrorRespondAsync(SocketSlashCommand command, String message)
@@ -31,7 +34,10 @@ namespace Link_Master.Worker
                 Description = message
             };
 
-            await command.RespondAsync(embed: formattedError.Build());
+            if (!Client.BlockNew)
+            {
+                await command.RespondAsync(embed: formattedError.Build());
+            }
         }
 
         private static async Task FormattedMessageAsync(SocketSlashCommand command, String message, [Optional] Color? embed_color)
@@ -45,7 +51,10 @@ namespace Link_Master.Worker
                 Description = message
             };
 
-            await command.Channel.SendMessageAsync(embed: formattedMessage.Build());
+            if (!Client.BlockNew)
+            {
+                await command.Channel.SendMessageAsync(embed: formattedMessage.Build());
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Link_Master.Control
         {
             try
             {
-                if (!File.Exists($"{Program.assemblyPath}\\config.txt"))
+                if (!File.Exists($"{Program.AssemblyPath}\\config.txt"))
                 {
                     CreateConfigTemplate();
 
@@ -50,7 +50,7 @@ namespace Link_Master.Control
                     Shutdown.ServiceComponents(false);
                 }
 
-                using StreamReader streamReader = new($"{Program.assemblyPath}\\config.txt", Encoding.UTF8);
+                using StreamReader streamReader = new($"{Program.AssemblyPath}\\config.txt", Encoding.UTF8);
 
                 String item;
 

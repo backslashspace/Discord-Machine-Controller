@@ -33,7 +33,11 @@ namespace Link_Master.Worker
             catch (Exception ex)
             {
                 Log.FastLog("/upload", $"Attachment data error\n\n{ex.Message}", xLogSeverity.Error);
-                await FormattedErrorRespondAsync(slashCommand, "Encountered an error while parsing the attachment, please contact your administrator providing this useless error message: 22_ERROR_NOT_DOS_DISK`");
+
+                if (!Client.BlockNew)
+                {
+                    await FormattedErrorRespondAsync(slashCommand, "Encountered an error while parsing the attachment, please contact your administrator providing this useless error message: 22_ERROR_NOT_DOS_DISK`");
+                }
 
                 return;
             }
@@ -44,11 +48,8 @@ namespace Link_Master.Worker
 
             await FormattedResponseAsync(slashCommand, "Successfully enqueued request", Color.Green);
 
-            Thread thread = new(() => AwaitCommandProcessing(channelLink, remoteCommand, slashCommand))
-            {
-                Name = $"Endpoint response awaiter ID: {remoteCommand.ID}"
-            };
-
+            Thread thread = new(() => AwaitCommandProcessing(channelLink, remoteCommand, slashCommand));
+            thread.Name = $"Endpoint response awaiter ID: {remoteCommand.ID}";
             thread.Start();
         }
     }

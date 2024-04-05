@@ -22,7 +22,9 @@ namespace Link_Master.Worker
                 await RegisterCommands();
             }
 
-            Log.FastLog("Initiator", "Service fully loaded", xLogSeverity.Info);
+            Program.LoadTime.Stop();
+            Log.FastLog("Initiator", $"Service fully loaded in {Program.LoadTime.ElapsedMilliseconds}ms", xLogSeverity.Info);
+            Program.LoadTime = null;
 
             Client.WasReadyAtLeastOnce = true;
         }

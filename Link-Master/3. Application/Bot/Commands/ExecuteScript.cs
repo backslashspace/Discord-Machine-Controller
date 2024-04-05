@@ -24,7 +24,11 @@ namespace Link_Master.Worker
             catch (Exception ex)
             {
                 Log.FastLog("/execute-scripts", $"Failed to parse command parameter (fileName)\n\n{ex.Message}", xLogSeverity.Error);
-                await FormattedErrorRespondAsync(slashCommand, "Failed to parse command parameter (fileName)");
+
+                if (!Client.BlockNew)
+                {
+                    await FormattedErrorRespondAsync(slashCommand, "Failed to parse command parameter (fileName)");
+                }
 
                 return;
             }
@@ -33,11 +37,8 @@ namespace Link_Master.Worker
 
             await FormattedResponseAsync(slashCommand, "Successfully enqueued request", Color.Green);
 
-            Thread thread = new(() => AwaitCommandProcessing(channelLink, remoteCommand, slashCommand))
-            {
-                Name = $"Endpoint response awaiter ID: {remoteCommand.ID}"
-            };
-
+            Thread thread = new(() => AwaitCommandProcessing(channelLink, remoteCommand, slashCommand));            
+            thread.Name = $"Endpoint response awaiter ID: {remoteCommand.ID}";
             thread.Start();
         }
     }

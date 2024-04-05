@@ -1,7 +1,5 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Link_Master.Logging
@@ -13,7 +11,7 @@ namespace Link_Master.Logging
 
         //
 
-        internal static async void DiscordLogWorker()
+        internal static void DiscordLogWorker()
         {
             while (!WorkerThreads.DiscordLogWorker_WasCanceled)
             {
@@ -24,7 +22,7 @@ namespace Link_Master.Logging
                         return;
                     }
 
-                    await Task.Delay(128);
+                    Task.Delay(128).Wait();
                 }
 
                 LogConsole.ConsoleMessage consoleMessage;
@@ -82,14 +80,14 @@ namespace Link_Master.Logging
 
                 try
                 {
-                    if (!Client.IsConnected)
+                    if (!Client.IsConnected || Client.BlockNew)
                     {
                         continue;
                     }
 
                     Task task = CurrentConfig.LogChannel.SendMessageAsync(log);
 
-                    await task;
+                    task.Wait();
 
                     if (task.Status == TaskStatus.Canceled)
                     {
@@ -110,7 +108,7 @@ namespace Link_Master.Logging
                         continue;
                     }
 
-                    Link_Master.Log.FastLog("Logging", $"Unable to push log to discord: {ex.Message}, {ex.InnerException}", xLogSeverity.Error, bypassDiscord: true);
+                    Link_Master.Log.FastLog("Logging", $"Unable to push log to discord: {ex.Message}", xLogSeverity.Error, bypassDiscord: true);
                 }
             }
         }

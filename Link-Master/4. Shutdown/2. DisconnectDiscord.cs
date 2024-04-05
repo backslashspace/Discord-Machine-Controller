@@ -23,6 +23,7 @@ namespace Link_Master.Control
                 SendDiscordGoodbye(Color.Orange, "Service shutting down");
             }
 
+            Client.BlockNew = true;
             Client.IsConnected = false;
 
             Log.FastLog("Shutdown", "Disconnecting from discord", xLogSeverity.Info);

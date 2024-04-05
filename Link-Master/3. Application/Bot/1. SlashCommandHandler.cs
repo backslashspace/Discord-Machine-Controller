@@ -48,7 +48,11 @@ namespace Link_Master.Worker
             if (!ChannelEndpointIsConnected(ref channelLink))
             {
                 Log.FastLog("Discord-CMD", $"User '{command.User.Username}' ({command.User.Id}) issued /{command.CommandName} in #{command.Channel.Name} ({command.Channel.Id}), but got rejected (endpoint not connected)", xLogSeverity.Info);
-                await FormattedErrorRespondAsync(command, "Endpoint is not connected");
+
+                if (!Client.BlockNew)
+                {
+                    await FormattedErrorRespondAsync(command, "Endpoint is not connected");
+                }
 
                 return;
             }
@@ -107,7 +111,10 @@ namespace Link_Master.Worker
 
             try
             {
-                await command.RespondAsync(embed: response.Build());
+                if (!Client.BlockNew)
+                {
+                    await command.RespondAsync(embed: response.Build());
+                }
             }
             catch { }
         }

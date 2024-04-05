@@ -39,8 +39,11 @@ namespace Link_Master.Worker
             }
 
         ERROR:
+            if (!Client.BlockNew)
+            {
+                await FormattedErrorRespondAsync(command, errorString);
+            }   
 
-            await FormattedErrorRespondAsync(command, errorString);
             throw new InvalidOperationException();
         }
     }

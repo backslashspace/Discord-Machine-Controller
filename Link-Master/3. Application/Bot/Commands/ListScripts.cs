@@ -13,11 +13,8 @@ namespace Link_Master.Worker
 
             await FormattedResponseAsync(slashCommand, "Successfully enqueued request", Color.Green);
 
-            Thread thread = new(() => AwaitCommandProcessing(channelLink, remoteCommand, slashCommand))
-            {
-                Name = $"Endpoint response awaiter ID: {remoteCommand.ID}"
-            };
-
+            Thread thread = new(() => AwaitCommandProcessing(channelLink, remoteCommand, slashCommand));
+            thread.Name = $"Endpoint response awaiter ID: {remoteCommand.ID}";
             thread.Start();
         }
     }

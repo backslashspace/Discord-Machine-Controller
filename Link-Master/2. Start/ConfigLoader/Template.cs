@@ -7,7 +7,7 @@ namespace Link_Master.Control
     {
         private static void CreateConfigTemplate()
         {
-            using StreamWriter streamWriter = new($"{Program.assemblyPath}\\config.txt", true, Encoding.UTF8);
+            using StreamWriter streamWriter = new($"{Program.AssemblyPath}\\config.txt", true, Encoding.UTF8);
 
             streamWriter.WriteLine("tokenPath: \"C:\\bot\\encodedTokenFile\"");
             streamWriter.WriteLine("discordAdminUserID: \"456456456456546\"");
