@@ -108,7 +108,7 @@ namespace Link_Master.Logging
                         continue;
                     }
 
-                    Link_Master.Log.FastLog("Logging", $"Unable to push log to discord: {ex.Message}", xLogSeverity.Error, bypassDiscord: true);
+                    Link_Master.Log.FastLog("Logging", $"Unable to push log to discord: ({ex.InnerException.GetType().Name}) => {ex.InnerException.Message}", xLogSeverity.Error, bypassDiscord: true);
                 }
             }
         }

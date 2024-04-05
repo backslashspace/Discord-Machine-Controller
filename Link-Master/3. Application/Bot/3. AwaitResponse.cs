@@ -1,5 +1,5 @@
-﻿using Discord.WebSocket;
-using Discord;
+﻿using Discord;
+using Discord.WebSocket;
 using System;
 using System.Threading.Tasks;
 
@@ -10,26 +10,32 @@ namespace Link_Master.Worker
         private static void AwaitCommandProcessing(ChannelLink channelLink, Command remoteCommand, SocketSlashCommand slashCommand)
         {
             Result result;
-
             try
             {
-                result = WaitForResult(channelLink, remoteCommand);
+                try
+                {
+                    result = WaitForResult(channelLink, remoteCommand);
+                }
+                catch (Exception ex)
+                {
+                    if (ex is TimeoutException ea)
+                    {
+                        FormattedMessageAsync(slashCommand, ea.Message, Color.Red).Wait();
+                    }
+                    else
+                    {
+                        FormattedMessageAsync(slashCommand, "Link error, endpoint disconnected", Color.Red).Wait();
+                    }
+
+                    return;
+                }
+
+                DisplayResultDiscord(channelLink, slashCommand, result);
             }
             catch (Exception ex)
             {
-                if (ex is TimeoutException ea)
-                {
-                    FormattedMessageAsync(slashCommand, ea.Message, Color.Red).Wait();
-                }
-                else
-                {
-                    FormattedMessageAsync(slashCommand, "Link error, endpoint disconnected", Color.Red).Wait();
-                }
-
-                return;
+                Log.FastLog("Machine-Link", $"An error occurred in '{channelLink.Name}', error was: ({ex.InnerException.GetType().Name}) => {ex.InnerException.Message}", xLogSeverity.Error);
             }
-
-            DisplayResultDiscord(channelLink, slashCommand, result);
         }
 
         //

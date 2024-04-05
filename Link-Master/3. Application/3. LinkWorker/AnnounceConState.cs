@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using System;
+using System.Threading.Tasks;
+
 //
 using static Link_Master.Worker.Bot;
 
@@ -10,6 +12,11 @@ namespace Link_Master.Worker
     {
         private static void AnnounceConnect(ref ChannelLink channelLink)
         {
+            while (!Client.IsConnected)
+            {
+                Task.Delay(512).Wait(); // todo: not sending
+            }
+
             if ((Boolean)CurrentConfig.AnnounceEndpointConnect && !Client.BlockNew)
             {
                 try
@@ -30,7 +37,10 @@ namespace Link_Master.Worker
                         socketTextChannel.SendMessageAsync(embed: formattedResponse.Build());
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Log.FastLog("Machine-Link", $"An error occurred in '{channelLink.Name}', error was: ({ex.InnerException.GetType().Name}) => {ex.InnerException.Message}", xLogSeverity.Error);
+                }
             }
         }
 
@@ -62,7 +72,10 @@ namespace Link_Master.Worker
                         Client.Discord.GetGuild((UInt64)CurrentConfig.GuildID).GetTextChannel(channelLink.ChannelID).SendMessageAsync(embed: formattedResponse.Build());
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Log.FastLog("Machine-Link", $"An error occurred in '{channelLink.Name}', error was: ({ex.InnerException.GetType().Name}) => {ex.InnerException.Message}", xLogSeverity.Error);
+                }
             }
         }
     }
