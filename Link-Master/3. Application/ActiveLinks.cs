@@ -7,15 +7,17 @@ namespace Link_Master.Worker
 {
     internal static partial class Bot
     {
-        internal static readonly ConcurrentDictionary<UInt64, Machine> ActiveMachineLinks = new();
+        internal static ConcurrentDictionary<UInt64, Machine> ActiveMachineLinks = new();
 
-        internal readonly struct Machine
+        internal class Machine
         {
             internal Machine(UInt64 channelID, IPAddress iPAddress, ref xVersion version)
             {
                 ChannelID = channelID;
                 Address = iPAddress;
                 Version = version;
+
+                WaiterThreadCount = 0;
 
                 CommandQueue = new();
                 ResultsQueue = new();
@@ -24,6 +26,8 @@ namespace Link_Master.Worker
             internal readonly UInt64 ChannelID;
             internal readonly IPAddress Address;
             internal readonly xVersion Version;
+
+            internal UInt16 WaiterThreadCount;
 
             internal readonly Queue<Command> CommandQueue;
             internal readonly Object CommandQueue_Lock = new();

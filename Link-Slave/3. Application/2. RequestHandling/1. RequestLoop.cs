@@ -16,8 +16,6 @@ namespace Link_Slave.Worker
 
         private static Byte RequestHandlerLoop()
         {
-            Log.FastLog("Main-Worker", $"Successfully connected and authenticated on [{CurrentConfig.ServerIP}:{CurrentConfig.TcpPort}], ready to process requests", xLogSeverity.Info);
-
             Byte[] buffer;
             Byte errorCode = 0;
             
@@ -29,25 +27,30 @@ namespace Link_Slave.Worker
                 }
                 catch { return 1; }
 
-                switch ((RequestTypes)buffer[0])
+                if ((RequestTypes)buffer[0] == RequestTypes.UAliveQuestionMark)
                 {
-                    case RequestTypes.UAliveQuestionMark:
-                        KeepAlive(ref buffer, ref errorCode);                            
-                        break;
+                    KeepAlive(ref buffer, ref errorCode);
+                }
+                else
+                {
+                    Log.FastLog("Main-Worker", $"Received Request: {(RequestTypes)buffer[0]}", xLogSeverity.Info);
 
-                    case RequestTypes.EnumScripts:
-                        EnumScripts(ref errorCode);
-                        break;
+                    switch ((RequestTypes)buffer[0])
+                    {
+                        case RequestTypes.EnumScripts:
+                            EnumScripts(ref errorCode);
+                            break;
 
-                    case RequestTypes.ExecuteScript:
-                        break;
+                        case RequestTypes.ExecuteScript:
+                            break;
 
-                    case RequestTypes.RemoteDownload:
-                        break;
+                        case RequestTypes.RemoteDownload:
+                            break;
 
-                    default:
-                        NotImplemented(ref buffer[0]);
-                        break;
+                        default:
+                            NotImplemented(ref buffer[0]);
+                            break;
+                    }
                 }
 
                 if (errorCode != 0)

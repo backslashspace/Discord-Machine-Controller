@@ -10,6 +10,13 @@ namespace Link_Slave.Control
         {
             if (unsafeShutdown)
             {
+                try
+                {
+                    Client.socket.Disconnect(false);
+                    Client.socket.Close(0);
+                }
+                catch { }
+
                 Task.Delay(5120).Wait();
 
                 Environment.Exit(1);

@@ -12,6 +12,8 @@ namespace Link_Slave.Worker
 
                 if (ready.Length == 2 && ready[0] == 0b1010_1010 && ready[1] == 0b0101_0101)
                 {
+                    Log.FastLog("Main-Worker", $"Successfully connected and authenticated on [{CurrentConfig.ServerIP}:{CurrentConfig.TcpPort}], ready to process requests", xLogSeverity.Info);
+
                     return true;
                 }
             }

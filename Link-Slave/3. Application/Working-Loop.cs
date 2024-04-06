@@ -8,39 +8,46 @@ namespace Link_Slave.Worker
     {
         internal static Socket socket;
 
+        internal const Byte MaxErrorCount = 4;
+        internal static Byte errorCounter = 0;
+        internal static Boolean errorExit = false;
+
         internal static void WorkingLoop()
         {
-            for (Byte retries = 0; retries < 5; ++retries)
+            while (!errorExit)
             {
                 try
                 {
                     while (!WorkerThread.Worker_WasCanceled)
                     {
-                        CreateSocket();
-
-                        if (!Connect())
+                        if (socket == null || !socket.Connected)
                         {
-                            continue;
-                        }
-                        
-                        if (!Authenticate())
-                        {
-                            //unsuccessful
+                            CreateSocket();
 
-                            if (!WorkerThread.Worker_WasCanceled)
+                            if (!Connect())
                             {
-                                Task.Delay(8192).Wait();
+                                continue;
                             }
 
-                            continue;   
-                        }
+                            if (!Authenticate())
+                            {
+                                //unsuccessful
 
-                        if (!WaitForReady())
-                        {
-                            Task.Delay(8192).Wait();
+                                if (!WorkerThread.Worker_WasCanceled)
+                                {
+                                    Task.Delay(8192).Wait();
+                                }
 
-                            continue;
-                        }
+                                continue;
+                            }
+
+                            if (!WaitForReady())
+                            {
+                                Task.Delay(8192).Wait();
+
+                                continue;
+                            }
+                        }                        
 
                         Byte exitCode = RequestHandlerLoop();
 
@@ -56,14 +63,14 @@ namespace Link_Slave.Worker
                 }
                 catch (Exception ex)
                 {
-                    if (retries == 4)
-                    {
-                        Log.FastLog("Main-Worker", $"At least 5 total errors occurred in in the main worker thread, shutting down service", xLogSeverity.Critical);
+                    ++errorCounter;
 
-                        Control.Shutdown.ServiceComponents();
+                    if (errorCounter == 4)
+                    {
+                        ErrorExit();
                     }
 
-                    Log.FastLog("Main-Worker", $"An error occurred in the main worker thread, this was the {retries + 1} out of 5 allowed errors, the error message was:\n" +
+                    Log.FastLog("Main-Worker", $"An error occurred in the main worker thread, this was the {errorCounter + 1} out of 5 allowed errors, the error message was:\n" +
                         $"{ex.Message}\n\n\t=> continuing", xLogSeverity.Error);
                 }
             }
@@ -74,12 +81,19 @@ namespace Link_Slave.Worker
             switch (exitCode)
             {
                 case 1:
-                    Log.FastLog("Main-Worker", "Lost connection", xLogSeverity.Info);
+                    Log.FastLog("Main-Worker", "Lost connection", xLogSeverity.Warning);
                     return;
 
                 default:
                     throw new InvalidOperationException("unknown error code");
             }
+        }
+
+        private static void ErrorExit()
+        {
+            Log.FastLog("Main-Worker", $"At least 5 total errors occurred in in the main worker thread, shutting down service", xLogSeverity.Critical);
+
+            Control.Shutdown.ServiceComponents();
         }
     }
 }

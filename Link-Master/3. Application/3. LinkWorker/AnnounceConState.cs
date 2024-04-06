@@ -14,7 +14,7 @@ namespace Link_Master.Worker
         {
             while (!Client.IsConnected)
             {
-                Task.Delay(512).Wait(); // todo: not sending
+                Task.Delay(512).Wait(); // todo: not sending [edit] ???
             }
 
             if ((Boolean)CurrentConfig.AnnounceEndpointConnect && !Client.BlockNew)

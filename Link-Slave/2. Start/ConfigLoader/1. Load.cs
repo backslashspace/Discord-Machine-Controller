@@ -29,7 +29,7 @@ namespace Link_Slave.Control
             catch (Exception ex)
             {
                 Log.FastLog("Initiator", $"Unknow error while loading config, terminating", xLogSeverity.Critical);
-                Log.FastLog("Initiator", $"Message: {ex.Message}\n\nSource: {ex.Source}\n\nStackTrace: {ex.StackTrace}", xLogSeverity.Info);
+                Log.FastLog("Initiator", $"Message: {ex.Message}\n\nStackTrace: {ex.StackTrace}", xLogSeverity.Info);
 
                 Shutdown.ServiceComponents();
             }

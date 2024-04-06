@@ -77,7 +77,11 @@ namespace Link_Master.Worker
                     $"{ex.Message}\n\nSource: {ex.Source}\n\nStackTrace: {ex.StackTrace}\n\n\t=> Destroying link and freeing machine", xLogSeverity.Error);
                 }
 
-                AnnounceDisconnect(ref channelLink, true);
+                if (ActiveMachineLinks[channelLink.ChannelID].WaiterThreadCount == 0)
+                {
+                    AnnounceDisconnect(ref channelLink, true);
+                }
+                
                 DeregisterLink(ref socket, ref channelLink);
                 Disconnect(ref socket);
 

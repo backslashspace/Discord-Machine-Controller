@@ -15,6 +15,8 @@ namespace Link_Master.Worker
             try
             {
                 (response, color) = ParseResponse(ref result.ResultData);
+
+                --ActiveMachineLinks[channelLink.ChannelID].WaiterThreadCount;
             }
             catch
             {

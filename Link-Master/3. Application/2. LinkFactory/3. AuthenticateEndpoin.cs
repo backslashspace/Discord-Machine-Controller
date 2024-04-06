@@ -37,7 +37,7 @@ namespace Link_Master.Worker
             {
                 if (ex is AccessViolationException)
                 {
-                    return (false, new(), new());
+                    return (false, new(), null);
                 }
                 else if (ex is SocketException ea)
                 {
@@ -45,14 +45,14 @@ namespace Link_Master.Worker
                     {
                         Log.FastLog("Link-Factory", $"A network error occurred during authentication from {(socket.RemoteEndPoint as IPEndPoint).Address}, error code was: {ea.SocketErrorCode}", xLogSeverity.Alert);
 
-                        return (false, new(), new());
+                        return (false, new(), null);
                     }
                     catch { }
                 }
 
                 Log.FastLog("Link-Factory", $"An endpoint attempted to authenticate, but failed with the following error message: {ex.Message}", xLogSeverity.Error);
 
-                return (false, new(), new());
+                return (false, new(), null);
             }
         }
 

@@ -28,6 +28,8 @@ namespace Link_Master.Worker
                 try
                 {
                     ActiveMachineLinks[channelLink.ChannelID].CommandQueue.Enqueue(remoteCommand);  //gets send by LinkWorker thread
+
+                    ++ActiveMachineLinks[channelLink.ChannelID].WaiterThreadCount;
                 }
                 catch
                 {
