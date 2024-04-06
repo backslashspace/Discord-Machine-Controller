@@ -37,7 +37,7 @@ namespace Link_Master.Worker
 
                         if (!EndpointIsAlive(ref socket, ref channelLink))
                         {
-                            AnnounceDisconnect(ref channelLink, false);
+                            AnnounceDisconnect(ref channelLink, false, ref cancellationToken);
                             DeregisterLink(ref socket, ref channelLink);
                             Disconnect(ref socket);
 
@@ -79,7 +79,7 @@ namespace Link_Master.Worker
 
                 if (ActiveMachineLinks[channelLink.ChannelID].WaiterThreadCount == 0)
                 {
-                    AnnounceDisconnect(ref channelLink, true);
+                    AnnounceDisconnect(ref channelLink, true, ref cancellationToken);
                 }
                 
                 DeregisterLink(ref socket, ref channelLink);
@@ -88,7 +88,7 @@ namespace Link_Master.Worker
                 return;
             }
 
-            AnnounceDisconnect(ref channelLink, false);
+            AnnounceDisconnect(ref channelLink, false, ref cancellationToken);
             DeregisterLink(ref socket, ref channelLink);
             Disconnect(ref socket);
         }

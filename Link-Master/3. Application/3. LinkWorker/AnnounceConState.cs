@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 //
@@ -44,7 +45,7 @@ namespace Link_Master.Worker
             }
         }
 
-        private static void AnnounceDisconnect(ref ChannelLink channelLink, Boolean error)
+        private static void AnnounceDisconnect(ref ChannelLink channelLink, Boolean error, ref CancellationToken cancellationToken)
         {
             if ((Boolean)CurrentConfig.AnnounceEndpointConnect && !Client.BlockNew)
             {
@@ -61,11 +62,24 @@ namespace Link_Master.Worker
 
                 try
                 {
-                    EmbedBuilder formattedResponse = new()
+                    EmbedBuilder formattedResponse;
+
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        Color = color,
-                        Description = "Endpoint disconnected",
-                    };
+                        formattedResponse = new()
+                        {
+                            Color = new Color(0u),
+                            Description = "Endpoint disconnected, master shutting down",
+                        };
+                    }
+                    else
+                    {
+                        formattedResponse = new()
+                        {
+                            Color = color,
+                            Description = "Endpoint disconnected",
+                        };
+                    }
 
                     if (!Client.BlockNew)
                     {
