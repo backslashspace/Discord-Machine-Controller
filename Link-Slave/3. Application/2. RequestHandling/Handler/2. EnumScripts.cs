@@ -8,7 +8,7 @@ namespace Link_Slave.Worker
     {
         private static void EnumScripts(ref Byte errorCode)
         {
-            Thread.Sleep(40000);
+            Thread.Sleep(10000);
 
             String[] directories;
             Byte[] rawResponse;

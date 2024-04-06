@@ -80,6 +80,40 @@ namespace Link_Master.Control
                     }
                 }
 
+                if (CurrentConfig.GatewayDebug == null)
+                {
+                    Match match = Regex.Match(configLines[b], Pattern.DiscordGatewayDebugMode, RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        try
+                        {
+                            CurrentConfig.GatewayDebug = Boolean.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Invalid discordGatewayDebugMode value must be \"true\" or \"false\", default false, terminating");
+                        }
+                    }
+                }
+
+                if (CurrentConfig.AnnounceEndpointConnect == null)
+                {
+                    Match match = Regex.Match(configLines[b], Pattern.DiscordAnnounceEndpointConnect, RegexOptions.IgnoreCase);
+
+                    if (match.Success)
+                    {
+                        try
+                        {
+                            CurrentConfig.AnnounceEndpointConnect = Boolean.Parse(match.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            Error("Invalid discordAnnounceEndpointConnect value, terminating");
+                        }
+                    }
+                }
+
                 //will be verified after Bot.Connect()
 
                 if (CurrentConfig.DiscordAdmin == null)
@@ -116,23 +150,6 @@ namespace Link_Master.Control
                     }
                 }
 
-                if (CurrentConfig.GatewayDebug == null)
-                {
-                    Match match = Regex.Match(configLines[b], Pattern.DiscordGatewayDebugMode, RegexOptions.IgnoreCase);
-
-                    if (match.Success)
-                    {
-                        try
-                        {
-                            CurrentConfig.GatewayDebug = Boolean.Parse(match.Groups[1].Value);
-                        }
-                        catch
-                        {
-                            Error("Invalid discordGatewayDebugMode value must be \"true\" or \"false\", default false, terminating");
-                        }
-                    }
-                }
-
                 if (Worker.Bot.LogChannelID == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.LogChannelID, RegexOptions.IgnoreCase);
@@ -146,23 +163,6 @@ namespace Link_Master.Control
                         catch
                         {
                             Error("Failed to parse logChannelID from config, terminating");
-                        }
-                    }
-                }
-
-                if (CurrentConfig.AnnounceEndpointConnect == null)
-                {
-                    Match match = Regex.Match(configLines[b], Pattern.DiscordAnnounceEndpointConnect, RegexOptions.IgnoreCase);
-
-                    if (match.Success)
-                    {
-                        try
-                        {
-                            CurrentConfig.AnnounceEndpointConnect = Boolean.Parse(match.Groups[1].Value);
-                        }
-                        catch
-                        {
-                            Error("Invalid discordAnnounceEndpointConnect value, terminating");
                         }
                     }
                 }

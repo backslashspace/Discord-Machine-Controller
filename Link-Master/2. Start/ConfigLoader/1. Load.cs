@@ -47,7 +47,7 @@ namespace Link_Master.Control
 
                     Log.FastLog("Initiator", "Missing config file, created a template in assembly file location, terminating", xLogSeverity.Info);
 
-                    Shutdown.ServiceComponents(false);
+                    Shutdown.ServiceComponents(unsafeShutdown: false);
                 }
 
                 using StreamReader streamReader = new($"{Program.AssemblyPath}\\config.txt", Encoding.UTF8);

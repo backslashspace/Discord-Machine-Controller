@@ -7,7 +7,6 @@ namespace Link_Master
 {
     internal partial class Program
     {
-
         internal static void Start(String[] args)
         {
             //Task.Delay(10000).Wait();
