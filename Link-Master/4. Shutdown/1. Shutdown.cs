@@ -24,7 +24,7 @@ namespace Link_Master.Control
                 Log.FastLog("Win32", "Service shutdown initiated", xLogSeverity.Info);
             }
 
-            StopLinkWorker();
+            StopLinkWorker();   //disconnect message on discord may not be reliably send (discord rate limit / internal timeouts)
 
             DisconnectDiscord(ref unsafeShutdown);
 

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,12 +14,17 @@ namespace Link_Master.Worker
     {
         private static void AnnounceConnect(ref ChannelLink channelLink)
         {
-            while (!Client.IsConnected)
+            if (!(Boolean)CurrentConfig.AnnounceEndpointConnect)
             {
-                Task.Delay(512).Wait(); // todo: not sending [edit] ???
+                return;
             }
 
-            if ((Boolean)CurrentConfig.AnnounceEndpointConnect && !Client.BlockNew)
+            while (!Client.IsConnected)
+            {
+                Task.Delay(512).Wait();
+            }
+
+            if (!Client.BlockNew)
             {
                 try
                 {

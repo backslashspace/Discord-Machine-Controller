@@ -150,7 +150,7 @@ namespace Link_Master.Control
                     }
                 }
 
-                if (CurrentConfig.CmdRegisterOnBoot == null)
+                if (CurrentConfig.AnnounceEndpointConnect == null)
                 {
                     Match match = Regex.Match(configLines[b], Pattern.DiscordAnnounceEndpointConnect, RegexOptions.IgnoreCase);
 

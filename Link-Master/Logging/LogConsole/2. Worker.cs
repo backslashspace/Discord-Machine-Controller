@@ -24,9 +24,9 @@ namespace Link_Master.Logging
 
         internal static void ConsoleServer()
         {
-            Byte restartAttempts = 0; // todo: use for loop
+            Byte MAXRestartAttempts = 5;
             
-            for (Byte retries = 0; retries < 5; ++retries)
+            for (Byte retries = 0; retries < MAXRestartAttempts; ++retries)
             {
                 try
                 {
@@ -79,14 +79,14 @@ namespace Link_Master.Logging
                 {
                     if (retries == 4)
                     {
-                        Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({restartAttempts}), stopping worker", xLogSeverity.Critical);
+                        Link_Master.Log.FastLog("Console", $"The console thread threw an unknown exception: {ex.Message}\n\nReached the maximum amount of issues ({MAXRestartAttempts}), stopping worker", xLogSeverity.Critical);
 
                         ResetWorker();
 
                         return;
                     }
 
-                    Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{restartAttempts}' out of 5 allowed attempts to reset the worker.", xLogSeverity.Critical);
+                    Link_Master.Log.FastLog("Console", $"The console log thread threw an unknown exception: {ex.Message}\n\nThis is the '{retries}' out of {MAXRestartAttempts} allowed attempts to reset the worker.", xLogSeverity.Critical);
                 }
             }
         }
