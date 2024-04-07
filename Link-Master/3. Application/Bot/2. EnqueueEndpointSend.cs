@@ -8,14 +8,24 @@ namespace Link_Master.Worker
     {
         private static async Task<Command> TryEnqueue(ChannelLink channelLink, CommandAction action, SocketSlashCommand command, Byte[] optionalCommandData = null)
         {
-            Byte newCommandID;
+            Byte newCommandID = 0;
             String errorString = null;
 
             lock (ActiveMachineLinks[channelLink.ChannelID].CommandQueue_Lock)
             {
                 try
                 {
-                    newCommandID = (Byte)ActiveMachineLinks[channelLink.ChannelID].CommandQueue.Count;
+                RESTART:
+
+                    foreach (Command queuedCommand in ActiveMachineLinks[channelLink.ChannelID].CommandQueue)
+                    {
+                        if (queuedCommand.ID == newCommandID)
+                        {
+                            ++newCommandID;
+
+                            goto RESTART;
+                        }
+                    }
                 }
                 catch
                 {
@@ -23,7 +33,7 @@ namespace Link_Master.Worker
                     goto ERROR;
                 }
 
-                Command remoteCommand = new((Byte)(newCommandID + 1), action, optionalCommandData);
+                Command remoteCommand = new((Byte)(newCommandID), action, optionalCommandData);
 
                 try
                 {

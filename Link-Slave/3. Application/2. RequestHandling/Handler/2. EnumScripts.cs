@@ -8,13 +8,13 @@ namespace Link_Slave.Worker
     {
         private static void EnumScripts(ref Byte errorCode)
         {
-            Thread.Sleep(10000);
-
             String[] directories;
             Byte[] rawResponse;
 
             String formattedResult;
             Color responseColor;
+
+            Thread.Sleep(10000);
 
             try
             {

@@ -47,7 +47,7 @@ namespace Link_Master.Worker
 
                     lock (ActiveMachineLinks[channelLink.ChannelID].CommandQueue_Lock)
                     {
-                        request = ActiveMachineLinks[channelLink.ChannelID].CommandQueue.Dequeue();
+                        request = ActiveMachineLinks[channelLink.ChannelID].CommandQueue.Peek();
                     }
 
                     SendRequest(ref socket, ref request, ref channelLink);
@@ -56,7 +56,12 @@ namespace Link_Master.Worker
 
                     lock (ActiveMachineLinks[channelLink.ChannelID].ResultsQueue_Lock)
                     {
-                        ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Enqueue(new(request.ID, ref response));
+                        lock (ActiveMachineLinks[channelLink.ChannelID].CommandQueue_Lock)
+                        {
+                            ActiveMachineLinks[channelLink.ChannelID].CommandQueue.Dequeue();
+                            
+                            ActiveMachineLinks[channelLink.ChannelID].ResultsQueue.Enqueue(new(request.ID, ref response));
+                        }
                     }
                 }
             }

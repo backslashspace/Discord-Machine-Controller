@@ -48,7 +48,7 @@ namespace Link_Slave.Worker
                             break;
 
                         default:
-                            NotImplemented(ref buffer[0]);
+                            NotImplemented(ref buffer[0], ref errorCode);
                             break;
                     }
                 }
