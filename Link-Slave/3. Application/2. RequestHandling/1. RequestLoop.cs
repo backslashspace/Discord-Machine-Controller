@@ -46,6 +46,7 @@ namespace Link_Slave.Worker
                             break;
 
                         case RequestTypes.RemoteDownload:
+                            RemoteDownload(ref  errorCode, ref buffer);
                             break;
 
                         default:
