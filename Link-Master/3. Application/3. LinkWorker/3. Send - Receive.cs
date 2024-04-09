@@ -9,21 +9,12 @@ namespace Link_Master.Worker
     {
         private static void ReceiveResponse(ref Socket socket, ref ChannelLink channelLink, ref Command command, out Byte[] response)
         {
-            switch (command.CommandAction)
+            socket.ReceiveTimeout = command.CommandAction switch
             {
-                case CommandAction.RemoteDownload:
-                    socket.ReceiveTimeout = 51200;
-                    break;
-
-                case CommandAction.ExecuteScript:
-                    socket.ReceiveTimeout = 51200;
-                    break;
-
-                default:
-                    socket.ReceiveTimeout = 25600;
-                    break;
-            }
-
+                CommandAction.RemoteDownload => 51200,
+                CommandAction.ExecuteScript => 51200,
+                _ => 25600,
+            };
             response = AES_TCP.Receive(ref socket, channelLink.AES_Key, channelLink.HMAC_Key);
 
             socket.ReceiveTimeout = 5120;

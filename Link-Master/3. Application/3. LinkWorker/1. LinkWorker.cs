@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Sockets;
 using System.Security;
 using System.Threading;
@@ -71,6 +72,11 @@ namespace Link_Master.Worker
                 {
                     Log.FastLog("Machine-Link", $"A network error caused an exception in link worker '{Thread.CurrentThread.Name}', the error message was:\n" +
                     $"{e.Message} ({e.SocketErrorCode})\n\t=> Destroying link and freeing machine", xLogSeverity.Error);
+                }
+                else if (ex is InvalidDataException ea)
+                {
+                    Log.FastLog("Machine-Link", $"A network error caused an exception in link worker '{Thread.CurrentThread.Name}', the error message was:\n" +
+                    $"{ea.Message}\n\t=> Destroying link and freeing machine", xLogSeverity.Error);
                 }
                 else if (ex is SecurityException)
                 {

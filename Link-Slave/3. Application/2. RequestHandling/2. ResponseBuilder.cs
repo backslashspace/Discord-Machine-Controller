@@ -7,10 +7,12 @@ namespace Link_Slave.Worker
     {
         private static Byte[] ServerResponseBuilder(ref String text, ref Color color)
         {
-            Byte[] response = new Byte[text.Length + 4];
+            Byte[] rawText = Encoding.UTF8.GetBytes(text);
+
+            Byte[] response = new Byte[rawText.Length + 4];
 
             Buffer.BlockCopy(BitConverter.GetBytes((UInt32)color), 0, response, 0, 4);
-            Buffer.BlockCopy(Encoding.UTF8.GetBytes(text), 0, response, 4, response.Length - 4);
+            Buffer.BlockCopy(rawText, 0, response, 4, rawText.Length);
 
             return response;
         }

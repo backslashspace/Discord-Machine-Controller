@@ -42,6 +42,7 @@ namespace Link_Slave.Worker
                             break;
 
                         case RequestTypes.ExecuteScript:
+                            ExecuteScript(ref errorCode, ref buffer);
                             break;
 
                         case RequestTypes.RemoteDownload:

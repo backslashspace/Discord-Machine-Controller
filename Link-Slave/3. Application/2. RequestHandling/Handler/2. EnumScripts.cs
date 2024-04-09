@@ -14,8 +14,6 @@ namespace Link_Slave.Worker
             String formattedResult;
             Color responseColor;
 
-            Thread.Sleep(10000);
-
             try
             {
                 directories = Directory.GetFiles(CurrentConfig.ScriptDirectory);

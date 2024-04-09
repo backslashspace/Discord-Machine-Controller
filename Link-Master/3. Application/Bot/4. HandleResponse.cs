@@ -35,7 +35,7 @@ namespace Link_Master.Worker
                 response = response.Substring(0, 4064);
             }
 
-            FormattedMessageAsync(slashCommand, response + Thread.CurrentThread.Name, color).Wait();
+            FormattedMessageAsync(slashCommand, response, color).Wait();
             Log.FastLog("Discord-CMD", $"Successfully received and displayed result from endpoint '{channelLink.Name}' for user '{slashCommand.User.Username}' ({slashCommand.User.Id}) in channel #{slashCommand.Channel.Name}", xLogSeverity.Info);
         }
 
