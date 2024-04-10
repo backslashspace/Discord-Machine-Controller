@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -16,7 +17,8 @@ namespace LogViewer
 
         private static void Main()
         {
-            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
+
             Console.Title = $"{ProgramName} v{Version}";
 
             xConsole.PrintLogo();

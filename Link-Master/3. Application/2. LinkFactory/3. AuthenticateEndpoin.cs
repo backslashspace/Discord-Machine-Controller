@@ -147,7 +147,7 @@ namespace Link_Master.Worker
 
         private static xVersion VersionExchange(ref byte[] buffer, ref ChannelLink channelLink)
         {
-            buffer = xVersion.GetBytes(ref Program.Version);
+            buffer = xVersion.GetBytes(ref Program.AssemblyVersion);
 
             try
             {

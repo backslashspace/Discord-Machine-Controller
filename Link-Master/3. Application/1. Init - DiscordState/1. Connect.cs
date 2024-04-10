@@ -34,7 +34,7 @@ namespace Link_Master.Worker
                 
                 Client.Discord.SlashCommandExecuted += SlashCommandHandler;
 
-                Client.Discord.SetGameAsync($"v{Program.Version}", null, ActivityType.Watching).Wait();
+                Client.Discord.SetGameAsync($"v{Program.AssemblyVersion}", null, ActivityType.Watching).Wait();
 
                 await Client.Discord.LoginAsync(TokenType.Bot, GetToken(), true);
                 await Client.Discord.StartAsync();

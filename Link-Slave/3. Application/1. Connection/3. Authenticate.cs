@@ -123,7 +123,7 @@ namespace Link_Slave.Worker
             
             Log.FastLog("Connection", $"Server version: {CurrentConfig.ServerVersion}", xLogSeverity.Info);
 
-            buffer = xVersion.GetBytes(ref Program.Version);
+            buffer = xVersion.GetBytes(ref Program.AssemblyVersion);
 
             try
             {

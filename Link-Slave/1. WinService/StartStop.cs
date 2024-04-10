@@ -14,7 +14,7 @@ namespace Link_Slave
 
             TryCreateNewLine();     //create new line in log for better readability
 
-            Log.FastLog("Win32", $"Service [v{Version}] start initiated", xLogSeverity.Info);
+            Log.FastLog("Win32", $"Service [{AssemblyInformationalVersion}] ({AssemblyFileVersion}) start initiated", xLogSeverity.Info);
 
             Control.Start.Initiate();
         }

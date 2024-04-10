@@ -10,7 +10,10 @@ namespace Link_Master
     {
         internal static String AssemblyPath;
         internal static String ServiceName;
-        internal static xVersion Version;
+
+        internal static xVersion AssemblyVersion;
+        internal static xVersion AssemblyFileVersion;
+        internal static String AssemblyInformationalVersion;
 
         internal static Stopwatch LoadTime = new();
 
@@ -18,9 +21,10 @@ namespace Link_Master
         {
             LoadTime.Start();
 
+            GetVersionInfos();
+
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            Version = new(Assembly.GetExecutingAssembly().GetName().Version);
-            ServiceName = $"Discord Link-Master v{Version}";
+            ServiceName = $"Discord Link-Master {AssemblyInformationalVersion} ({AssemblyFileVersion}";
 
             ServiceBase[] service = new[]
             {
@@ -29,6 +33,15 @@ namespace Link_Master
             ServiceBase.Run(service);
 
             Environment.Exit(0);
+        }
+
+        private static void GetVersionInfos()
+        {
+            AssemblyVersion = new(Assembly.GetExecutingAssembly().GetName().Version);
+
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+            AssemblyFileVersion = new((UInt16)fileVersionInfo.FileMajorPart, (UInt16)fileVersionInfo.FileMinorPart, (UInt16)fileVersionInfo.FileBuildPart, (UInt16)fileVersionInfo.FilePrivatePart);
+            AssemblyInformationalVersion = fileVersionInfo.ProductVersion;
         }
     }
 }

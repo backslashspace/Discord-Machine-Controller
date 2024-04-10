@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -7,7 +8,6 @@ namespace TokenGen
 {
     internal class Program
     {
-        private static String version;
         private static String path;
 
         private static String Titel;
@@ -49,12 +49,11 @@ namespace TokenGen
         }
 
         private static void PrepareWindowPlusEnv()
-        { 
+        {
             Titel = Console.Title;
-            Console.Title = "Master token generator v" + version;
+            Console.Title = "Master token generator v" + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
             path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private static void WriteEncodedTokenToDisk(ref String input)
