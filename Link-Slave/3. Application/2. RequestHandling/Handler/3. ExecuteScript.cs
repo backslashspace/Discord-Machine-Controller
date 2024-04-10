@@ -28,7 +28,7 @@ namespace Link_Slave.Worker
             
             if (!File.Exists(CurrentConfig.ScriptDirectory + "\\" + fileName))
             {
-                formattedResult = $"Failed to execute script file\nFile: `{fileName} not found`";
+                formattedResult = $"Failed to execute script file\nFile: `{fileName}` not found";
                 responseColor = Color.Red;
                 goto SEND;
             }
