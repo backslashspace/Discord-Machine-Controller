@@ -1,28 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Configurator
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            Pin.MainWindow = this;
+            Pin.Dispatcher = Dispatcher;
+
+            GetAppInfo();
+
+            Title = "LCC v" + AppInfo.AssemblyFileVersion.ToString();
+            Window_Title.Text = "Link-Client Configurator v" + AppInfo.AssemblyInformationalVersion;
+        }
+
+        private static void GetAppInfo()
+        {
+            AppInfo.AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            AppInfo.AssemblyVersion = new(Assembly.GetExecutingAssembly().GetName().Version);
+
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+            AppInfo.AssemblyFileVersion = new((UInt16)fileVersionInfo.FileMajorPart, (UInt16)fileVersionInfo.FileMinorPart, (UInt16)fileVersionInfo.FileBuildPart, (UInt16)fileVersionInfo.FilePrivatePart);
+            AppInfo.AssemblyInformationalVersion = fileVersionInfo.ProductVersion;
         }
     }
 }

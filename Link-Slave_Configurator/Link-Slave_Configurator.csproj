@@ -38,6 +38,15 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>App\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Configurator.CustomAppEntry</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>imageres_1014.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,24 +57,55 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="App\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\3. Confirm.xaml.cs">
+      <DependentUpon>3. Confirm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\2. IsInstalled.xaml.cs">
+      <DependentUpon>2. IsInstalled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\1. NotInstalled.xaml.cs">
+      <DependentUpon>1. NotInstalled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\4. Result.xaml.cs">
+      <DependentUpon>4. Result.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowControl.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="App\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="App\CustomAppEntry.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\3. Confirm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\2. IsInstalled.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\1. NotInstalled.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\4. Result.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="state.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,13 +123,26 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App\app.manifest" />
+    <Resource Include="Fonts\Inter-Bold.ttf" />
+    <Resource Include="Fonts\Inter-Medium.ttf" />
+    <Resource Include="Fonts\Inter-SemiBold.ttf" />
+    <Resource Include="Fonts\Inter-ExtraLight.ttf" />
+    <Resource Include="Fonts\Inter-Light.ttf" />
+    <Resource Include="Fonts\Inter-Regular.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App\App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="imageres_1014.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>PowerShell ..\..\..\postbuild_IncrementFileBuildNumber.ps1</PostBuildEvent>
+  </PropertyGroup>
 </Project>
