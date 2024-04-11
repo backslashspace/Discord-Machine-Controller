@@ -15,11 +15,20 @@ using System.Windows.Shapes;
 
 namespace Configurator.Views
 {
-    public partial class NotInstalled : UserControl
+    public partial class Status : UserControl
     {
-        public NotInstalled()
+        public Status()
         {
             InitializeComponent();
+
+            Loaded += OnLoaded;
+        }
+
+        //
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

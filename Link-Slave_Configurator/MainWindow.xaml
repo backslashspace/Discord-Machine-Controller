@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource MainBackgroundColor}"
         Title="MainWindow"
-        Height="400" Width="650">
+        Height="400" Width="652">
 
     <!--#region WindowCrome -->
     <WindowChrome.WindowChrome>
@@ -21,15 +21,6 @@
             GlassFrameThickness="0,0,0,1"
             NonClientFrameEdges="Bottom"/>
     </WindowChrome.WindowChrome>
-    <!--#endregion-->
-
-    <!--#region Resources -->
-    <Window.Resources>
-
-        <SolidColorBrush x:Key="MainBackgroundColor" Color="#1b1b1f"/>
-        <SolidColorBrush x:Key="WindowInteractionStrokeColor" Color="#fbf8fd"/>
-
-    </Window.Resources>
     <!--#endregion-->
 
     <Grid Margin="0,31,0,0" >
@@ -126,11 +117,33 @@
         <!--#endregion-->
 
         <!--#endregion-->
+
+        <Grid Margin="0,0,0,64">
+            <controls:Status x:Name="StatusView" Visibility="Visible"/>
+            <controls:Confirm x:Name="ConfirmView" Visibility="Collapsed"/>
+            <controls:Result x:Name="ResultView" Visibility="Collapsed"/>
+        </Grid>
+
+        <Button Style="{DynamicResource SecondaryButton}"
+            Margin="0,0,190,21"
+            Width="162" Height="38"
+            HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            Content="Label"/>
+
+        <Button Style="{DynamicResource PrimaryButton}"
+            Margin="0,0,23,21"
+               
+            Width="162" Height="38"
+            HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            Content="Label"/>
+
+        <Button Style="{DynamicResource TextButton}"
+            Margin="0,0,357,21"
         
-        
-        
-        
-        
-        
+            Width="162" Height="38"
+            HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            Content="Label"/>
+
+
     </Grid>
 </Window>
