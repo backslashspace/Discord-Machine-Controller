@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34607.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Master", "Link-Master\Link-Master.csproj", "{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[SERVICE] Link-Master", "[SERVICE] Link-Master\[SERVICE] Link-Master.csproj", "{6D773B0A-3C78-4BBE-A48B-C33BDE359BC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Slave", "Link-Slave\Link-Slave.csproj", "{C73668D0-8557-4208-A96C-91F53C8063B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[SERVICE] Link-Slave", "[SERVICE] Link-Slave\[SERVICE] Link-Slave.csproj", "{C73668D0-8557-4208-A96C-91F53C8063B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Master_TokenGen", "Link-Master_TokenGen\Link-Master_TokenGen.csproj", "{8D5DABA5-5785-407F-A96D-DF518E0F5A15}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[CLI] Link-Master_TokenGen", "[CLI] Link-Master_TokenGen\[CLI] Link-Master_TokenGen.csproj", "{8D5DABA5-5785-407F-A96D-DF518E0F5A15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Master_LiveLogViewer", "Link-Master_LiveLogViewer\Link-Master_LiveLogViewer.csproj", "{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[CLI] Link-Master_LiveLogViewer", "[CLI] Link-Master_LiveLogViewer\[CLI] Link-Master_LiveLogViewer.csproj", "{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Link-Slave_Configurator", "Link-Slave_Configurator\Link-Slave_Configurator.csproj", "{095620EC-C150-49F8-ADB9-398F4C9C2363}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[WPF] Link-Slave_Configurator", "[WPF] Link-Slave_Configurator\[WPF] Link-Slave_Configurator.csproj", "{095620EC-C150-49F8-ADB9-398F4C9C2363}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notes", "notes", "{6389228E-4451-44D7-86B2-B802E9F820DD}"
 	ProjectSection(SolutionItems) = preProject
