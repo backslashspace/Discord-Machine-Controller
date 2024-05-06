@@ -2,7 +2,10 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Configurator
 {
@@ -10,15 +13,15 @@ namespace Configurator
     {
         public MainWindow()
         {
+            WinThemeRegChangeEventHook();
             InitializeComponent();
+            GetAppInfo();
 
             Pin.MainWindow = this;
             Pin.Dispatcher = Dispatcher;
 
-            GetAppInfo();
-
-            Title = "LCC v" + AppInfo.AssemblyFileVersion.ToString();
-            Window_Title.Text = "Link-Client Configurator v" + AppInfo.AssemblyInformationalVersion;
+            Title = "LC v" + AppInfo.AssemblyFileVersion.ToString();
+            Window_Title.Text = "Link Configurator v" + AppInfo.AssemblyInformationalVersion;  
         }
 
         private static void GetAppInfo()

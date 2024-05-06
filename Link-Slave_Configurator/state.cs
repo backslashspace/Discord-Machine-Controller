@@ -12,6 +12,11 @@ namespace Configurator
         internal static String AssemblyInformationalVersion;
     }
 
+    internal struct WindowsColors
+    {
+        internal static xColor[] AccentPalette;
+    }
+
     internal struct Pin
     {
         internal static MainWindow MainWindow;
@@ -19,6 +24,13 @@ namespace Configurator
     }
 
     //######################################################
+
+    internal struct xColor
+    {
+        internal Byte Red;
+        internal Byte Green;
+        internal Byte Blue;
+    }
 
     #region xVersion
     internal readonly struct xVersion

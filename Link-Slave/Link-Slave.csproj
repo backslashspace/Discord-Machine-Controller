@@ -142,6 +142,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>PowerShell ..\..\..\postbuild_IncrementFileBuildNumber.ps1</PostBuildEvent>
+    <PostBuildEvent>call ..\..\..\Build-Incrementor.exe ..\..\Properties\AssemblyInfo.cs</PostBuildEvent>
   </PropertyGroup>
 </Project>

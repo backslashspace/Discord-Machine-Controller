@@ -2,37 +2,37 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-// Allgemeine Informationen über eine Assembly werden über die folgenden
-// Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
+// Allgemeine Informationen ï¿½ber eine Assembly werden ï¿½ber die folgenden
+// Attribute gesteuert. ï¿½ndern Sie diese Attributwerte, um die Informationen zu ï¿½ndern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("Link-Slave")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Link-Slave")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCopyright("Copyright ï¿½  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf FALSE werden die Typen in dieser Assembly
-// für COM-Komponenten unsichtbar.  Wenn Sie auf einen Typ in dieser Assembly von
-// COM aus zugreifen müssen, sollten Sie das ComVisible-Attribut für diesen Typ auf "True" festlegen.
+// fï¿½r COM-Komponenten unsichtbar.  Wenn Sie auf einen Typ in dieser Assembly von
+// COM aus zugreifen mï¿½ssen, sollten Sie das ComVisible-Attribut fï¿½r diesen Typ auf "True" festlegen.
 [assembly: ComVisible(false)]
 
-// Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
+// Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt fï¿½r COM verfï¿½gbar gemacht wird
 [assembly: Guid("c73668d0-8557-4208-a96c-91f53c8063b5")]
 
-// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
+// Versionsinformationen fï¿½r eine Assembly bestehen aus den folgenden vier Werten:
 //
 //      Hauptversion
 //      Nebenversion
 //      Buildnummer
 //      Revision
 //
-// Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
+// Sie kï¿½nnen alle Werte angeben oder Standardwerte fï¿½r die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.0.0")]
 
-[assembly: AssemblyFileVersion("2.0.0.55")]
-[assembly: AssemblyInformationalVersion("2.0-rc1")]
+[assembly: AssemblyFileVersion("2.0.0.58")]
+[assembly: AssemblyInformationalVersion("2.0 rc1")]

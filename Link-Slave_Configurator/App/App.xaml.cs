@@ -3,6 +3,5 @@
 namespace Configurator
 {
     public partial class App : Application
-    {
-    }
+    { }
 }

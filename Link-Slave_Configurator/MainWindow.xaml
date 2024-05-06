@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource MainBackgroundColor}"
         Title="MainWindow"
-        Height="400" Width="652">
+        Height="400" Width="702">
 
     <!--#region WindowCrome -->
     <WindowChrome.WindowChrome>

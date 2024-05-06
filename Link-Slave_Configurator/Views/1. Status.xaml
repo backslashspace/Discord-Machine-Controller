@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Configurator.Views"
              mc:Ignorable="d" 
              
-             d:DesignHeight="305" d:DesignWidth="652">
+             d:DesignHeight="305" d:DesignWidth="702">
 
     <Grid Margin="20,20,20,40" UseLayoutRounding="True">
         <Border x:Name="Mask" Background="#131316" CornerRadius="10"/>
@@ -15,11 +15,11 @@
                 <VisualBrush Visual="{Binding ElementName=Mask}"/>
             </Grid.OpacityMask>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40px"/>
@@ -28,7 +28,7 @@
                 <RowDefinition Height="1px"/>
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
-            
+
             <!--#region Head -->
             <Grid Background="#0e0e11" Grid.ColumnSpan="5"/>
             <Grid Background="#45464f" Grid.ColumnSpan="5" Grid.Row="1"/>
@@ -36,9 +36,9 @@
 
             <TextBlock Style="{DynamicResource TextBlock}"
                     FontSize="14"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Grid.Row="0"
+                    Margin="14,0,0,0"
                     Grid.Column="0"
                     Text="Service"/>
 
@@ -68,15 +68,74 @@
 
             <TextBlock Style="{DynamicResource TextBlock}"
                     FontSize="14"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Grid.Row="0"
                     Grid.Column="4"
-                    Text="Update | Reinstall"/>
-                <!--#endregion-->
+                    Text="Update | Reinstall"
+                    Margin="0,0,14,0"/>
+            <!--#endregion-->
 
+            <!--#region Line-One -->
+            <TextBlock Style="{DynamicResource TextBlock}"
+                FontSize="14"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="14,0,0,0"
+                Grid.Column="0"
+                Grid.Row="2"
+                Text="&lt;service name&gt;"/>
 
+            <TextBlock Style="{DynamicResource TextBlock}"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,-18,0,0"
+                Text="Loading..."/>
+            <TextBlock Style="{DynamicResource TextBlock}"
+                FontSize="14"
+                Foreground="#c3c5dd"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,18,0,0"
+                Text="Loading..."/>
 
+            <TextBlock Style="{DynamicResource TextBlock}"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="2"
+                Grid.Column="2"
+                Foreground="#c3c5dd"
+                Text="Loading..."/>
+
+            <TextBlock Style="{DynamicResource TextBlock}"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="2"
+                Grid.Column="3"
+                Foreground="#c3c5dd"
+                Text="Loading..."/>
+
+            <TextBlock Style="{DynamicResource TextBlock}"
+                FontSize="14"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Grid.Row="2"
+                Grid.Column="4"
+                Text="- CheckBox -"/>
+
+            <CheckBox
+                Grid.Row="2"
+                Grid.Column="4"
+                Margin="24,25,32,26"
+                />
+
+            <!--#endregion-->
 
 
         </Grid>

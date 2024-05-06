@@ -4,21 +4,21 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-// Allgemeine Informationen über eine Assembly werden über die folgenden
-// Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
+// Allgemeine Informationen ï¿½ber eine Assembly werden ï¿½ber die folgenden
+// Attribute gesteuert. ï¿½ndern Sie diese Attributwerte, um die Informationen zu ï¿½ndern,
 // die einer Assembly zugeordnet sind.
 [assembly: AssemblyTitle("Link-Slave_Configurator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Link-Slave_Configurator")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCopyright("Copyright ï¿½  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf FALSE werden die Typen in dieser Assembly
-// für COM-Komponenten unsichtbar.  Wenn Sie auf einen Typ in dieser Assembly von
-// COM aus zugreifen müssen, sollten Sie das ComVisible-Attribut für diesen Typ auf "True" festlegen.
+// fï¿½r COM-Komponenten unsichtbar.  Wenn Sie auf einen Typ in dieser Assembly von
+// COM aus zugreifen mï¿½ssen, sollten Sie das ComVisible-Attribut fï¿½r diesen Typ auf "True" festlegen.
 [assembly: ComVisible(false)]
 
 //Um mit dem Erstellen lokalisierbarer Anwendungen zu beginnen, legen Sie
@@ -26,32 +26,32 @@ using System.Windows;
 //in einer <PropertyGroup> fest.  Wenn Sie in den Quelldateien beispielsweise Deutsch
 //(Deutschland) verwenden, legen Sie <UICulture> auf \"de-DE\" fest.  Heben Sie dann die Auskommentierung
 //des nachstehenden NeutralResourceLanguage-Attributs auf.  Aktualisieren Sie "en-US" in der nachstehenden Zeile,
-//sodass es mit der UICulture-Einstellung in der Projektdatei übereinstimmt.
+//sodass es mit der UICulture-Einstellung in der Projektdatei ï¿½bereinstimmt.
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
 [assembly: ThemeInfo(
-    ResourceDictionaryLocation.None, //Speicherort der designspezifischen Ressourcenwörterbücher
+    ResourceDictionaryLocation.None, //Speicherort der designspezifischen Ressourcenwï¿½rterbï¿½cher
                                      //(wird verwendet, wenn eine Ressource auf der Seite nicht gefunden wird,
-                                     // oder in den Anwendungsressourcen-Wörterbüchern nicht gefunden werden kann.)
-    ResourceDictionaryLocation.SourceAssembly //Speicherort des generischen Ressourcenwörterbuchs
+                                     // oder in den Anwendungsressourcen-Wï¿½rterbï¿½chern nicht gefunden werden kann.)
+    ResourceDictionaryLocation.SourceAssembly //Speicherort des generischen Ressourcenwï¿½rterbuchs
                                               //(wird verwendet, wenn eine Ressource auf der Seite nicht gefunden wird,
-                                              // designspezifischen Ressourcenwörterbuch nicht gefunden werden kann.)
+                                              // designspezifischen Ressourcenwï¿½rterbuch nicht gefunden werden kann.)
 )]
 
 
-// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
+// Versionsinformationen fï¿½r eine Assembly bestehen aus den folgenden vier Werten:
 //
 //      Hauptversion
 //      Nebenversion
 //      Buildnummer
 //      Revision
 //
-// Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
+// Sie kï¿½nnen alle Werte angeben oder Standardwerte fï¿½r die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.0.0")]
 
-[assembly: AssemblyFileVersion("2.0.0.178")]
-[assembly: AssemblyInformationalVersion("2.0-pre-alpha")]
+[assembly: AssemblyFileVersion("2.0.0.243")]
+[assembly: AssemblyInformationalVersion("2.0 pre-alpha")]
