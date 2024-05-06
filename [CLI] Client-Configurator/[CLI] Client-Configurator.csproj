@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A99A7958-934F-4CD0-8F00-522268EDE2E9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Configurator</RootNamespace>
+    <AssemblyName>Client-Configurator</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <LangVersion>12.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>App\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>imageres_1014.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ServiceProcess" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="2. GetState.cs" />
+    <Compile Include="1. Main.cs" />
+    <Compile Include="Install\ErrorExit.cs" />
+    <Compile Include="Install\1. StartAction.cs" />
+    <Compile Include="Install\2. Uninstall.cs" />
+    <Compile Include="Install\3. Extract.cs" />
+    <Compile Include="Install\5. CreateConfig.cs" />
+    <Compile Include="Install\4. RegisterService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_config.cs" />
+    <Compile Include="_state.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="App\App.config" />
+    <None Include="App\app.manifest" />
+    <EmbeddedResource Include="resources\Discord Link-Slave.exe.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="imageres_1014.ico" />
+    <EmbeddedResource Include="resources\bc-fips-1.0.2.dll" />
+    <EmbeddedResource Include="resources\BSS.Encryption.dll" />
+    <EmbeddedResource Include="resources\Discord Link-Slave.exe" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call ..\..\..\Build-Incrementor.exe ..\..\Properties\AssemblyInfo.cs</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>call copy "..\..\..\[SERVICE] Link-Slave\bin\Release" "..\..\resources"</PreBuildEvent>
+  </PropertyGroup>
+</Project>
