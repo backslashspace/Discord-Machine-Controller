@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Reflection;
 
 namespace Configurator
@@ -14,5 +15,15 @@ namespace Configurator
         internal static Boolean MMCServiceIsPresent = false;
 
         internal static Boolean ServiceIsRunning = false;
+
+        //
+
+        internal static String RepoPath = Config.DefaultScriptRepo;
+        internal static UInt32 ScriptTimeout = Config.DefaultScriptTimeout;
+        internal static IPAddress ServerIP;
+        internal static UInt16 ServerPort = Config.DefaultServerPort;
+        internal static UInt64 ChannelID;
+        internal static Guid Guid;
+        internal static Byte[] Keys = new Byte[96];
     }
 }

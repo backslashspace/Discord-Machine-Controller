@@ -18,9 +18,16 @@ namespace Configurator
 
             ShowStateInfo();
 
+            CreateConfig();
+
+            return;
+
             UInt32 userChoice = PrintOptions();
 
             Act(ref userChoice);
+
+            Console.Write(" Done, press return to exit");
+            Console.ReadLine();
         }
 
         //
@@ -52,11 +59,11 @@ namespace Configurator
 
                     UInt32 choice = UInt32.Parse(input);
 
-                    if (!State.ServiceIsPresent && choice < 3 && choice != 0)
+                    if (!State.MMCServiceIsPresent && choice < 3 && choice != 0)
                     {
                         return choice;
                     }
-                    else if (State.ServiceIsPresent && choice < 5 && choice != 0)
+                    else if (State.MMCServiceIsPresent && choice < 5 && choice != 0)
                     {
                         return choice;
                     }
@@ -83,7 +90,7 @@ namespace Configurator
 
         private static void ShowStateInfo()
         {
-            Console.WriteLine("███████████████████████████████████████████\n\n" +
+            Console.WriteLine("█████████████████████████████████████████████████████\n\n" +
 
                              $" Packed Version:                 [{PackedVersion}]\n\n" +
 
@@ -93,15 +100,12 @@ namespace Configurator
                              $" Service is registered:          {State.MMCServiceIsPresent}\n" +
                              $" Service is running:             {State.ServiceIsRunning}\n\n" +
 
-                             $"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\n");
+                             $"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\n");
         }
 
         private static void PrepareWindow()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-
-            Console.WindowWidth = 80;
-            Console.WindowHeight = 20;
 
             AssemblyLocation = Assembly.GetExecutingAssembly().Location;
 

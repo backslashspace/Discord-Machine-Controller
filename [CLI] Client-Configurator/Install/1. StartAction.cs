@@ -6,9 +6,9 @@ namespace Configurator
     {
         private static void Act(ref readonly UInt32 userChoice)
         {
-            ClearUserSelectionArea();
+            ClearUserSelectionArea(12);
 
-            if (State.ServiceIsPresent)
+            if (State.MMCServiceIsPresent)
             {
                 switch (userChoice)
                 {
@@ -50,16 +50,16 @@ namespace Configurator
 
         //
         
-        private static void ClearUserSelectionArea()
+        private static void ClearUserSelectionArea(Int32 fixLine)
         {
-            Console.CursorTop = 12;
+            Console.CursorTop = fixLine;
 
-            for (Int32 i = 0; i < 6; ++i)
+            for (Int32 i = 0; i < fixLine; ++i)
             {
-                Console.WriteLine("                                              ");
+                Console.WriteLine("                                                                                                                      ");
             }
 
-            Console.CursorTop = 12;
+            Console.CursorTop = fixLine;
         }
     }
 }

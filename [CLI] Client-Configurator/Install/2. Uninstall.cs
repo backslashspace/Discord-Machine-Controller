@@ -12,7 +12,7 @@ namespace Configurator
             {
                 RunSC($"delete \"{Config.ServiceName}\"");
 
-                Console.WriteLine($" Queued removal of service:\n \"{Config.ServiceName}\"");
+                Console.WriteLine($" Queued removal of service: \"{Config.ServiceName}\"");
             }
 
             try
