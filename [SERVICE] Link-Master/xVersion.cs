@@ -4,7 +4,7 @@ namespace Link_Master
 {
     internal readonly struct xVersion
     {
-        internal xVersion(UInt16 major, UInt16 minor, UInt16 build, UInt16 revision)
+        internal xVersion(UInt32 major, UInt32 minor, UInt32 build, UInt32 revision)
         {
             Major = major;
             Minor = minor;
@@ -14,23 +14,23 @@ namespace Link_Master
 
         internal xVersion(Version version)
         {
-            Major = unchecked((UInt16)version.Major);
-            Minor = unchecked((UInt16)version.Minor);
-            Build = unchecked((UInt16)version.Build);
-            Revision = unchecked((UInt16)version.Revision);
+            Major = unchecked((UInt32)version.Major);
+            Minor = unchecked((UInt32)version.Minor);
+            Build = unchecked((UInt32)version.Build);
+            Revision = unchecked((UInt32)version.Revision);
         }
 
-        internal readonly UInt16 Major;
-        internal readonly UInt16 Minor;
-        internal readonly UInt16 Build;
-        internal readonly UInt16 Revision;
+        internal readonly UInt32 Major;
+        internal readonly UInt32 Minor;
+        internal readonly UInt32 Build;
+        internal readonly UInt32 Revision;
 
         public override String ToString()
         {
             return $"{Major}.{Minor}.{Build}.{Revision}";
         }
 
-        internal static xVersionCompareResult Compare(ref xVersion v1, ref xVersion v2)
+        internal static xVersionCompareResult Compare(ref readonly xVersion v1, ref readonly xVersion v2)
         {
             if (v1.Major != v2.Major)
             {
@@ -75,26 +75,31 @@ namespace Link_Master
             return xVersionCompareResult.IsEqual;
         }
 
-        internal static Byte[] GetBytes(ref xVersion version)
+        internal static Byte[] GetBytes(ref readonly xVersion version)
         {
-            Byte[] output = new Byte[8];
+            Byte[] output = new Byte[16];
 
-            Buffer.BlockCopy(BitConverter.GetBytes(version.Major), 0, output, 0, 2);
-            Buffer.BlockCopy(BitConverter.GetBytes(version.Minor), 0, output, 2, 2);
-            Buffer.BlockCopy(BitConverter.GetBytes(version.Build), 0, output, 4, 2);
-            Buffer.BlockCopy(BitConverter.GetBytes(version.Revision), 0, output, 6, 2);
+            Buffer.BlockCopy(BitConverter.GetBytes(version.Major), 0, output, 0, 4);
+            Buffer.BlockCopy(BitConverter.GetBytes(version.Minor), 0, output, 4, 4);
+            Buffer.BlockCopy(BitConverter.GetBytes(version.Build), 0, output, 8, 4);
+            Buffer.BlockCopy(BitConverter.GetBytes(version.Revision), 0, output, 12, 4);
 
             return output;
         }
 
-        internal static xVersion GetXVersion(ref Byte[] version)
+        internal static xVersion GetXVersion(ref readonly Byte[] version)
         {
+            if (version.Length != 16)
+            {
+                throw new ArgumentException($"Unexpected length: 16 but was {version.Length}");
+            }
+
             xVersion result = new
                 (
-                    BitConverter.ToUInt16(version, 0),
-                    BitConverter.ToUInt16(version, 2),
-                    BitConverter.ToUInt16(version, 4),
-                    BitConverter.ToUInt16(version, 6)
+                    BitConverter.ToUInt32(version, 0),
+                    BitConverter.ToUInt32(version, 4),
+                    BitConverter.ToUInt32(version, 8),
+                    BitConverter.ToUInt32(version, 12)
                 );
 
             return result;

@@ -40,7 +40,7 @@ namespace Link_Master
             AssemblyVersion = new(Assembly.GetExecutingAssembly().GetName().Version);
 
             FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            AssemblyFileVersion = new((UInt16)fileVersionInfo.FileMajorPart, (UInt16)fileVersionInfo.FileMinorPart, (UInt16)fileVersionInfo.FileBuildPart, (UInt16)fileVersionInfo.FilePrivatePart);
+            AssemblyFileVersion = new((UInt32)fileVersionInfo.FileMajorPart, (UInt32)fileVersionInfo.FileMinorPart, (UInt32)fileVersionInfo.FileBuildPart, (UInt32)fileVersionInfo.FilePrivatePart);
             AssemblyInformationalVersion = fileVersionInfo.ProductVersion;
         }
     }

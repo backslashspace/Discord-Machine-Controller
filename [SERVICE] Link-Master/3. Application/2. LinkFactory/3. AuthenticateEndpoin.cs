@@ -14,9 +14,6 @@ namespace Link_Master.Worker
         {
             Byte[] buffer = new Byte[1];
 
-            //socket.SendTimeout = 0;
-            //socket.ReceiveTimeout = 0;
-
             try
             {
                 (Byte nameLength, List<ChannelLink> possibleLinkCandidates) = ReceiveNameLength(ref buffer);
@@ -56,7 +53,7 @@ namespace Link_Master.Worker
             }
         }
 
-        private static (Byte nameLength, List<ChannelLink> possibleLinkCandidates) ReceiveNameLength(ref Byte[] buffer)
+        private static (Byte nameLength, List<ChannelLink> possibleLinkCandidates) ReceiveNameLength(ref readonly Byte[] buffer)
         {
             if (socket.Receive(buffer, 0, 1, SocketFlags.None) != 1)
             {
@@ -122,7 +119,7 @@ namespace Link_Master.Worker
             throw new AccessViolationException();
         }
 
-        private static void ValidateGuid(ref ChannelLink channelLink)
+        private static void ValidateGuid(ref readonly ChannelLink channelLink)
         {
             Byte[] actualGuid = channelLink.Guid.ToByteArray();
             Byte[] receivedGuid = AES_TCP.Receive(ref socket, channelLink.AES_Key, channelLink.HMAC_Key);
