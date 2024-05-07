@@ -178,6 +178,8 @@ namespace Link_Master.Control
             {
                 try
                 {
+                    if (match.Groups[1].Value.Length > 255) Error("Failed to parse config (vmChannelLink) -> name too long, max 255 chars allowed terminating");
+
                     String name = match.Groups[1].Value;
                     Guid guid = Guid.Parse(match.Groups[2].Value);
                     Int32 scriptTimeOut = checked((Int32)UInt32.Parse(match.Groups[3].Value));
