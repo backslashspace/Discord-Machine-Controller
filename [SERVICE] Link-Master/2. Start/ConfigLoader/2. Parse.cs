@@ -1,5 +1,4 @@
-﻿using Discord;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -181,9 +180,9 @@ namespace Link_Master.Control
                 {
                     String name = match.Groups[1].Value;
                     Guid guid = Guid.Parse(match.Groups[2].Value);
-                    UInt64 channelID = UInt64.Parse(match.Groups[3].Value);
-
-                    Byte[] keys = Convert.FromBase64String(match.Groups[4].Value);
+                    Int32 scriptTimeOut = checked((Int32)UInt32.Parse(match.Groups[3].Value));
+                    UInt64 channelID = UInt64.Parse(match.Groups[4].Value);
+                    Byte[] keys = Convert.FromBase64String(match.Groups[5].Value);
 
                     Byte[] aesKeys = new Byte[32];
                     Byte[] hmacKeys = new Byte[64];
@@ -193,7 +192,7 @@ namespace Link_Master.Control
 
                     try
                     {
-                        CurrentConfig.MachineChannelLinks.TryAdd(channelID, new ChannelLink(ref name, ref guid, ref channelID, ref aesKeys, ref hmacKeys));
+                        CurrentConfig.MachineChannelLinks.TryAdd(channelID, new ChannelLink(ref name, ref guid, ref scriptTimeOut, ref channelID, ref aesKeys, ref hmacKeys));
                     }
                     catch
                     {

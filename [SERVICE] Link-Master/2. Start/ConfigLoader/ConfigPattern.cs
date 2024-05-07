@@ -22,7 +22,7 @@ namespace Link_Master.Control
 
             internal const String LogChannelID = "logChannelID:\\s*\"(.+?)\"";
 
-            internal const String VMChannelLink = "vmChannelLink:\\s*\"(.+?):(.+?):(.+?):(.+?)\"";
+            internal const String VMChannelLink = "vmChannelLink:\\s*\"(.+?):(.+?):(.+?):(.+?):(.+?)\"";
         }
     }
 }

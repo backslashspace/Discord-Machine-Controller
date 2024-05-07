@@ -21,9 +21,10 @@ namespace Link_Master.Control
             streamWriter.WriteLine("logChannelID: \"65675677\"");
             streamWriter.WriteLine("discordAnnounceEndpointConnect: \"true\"");
             streamWriter.WriteLine("");
-            streamWriter.WriteLine("vmChannelLink: \"VM1Name:Guid:ChannelID:EncryptionKeys\"");
-            streamWriter.WriteLine("vmChannelLink: \"VM2Name:Guid:ChannelID:EncryptionKeys\"");
-            streamWriter.WriteLine("vmChannelLink: \"VM3Name:Guid:ChannelID:EncryptionKeys\"");
+            streamWriter.WriteLine("# Name : Guid : ScriptTimeOut : ChannelID : Base64 {hmac + aes key}");
+            streamWriter.WriteLine("vmChannelLink: \"VM1Name:Guid:TimeOut:ChannelID:EncryptionKeys\"");
+            streamWriter.WriteLine("vmChannelLink: \"VM2Name:Guid:TimeOut:ChannelID:EncryptionKeys\"");
+            streamWriter.WriteLine("vmChannelLink: \"VM3Name:Guid:TimeOut:ChannelID:EncryptionKeys\"");
         }
     }
 }

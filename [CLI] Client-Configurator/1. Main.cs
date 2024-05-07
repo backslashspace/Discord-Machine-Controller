@@ -18,10 +18,6 @@ namespace Configurator
 
             ShowStateInfo();
 
-            CreateConfig();
-
-            return;
-
             UInt32 userChoice = PrintOptions();
 
             Act(ref userChoice);

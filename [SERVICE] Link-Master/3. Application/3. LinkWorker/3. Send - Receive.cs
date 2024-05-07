@@ -11,8 +11,8 @@ namespace Link_Master.Worker
         {
             socket.ReceiveTimeout = command.CommandAction switch
             {
-                CommandAction.RemoteDownload => 51200,
-                CommandAction.ExecuteScript => 51200,
+                CommandAction.RemoteDownload => channelLink.ScriptTimeOut,
+                CommandAction.ExecuteScript => channelLink.ScriptTimeOut,
                 _ => 25600,
             };
             response = AES_TCP.Receive(ref socket, channelLink.AES_Key, channelLink.HMAC_Key);

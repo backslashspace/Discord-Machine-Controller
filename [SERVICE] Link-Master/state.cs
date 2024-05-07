@@ -69,10 +69,11 @@ namespace Link_Master
 
     internal struct ChannelLink
     {
-        internal ChannelLink(ref String name, ref Guid guid, ref UInt64 channelID, ref Byte[] aesKey, ref Byte[] hmacKey)
+        internal ChannelLink(ref readonly String name, ref readonly Guid guid, ref readonly Int32 scriptTimeOut, ref readonly UInt64 channelID, ref readonly Byte[] aesKey, ref readonly Byte[] hmacKey)
         {
             Name = name;
             Guid = guid;
+            ScriptTimeOut = scriptTimeOut;
             ChannelID = channelID;
             IsLocked = false;
 
@@ -82,6 +83,7 @@ namespace Link_Master
 
         internal readonly String Name;
         internal readonly Guid Guid;
+        internal readonly Int32 ScriptTimeOut;
         internal readonly UInt64 ChannelID;
         internal volatile Boolean IsLocked;
 

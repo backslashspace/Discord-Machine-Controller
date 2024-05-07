@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[CLI] Link-Master_TokenGen"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[CLI] Link-Master_LiveLogViewer", "[CLI] Link-Master_LiveLogViewer\[CLI] Link-Master_LiveLogViewer.csproj", "{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[WPF] Link-Slave_Configurator", "[WPF] Link-Slave_Configurator\[WPF] Link-Slave_Configurator.csproj", "{095620EC-C150-49F8-ADB9-398F4C9C2363}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notes", "notes", "{6389228E-4451-44D7-86B2-B802E9F820DD}"
 	ProjectSection(SolutionItems) = preProject
 		notes.txt = notes.txt
@@ -42,10 +40,6 @@ Global
 		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CAB02A4-1FC0-4492-899C-B4F4F3B6901A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{095620EC-C150-49F8-ADB9-398F4C9C2363}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A99A7958-934F-4CD0-8F00-522268EDE2E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A99A7958-934F-4CD0-8F00-522268EDE2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A99A7958-934F-4CD0-8F00-522268EDE2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Configurator
@@ -8,6 +9,8 @@ namespace Configurator
     {
         private static void UnInstall()
         {
+            StopService();
+
             if (State.MMCServiceIsPresent)
             {
                 RunSC($"delete \"{Config.ServiceName}\"");
@@ -17,7 +20,16 @@ namespace Configurator
 
             try
             {
-                Directory.Delete(Config.InstallPath, true);
+                String[] files = Directory.GetFiles(Config.InstallPath);
+
+                for (Int32 i = 0; i < files.Length; ++i)
+                {
+                    try
+                    {
+                        File.Delete(files[i]);
+                    }
+                    catch { }
+                }
             }
             catch { }
 
@@ -36,6 +48,18 @@ namespace Configurator
             {
                 ErrorExit(" Failed to check / remove item from registry: " + ex.Message);
             }
+        }
+
+        private static void StopService()
+        {
+            Process process = new();
+            process.StartInfo.FileName = "C:\\Windows\\System32\\net.exe";
+            process.StartInfo.Verb = "runas";
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.Arguments = $"stop \"{Config.ServiceName}\"";
+            process.Start();
+            process.WaitForExit();
         }
     }
 }

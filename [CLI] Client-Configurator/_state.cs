@@ -23,6 +23,7 @@ namespace Configurator
         internal static IPAddress ServerIP;
         internal static UInt16 ServerPort = Config.DefaultServerPort;
         internal static UInt64 ChannelID;
+        internal static String Name = Environment.MachineName;
         internal static Guid Guid;
         internal static Byte[] Keys = new Byte[96];
     }

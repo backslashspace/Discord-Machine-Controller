@@ -54,7 +54,7 @@ namespace Configurator
         {
             Console.CursorTop = fixLine;
 
-            for (Int32 i = 0; i < fixLine; ++i)
+            for (Int32 i = 0; i < 42; ++i)
             {
                 Console.WriteLine("                                                                                                                      ");
             }
