@@ -12,7 +12,7 @@ namespace Link_Slave.Worker
         internal static Byte errorCounter = 0;
         internal static Boolean errorExit = false;
 
-        const String DiscordFirstLineWorkaround = "^\\S+\\r*$";
+        internal const String DiscordFirstLineWorkaround = "^\\S+\\r*$";
 
         internal static void WorkingLoop()
         {

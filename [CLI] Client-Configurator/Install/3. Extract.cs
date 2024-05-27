@@ -22,6 +22,11 @@ namespace Configurator
                     State.Assembly.GetManifestResourceStream("Configurator.resources.BSS.Encryption.dll").CopyTo(bssDLL);
                 }
 
+                using (FileStream bssDLL = File.Create($"{Config.InstallPath}System.Management.Automation.dll"))
+                {
+                    State.Assembly.GetManifestResourceStream("Configurator.resources.System.Management.Automation.dll").CopyTo(bssDLL);
+                }
+
                 using (FileStream exeFile = File.Create($"{Config.InstallPath}Discord Link-Slave.exe"))
                 {
                     State.Assembly.GetManifestResourceStream("Configurator.resources.Discord Link-Slave.exe").CopyTo(exeFile);

@@ -230,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="imageres_1014.ico" />
+    <EmbeddedResource Include="resources\System.Management.Automation.dll" />
     <EmbeddedResource Include="resources\bc-fips-1.0.2.dll" />
     <EmbeddedResource Include="resources\BSS.Encryption.dll" />
     <EmbeddedResource Include="resources\Discord Link-Slave.exe" />

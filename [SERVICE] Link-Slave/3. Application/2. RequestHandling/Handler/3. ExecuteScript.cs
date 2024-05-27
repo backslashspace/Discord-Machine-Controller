@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -33,23 +36,23 @@ namespace Link_Slave.Worker
                 goto SEND;
             }
 
-            String stdOUT;
-            String errOUT;
+            String stdOut;
+            String errOut;
             Int32 exitCode;
 
-            try//run
+            try     // run
             {
                 String[] fileParts = fileName.Split('.');
-                (stdOUT, errOUT, exitCode) = fileParts[fileParts.Length - 1].ToLower() switch
+                (stdOut, errOut, exitCode) = fileParts[fileParts.Length - 1].ToLower() switch
                 {
-                    "ps1" => Run("C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", CurrentConfig.ScriptDirectory + "\\" + fileName),
+                    "ps1" => RunPS(CurrentConfig.ScriptDirectory + "\\" + fileName),
                     "bat" => Run("C:\\Windows\\System32\\cmd.exe", CurrentConfig.ScriptDirectory + "\\" + fileName),
                     "exe" => Run(CurrentConfig.ScriptDirectory + "\\" + fileName, null),
                     _ => throw new InvalidDataException($"unsupported file extension: '{fileParts[fileParts.Length - 1].ToLower()}'"),
                 };
 
-                stdOUT = stdOUT.Trim();
-                errOUT = errOUT.Trim();
+                stdOut = stdOut.Trim();
+                errOut = errOut.Trim();
             }
             catch (Exception ex)
             {
@@ -67,7 +70,7 @@ namespace Link_Slave.Worker
                 goto SEND;
             }
 
-            (formattedResult, Boolean wasCut) = BuildResponse(ref stdOUT, ref errOUT, ref exitCode, ref fileName);
+            (formattedResult, Boolean wasCut) = BuildResponse(ref stdOut, ref errOut, ref exitCode, ref fileName);
 
             Log.FastLog("Main-Worker", $"Successfully executed and send output of [{fileName}] back to master service", xLogSeverity.Info);
 
@@ -90,7 +93,7 @@ namespace Link_Slave.Worker
 
         //
 
-        private static (String stdOUT, String errOUT, Int32 exitCode) Run(String path, String args)
+        private static (String stdOut, String errOut, Int32 exitCode) Run(String path, String args)
         {
             Process process = new();
             process.StartInfo.FileName = path;
@@ -107,41 +110,94 @@ namespace Link_Slave.Worker
 
             process.Start();
 
-            String stdOUT = process.StandardOutput.ReadToEnd();
-            String errOUT = process.StandardError.ReadToEnd();
+            String stdOut = process.StandardOutput.ReadToEnd();
+            String errOut = process.StandardError.ReadToEnd();
 
             process.WaitForExit();
 
             Int32 exitCode = process.ExitCode;
 
-            return (stdOUT, errOUT, exitCode);
+            return (stdOut, errOut, exitCode);
         }
 
-        private static (String output, Boolean wasCut) BuildResponse(ref String stdOUT, ref String errOUT, ref Int32 exitCode, ref String fileName)
+        private static (String stdOut, String errOut, Int32 exitCode) RunPS(String path)
+        {
+            using StreamReader streamReader = new(path, true);
+            String scriptContent = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            (String stdOut, String errOut) = PSInvoke.Script(ref scriptContent);
+
+            if (errOut == "")
+            {
+                return (stdOut, errOut, 0);
+            }
+            else
+            {
+                return (stdOut, errOut, -1);
+            }   
+        }
+
+        private static class PSInvoke
+        {
+            internal static (String stdOut, String errOut) Script(ref readonly String script)
+            {
+                InitialSessionState session = InitialSessionState.CreateDefault();
+                Runspace runSpace = RunspaceFactory.CreateRunspace(session);
+                runSpace.Open();
+
+                PowerShell command = PowerShell.Create();
+                command.Runspace = runSpace;
+                String errOut = "";
+                String stdOut = "";
+
+                IEnumerable<PSObject> results = command.AddScript(script).Invoke();
+
+                foreach (PSObject obj in results)
+                {
+                    if (obj.BaseObject is String)
+                    {
+                        stdOut += obj.BaseObject;
+                    }
+                }
+
+                foreach (ErrorRecord errorRecord in command.Streams.Error)
+                {
+                    errOut += errorRecord.Exception.Message;
+                }
+
+                command.Dispose();
+                runSpace.Dispose();
+
+                return (stdOut, errOut);
+            }
+        }
+
+        private static (String output, Boolean wasCut) BuildResponse(ref String stdOut, ref String errOut, ref Int32 exitCode, ref String fileName)
         {
             Boolean wasCut = false;
 
-            if (errOUT.Length > 3900)
+            if (errOut.Length > 3900)
             {
-                errOUT = errOUT.Substring(0, 3900);
-                errOUT += "...";
+                errOut = errOut.Substring(0, 3900);
+                errOut += "...";
 
                 wasCut = true;
             }
 
-            if (errOUT.Length + stdOUT.Length > 3900)
+            if (errOut.Length + stdOut.Length > 3900)
             {
-                stdOUT = stdOUT.Substring(0, 3900 - errOUT.Length);
-                stdOUT += "...";
+                stdOut = stdOut.Substring(0, 3900 - errOut.Length);
+                stdOut += "...";
 
                 wasCut = true;
             }
 
             //
 
-            if (errOUT == null || errOUT == "")
+            if (errOut == null || errOut == "")
             {
-                errOUT = "\n-";
+                errOut = "\n-";
 
                 Log.FastLog("ExecuteScript", $"Executed '{fileName}'", xLogSeverity.Info);
             }
@@ -151,11 +207,11 @@ namespace Link_Slave.Worker
                 {
                     //workaround for discord
                     //discord hides the first line if it has the following pattern in a multiline code block (for example ```test\nText```) -> 'test' will be hidden
-                    Match match = Regex.Match(errOUT.Split('\n')[0], DiscordFirstLineWorkaround, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(errOut.Split('\n')[0], DiscordFirstLineWorkaround, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        errOUT = "\n" + errOUT;
+                        errOut = "\n" + errOut;
                     }
                 }
                 catch { }
@@ -163,9 +219,9 @@ namespace Link_Slave.Worker
                 Log.FastLog("ExecuteScript", $"Executed '{fileName}', error-out was not empty", xLogSeverity.Info);
             }
 
-            if (stdOUT == null || stdOUT == "")
+            if (stdOut == null || stdOut == "")
             {
-                stdOUT = "\n-";
+                stdOut = "\n-";
             }
             else
             {
@@ -173,17 +229,17 @@ namespace Link_Slave.Worker
                 {
                     //workaround for discord
                     //discord hides the first line if it has the following pattern in a multiline code block (for example ```test\nText```) -> 'test' will be hidden
-                    Match match = Regex.Match(stdOUT.Split('\n')[0], DiscordFirstLineWorkaround, RegexOptions.IgnoreCase);
+                    Match match = Regex.Match(stdOut.Split('\n')[0], DiscordFirstLineWorkaround, RegexOptions.IgnoreCase);
 
                     if (match.Success)
                     {
-                        stdOUT = "\n" + stdOUT;
+                        stdOut = "\n" + stdOut;
                     }
                 }
                 catch { }
             }
 
-            return ($"**Executed {fileName}**\nStandard-Out:\n```{stdOUT}```\nError-Out:\n```{errOUT}```\nExit-Code: `{exitCode}`", wasCut);
+            return ($"**Executed {fileName}**\nStandard-Out:\n```{stdOut}```\nError-Out:\n```{errOut}```\nExit-Code: `{exitCode}`", wasCut);
         }
     }
 }
