@@ -157,13 +157,13 @@ namespace Link_Slave.Worker
                 {
                     if (obj.BaseObject is String)
                     {
-                        stdOut += obj.BaseObject;
+                        stdOut += $"{obj.BaseObject}\n";
                     }
                 }
 
                 foreach (ErrorRecord errorRecord in command.Streams.Error)
                 {
-                    errOut += errorRecord.Exception.Message;
+                    errOut += $"{errorRecord.Exception.Message}\n";
                 }
 
                 command.Dispose();
